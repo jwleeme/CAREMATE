@@ -4,15 +4,8 @@
 
 ## 실행
 
-### 클라이언트
-
 - npm start
 - localhost:3000 에서 실행됩니다.
-
-### 서버
-
-- npm run dev
-- localhost:5001 에서 실행됩니다.
 
 ## 경로
 
