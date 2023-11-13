@@ -1,0 +1,119 @@
+.mypage {
+  display: flex;
+  .sidebar {
+    margin-top: 120px;
+  }
+  main {
+    padding: 20px 50px;
+    input,
+    select {
+      width: 80%;
+      margin-top: 2px;
+      padding: 2px 4px;
+    }
+    button {
+      padding: 4px 8px;
+      border-radius: 4px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+  }
+}
+
+.content {
+  margin-top: 32px;
+  width: 90%;
+  padding: 20px;
+  display: flex;
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  img {
+    width: 150px;
+  }
+}
+
+.info {
+  display: flex;
+  flex: 1;
+  margin-left: 20px;
+  h1 {
+    font-size: 16px;
+    font-weight: bold;
+  }
+  .left,
+  .right {
+    width: 50%;
+    padding: 0 10px;
+    div:not(:first-child) {
+      margin-top: 8px;
+    }
+  }
+}
+
+.introduce {
+  margin-top: 16px;
+  width: 80%;
+  padding: 20px;
+  display: flex;
+  border: 1px solid rgba(128, 128, 128, 0.598);
+  border-radius: 4px;
+  flex-direction: column;
+  font-size: 12px;
+
+  h1 {
+    font-size: 1.1rem;
+    font-weight: bold;
+  }
+  span {
+    width: 60px;
+    padding: 2px;
+    text-align: center;
+    margin-top: 10px;
+    background-color: #dcdcdc;
+    border: none;
+  }
+  p,
+  textarea {
+    margin-top: 10px;
+  }
+}
+
+.editBtn,
+.saveBtn,
+.cancelBtn {
+  float: right;
+  width: 90px;
+  border: 1px solid black;
+}
+
+.editBtn,
+.saveBtn {
+  background-color: black;
+  color: white;
+  margin-right: 20%;
+}
+
+.cancelBtn {
+  background-color: #fff9f9;
+  color: black;
+  margin-right: 4px;
+}
+
+.editPwd,
+.cancelPwd,
+.editImg {
+  width: 80%;
+  border: none;
+}
+
+input:focus {
+  outline: none;
+}
+
+input[type='file'] {
+  display: none;
+}
