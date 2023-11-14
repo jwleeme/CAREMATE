@@ -11,7 +11,7 @@ export default function Footer() {
       <p>연락처: 00-000-0000 | 팩스: 000-0000-0000 | 이메일: good@ooo.com</p>
       <p>주소: 서울특별시 마포구 00로 000</p>
 
-      <p>Copyright&#169; 쓰담쓰담</p>
+      <p>Copyright&#169;쓰담쓰담</p>
     </footer>
   );
 }

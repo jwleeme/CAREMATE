@@ -17,7 +17,7 @@ export default function Header() {
               <Link to="about-us">서비스 소개</Link>
             </li>
             <li>
-              <Link to="/posts">돌봄 서비스</Link>
+              <Link to="/posts">돌봄서비스</Link>
             </li>
             <li>
               <Link to="/mypage">마이페이지</Link>
