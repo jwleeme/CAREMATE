@@ -1,0 +1,89 @@
+.card {
+  border: 1px solid #ccc;
+  width: 310px;
+  height: 380px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease-in-out;
+
+  &:hover {
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+  }
+}
+
+.mainInfo {
+  background-color: #b6caff;
+  border-radius: 10px 10px 0 0;
+  height: 180px;
+  padding: 20px;
+}
+
+.mainInfo span {
+  height: 30px;
+}
+
+.careTerm {
+  border-radius: 20px;
+  width: 50px;
+  background-color: white;
+}
+
+.mainUpper {
+  display: flex;
+
+  // &.careTerm,
+  // &.timeStamp,
+  // &.cardStatus {
+  // }
+}
+
+// .upperInfo span {
+//   display: flex;
+//   align-items: center;
+//   width: 50px;
+// }
+
+.targetImage {
+  width: 85px;
+  height: 85px;
+  border-radius: 50%;
+}
+
+.extraInfo {
+  ul {
+    display: flex;
+    flex-direction: column;
+  }
+
+  li {
+    display: flex;
+    align-items: center;
+
+    box-sizing: content-box;
+    padding: 7px 35px;
+    &.location,
+    &.date,
+    &.time,
+    &.preferMate,
+    &.wage {
+      svg {
+        margin-right: 12px;
+      }
+    }
+  }
+}
+
+.mainBottom {
+  display: flex;
+  align-items: flex-end;
+}
+.title {
+  font-size: 22px;
+}
+.messageIcon {
+  font-size: 30px;
+}
+
+.wishlistIcon {
+  font-size: 30px;
+}
