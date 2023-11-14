@@ -14,7 +14,7 @@ import {
   Register,
   Withdraw,
   WritePost,
-} from './views';
+} from './pages';
 
 export const router = createBrowserRouter([
   {

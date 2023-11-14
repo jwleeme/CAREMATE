@@ -1,0 +1,36 @@
+.sidebar {
+  border: 1px solid #dcdcdc;
+  border-radius: 10px;
+  width: 220px;
+  padding: 30px 15px;
+  position: sticky;
+  top: 50px;
+  left: 0;
+}
+
+.section {
+  flex-direction: column;
+  a {
+    padding: 0;
+  }
+  ul {
+    flex-direction: column;
+  }
+}
+
+.user,
+.post {
+  ul {
+    margin-top: 12px;
+    margin-left: 16px;
+    li {
+      margin-top: 10px;
+    }
+  }
+  li {
+    list-style: inside;
+  }
+  + li {
+    margin-top: 40px;
+  }
+}
