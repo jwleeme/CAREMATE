@@ -7,7 +7,7 @@
     padding: 20px 50px;
     input,
     select {
-      width: 80%;
+      width: 90%;
       margin-top: 2px;
       padding: 2px 4px;
     }
@@ -22,8 +22,8 @@
 
 .content {
   margin-top: 32px;
-  width: 90%;
-  padding: 20px;
+  width: 80%;
+  padding: 20px 10px;
   display: flex;
 }
 
@@ -33,6 +33,7 @@
   flex-direction: column;
   img {
     width: 150px;
+    border-radius: 50%;
   }
 }
 
@@ -106,7 +107,7 @@
 .editPwd,
 .cancelPwd,
 .editImg {
-  width: 80%;
+  width: 90%;
   border: none;
 }
 

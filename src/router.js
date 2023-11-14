@@ -7,7 +7,6 @@ import {
   Home,
   Login,
   MyPage,
-  MyEdit,
   MyPosts,
   MyWishList,
   NotFound,
@@ -31,7 +30,6 @@ export const router = createBrowserRouter([
       { path: '/about-us', element: <AboutUs /> },
 
       { path: '/mypage', element: <MyPage /> },
-      { path: '/mypage/edit', element: <MyEdit /> },
       { path: '/mypage/withdraw', element: <Withdraw /> },
       { path: '/mypage/posts', element: <MyPosts /> },
       { path: '/mypage/wishlist', element: <MyWishList /> },

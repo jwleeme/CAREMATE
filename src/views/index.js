@@ -4,7 +4,6 @@ export * from './EditPost';
 export * from './Home';
 export * from './Login';
 export * from './MyPage';
-export * from './MyEdit';
 export * from './MyPosts';
 export * from './MyWishList';
 export * from './NotFound';

@@ -1,5 +1,5 @@
 export * from './Footer';
 export * from './Header';
 export * from './MaxWidth';
-export * from './MyTitle';
-export * from './MySideBar';
+export * from './mySideBar';
+export * from './myTitle';

@@ -168,7 +168,14 @@ export default function MyPage() {
             <button className={cx('saveBtn')} onClick={handleEdit}>
               수정완료
             </button>
-            <button className={cx('cancelBtn')} onClick={() => setEdit(false)}>
+            <button
+              className={cx('cancelBtn')}
+              onClick={() => {
+                setEdit(false);
+                setEditPwd(false);
+                setSelectedImage(userInfo.profileImg);
+              }}
+            >
               취소
             </button>
           </div>
