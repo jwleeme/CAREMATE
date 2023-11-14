@@ -1,9 +1,7 @@
-import React from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 import styles from './MyPage.module.scss';
 import cs from 'classnames/bind';
-import { MyTitle, MySideBar } from '../../components';
-import * as region from '../../lib/region';
-import { useState, useRef, useCallback } from 'react';
+import { MyTitle, MySideBar, Region } from '../../components';
 const cx = cs.bind(styles);
 
 export default function MyPage() {
@@ -126,22 +124,7 @@ export default function MyPage() {
               <div className={cx('region')}>
                 <h1>지역</h1>
                 {edit ? (
-                  <>
-                    <select defaultValue={userInfo.region1}>
-                      {region.area0.map((area, index) => (
-                        <option key={index} value={area}>
-                          {area}
-                        </option>
-                      ))}
-                    </select>
-                    <select defaultValue={userInfo.region2}>
-                      {region.area1.map((area, index) => (
-                        <option key={index} value={area}>
-                          {area}
-                        </option>
-                      ))}
-                    </select>
-                  </>
+                  <Region region1={userInfo.region1} region2={userInfo.region2} />
                 ) : (
                   <p>
                     {userInfo.region1}/{userInfo.region2}

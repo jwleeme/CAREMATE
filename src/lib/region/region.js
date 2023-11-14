@@ -1,5 +1,5 @@
 // 시/도
-export const area0 = [
+const area0 = [
   '서울특별시',
   '인천광역시',
   '대전광역시',
@@ -19,7 +19,7 @@ export const area0 = [
 ];
 
 // 군/구
-export const area1 = [
+const area1 = [
   '강남구',
   '강동구',
   '강북구',
@@ -46,12 +46,12 @@ export const area1 = [
   '중구',
   '중랑구',
 ];
-export const area2 = ['계양구', '남구', '남동구', '동구', '부평구', '서구', '연수구', '중구', '강화군', '옹진군'];
-export const area3 = ['대덕구', '동구', '서구', '유성구', '중구'];
-export const area4 = ['광산구', '남구', '동구', '북구', '서구'];
-export const area5 = ['남구', '달서구', '동구', '북구', '서구', '수성구', '중구', '달성군'];
-export const area6 = ['남구', '동구', '북구', '중구', '울주군'];
-export const area7 = [
+const area2 = ['계양구', '남구', '남동구', '동구', '부평구', '서구', '연수구', '중구', '강화군', '옹진군'];
+const area3 = ['대덕구', '동구', '서구', '유성구', '중구'];
+const area4 = ['광산구', '남구', '동구', '북구', '서구'];
+const area5 = ['남구', '달서구', '동구', '북구', '서구', '수성구', '중구', '달성군'];
+const area6 = ['남구', '동구', '북구', '중구', '울주군'];
+const area7 = [
   '강서구',
   '금정구',
   '남구',
@@ -69,7 +69,7 @@ export const area7 = [
   '해운대구',
   '기장군',
 ];
-export const area8 = [
+const area8 = [
   '고양시',
   '과천시',
   '광명시',
@@ -102,7 +102,7 @@ export const area8 = [
   '여주군',
   '연천군',
 ];
-export const area9 = [
+const area9 = [
   '강릉시',
   '동해시',
   '삼척시',
@@ -122,7 +122,7 @@ export const area9 = [
   '화천군',
   '횡성군',
 ];
-export const area10 = [
+const area10 = [
   '제천시',
   '청주시',
   '충주시',
@@ -136,7 +136,7 @@ export const area10 = [
   '진천군',
   '청원군',
 ];
-export const area11 = [
+const area11 = [
   '계룡시',
   '공주시',
   '논산시',
@@ -154,7 +154,7 @@ export const area11 = [
   '태안군',
   '홍성군',
 ];
-export const area12 = [
+const area12 = [
   '군산시',
   '김제시',
   '남원시',
@@ -170,7 +170,7 @@ export const area12 = [
   '장수군',
   '진안군',
 ];
-export const area13 = [
+const area13 = [
   '광양시',
   '나주시',
   '목포시',
@@ -194,7 +194,7 @@ export const area13 = [
   '해남군',
   '화순군',
 ];
-export const area14 = [
+const area14 = [
   '경산시',
   '경주시',
   '구미시',
@@ -219,7 +219,7 @@ export const area14 = [
   '청송군',
   '칠곡군',
 ];
-export const area15 = [
+const area15 = [
   '거제시',
   '김해시',
   '마산시',
@@ -241,4 +241,24 @@ export const area15 = [
   '함양군',
   '합천군',
 ];
-export const area16 = ['서귀포시', '제주시', '남제주군', '북제주군'];
+const area16 = ['서귀포시', '제주시', '남제주군', '북제주군'];
+
+export const regions = [
+  area0,
+  area1,
+  area2,
+  area3,
+  area4,
+  area5,
+  area6,
+  area7,
+  area8,
+  area9,
+  area10,
+  area11,
+  area12,
+  area13,
+  area14,
+  area15,
+  area16,
+];
