@@ -9,7 +9,7 @@ export default function Header() {
     <header>
       <div className={cx('wrapper')}>
         <h1>
-          <Link to="/">Care Mate</Link>
+          <Link to="/">쓰담쓰담</Link>
         </h1>
         <nav>
           <ul>
