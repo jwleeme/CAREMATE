@@ -1,5 +1,5 @@
 import { RecoilRoot } from 'recoil';
-import { Footer, Header, MaxWidth } from './components';
+import { Footer, Header, MaxWidth } from './components/common';
 
 import './styles/index.scss';
 import { Outlet } from 'react-router-dom';

@@ -1,9 +1,9 @@
 import React from 'react';
 import styles from './AllPosts.module.scss';
 import cs from 'classnames/bind';
-import Card from '../../components/card/Card.jsx';
-const cx = cs.bind(styles);
+import Card from '../../../components/posts/card/Card';
 
+const cx = cs.bind(styles);
 const sampleData = {
   post_id: 1,
   region: '부산시 어쩌구',
