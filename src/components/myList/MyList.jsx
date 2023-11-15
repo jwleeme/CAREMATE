@@ -7,31 +7,31 @@ import cs from 'classnames/bind';
 const cx = cs.bind(styles);
 
 export default function MyList(props) {
-  const [postList, setPostList] = useState(props.postList);
   const [filteredPostList, setFilteredPostList] = useState([]);
-  const [checkedId, setCheckedId] = useState([]); // 추후 localStorage 사용
 
   useEffect(() => {
-    const filteredList = postList.filter((post) => post.title.includes(props.searchText));
+    const filteredList = props.postList.filter((post) => post.title.includes(props.searchText));
     setFilteredPostList(filteredList);
-  }, [props.searchText, postList]);
+  }, [props.searchText, props.postList]);
 
   const handleDeletePost = (id) => {
-    // id로 del 요청
-    const updatedList = postList.filter((post) => post._id !== id);
-    setPostList(updatedList);
+    // id로 del 요청 > 데이터 get 요청
+    if (window.confirm('해당 게시글을 삭제하시겠습니까?')) {
+    }
   };
 
   const handleChangeCheckbox = (id) => {
-    const isChecked = checkedId.includes(id);
-    let newCheckedId = [];
+    if (props.setCheckedId) {
+      const isChecked = props.checkedId.includes(id);
+      let newCheckedId = [];
 
-    if (isChecked) {
-      newCheckedId = checkedId.filter((checked) => checked !== id);
-    } else {
-      newCheckedId = [...checkedId, id];
+      if (isChecked) {
+        newCheckedId = props.checkedId.filter((checked) => checked !== id);
+      } else {
+        newCheckedId = [...props.checkedId, id];
+      }
+      props.setCheckedId(newCheckedId);
     }
-    setCheckedId(newCheckedId);
   };
 
   return (
@@ -39,7 +39,13 @@ export default function MyList(props) {
       {filteredPostList.length > 0 ? (
         filteredPostList.map((post, idx) => (
           <div key={`${post._id}-${idx}`} className={cx('post')}>
-            {props.edit && <input type="checkbox" onChange={() => handleChangeCheckbox(post._id)} />}
+            {props.edit && (
+              <input
+                type="checkbox"
+                checked={props.checkedId && props.checkedId.includes(post._id)}
+                onChange={() => handleChangeCheckbox(post._id)}
+              />
+            )}
             <Link to={`/posts/${post._id}`}>
               <span>{post.title}</span>
             </Link>

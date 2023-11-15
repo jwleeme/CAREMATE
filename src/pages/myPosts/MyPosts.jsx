@@ -39,7 +39,7 @@ export default function MyPosts() {
   const role = '일반';
   const [searchText, setSearchText] = useState('');
   const [currPage, setCurrPage] = useState(0);
-  // const [postData, setPostData] = useState([]);  // 추후에 받아올 리스트
+  // const [postData, setPostData] = useState([]);  // 추후에 get 요청으로 받아올 리스트
   // const [totalPostCount, setTotalPostCount] = useState(0); // 총 리스트 개수
 
   const handleSearchChange = (text) => {

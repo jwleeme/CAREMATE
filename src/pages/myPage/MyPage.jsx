@@ -6,6 +6,7 @@ import { MyTitle, MySideBar, Region } from '../../components';
 const cx = cs.bind(styles);
 
 export default function MyPage() {
+  // 임시 데이터 (추후 get 요청)
   const [userInfo, setUserInfo] = useState({
     profileImg: '',
     email: 'test@test.com',
@@ -43,6 +44,7 @@ export default function MyPage() {
   }, []);
 
   const handleEdit = () => {
+    // put 요청 > 데이터 get 요청
     alert('수정이 완료되었습니다.');
     setEdit(false);
   };
