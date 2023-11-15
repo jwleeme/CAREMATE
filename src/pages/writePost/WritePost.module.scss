@@ -1,12 +1,12 @@
 .wrapper {
   border: 1px solid black;
   padding: 80px 120px;
-}
-input + label,
-label + input,
-span + select,
-select + select {
-  margin-left: 15px;
+  input + label,
+  label + input,
+  span + select,
+  select + select {
+    margin-left: 15px;
+  }
 }
 form {
   display: flex;
