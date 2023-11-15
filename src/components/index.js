@@ -4,3 +4,6 @@ export * from './maxWidth';
 export * from './mySideBar';
 export * from './myTitle';
 export * from './region';
+export * from './mySearch';
+export * from './myList';
+export * from './pagination';

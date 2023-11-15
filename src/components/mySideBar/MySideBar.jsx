@@ -4,12 +4,12 @@ import cs from 'classnames/bind';
 import { Link } from 'react-router-dom';
 const cx = cs.bind(styles);
 
-export default function MySideBar() {
+export default function MySideBar({ role }) {
   return (
     <div className={cx('sidebar')}>
       <ul className={cx('section')}>
         <li className={cx('user')}>
-          <Link to="/mypage">회원정보</Link>
+          회원정보
           <ul>
             <li>
               <Link to="/mypage">회원정보 조회/수정</Link>
@@ -20,7 +20,7 @@ export default function MySideBar() {
           </ul>
         </li>
         <li className={cx('post')}>
-          <Link to="/mypage/posts">게시글 리스트</Link>
+          게시글 리스트
           <ul>
             <li>
               <Link to="/mypage/posts">MY 등록게시물</Link>
@@ -28,8 +28,17 @@ export default function MySideBar() {
             <li>
               <Link to="/mypage/wishlist">찜한 돌봄 서비스</Link>
             </li>
+            {/* {role === '일반' ? (
+              <li>
+                <Link to="/mypage/posts">MY 등록게시물</Link>
+              </li>
+            ) : (
+              <li>
+                <Link to="/mypage/wishlist">찜한 돌봄 서비스</Link>
+              </li>
+            )} */}
             <li>
-              <Link to="/mypage">매칭 완료된 리스트</Link>
+              <Link to="/mypage/matching">매칭 완료된 리스트</Link>
             </li>
           </ul>
         </li>

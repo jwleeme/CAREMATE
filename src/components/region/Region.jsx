@@ -8,10 +8,16 @@ export default function Region(props) {
   const handleSidoChange = (event) => {
     setSelectedSido(event.target.value);
     setSelectedGugun('');
+    if (props.onRegionChange) {
+      props.onRegionChange(event.target.value, '');
+    }
   };
 
   const handleGugunChange = (event) => {
     setSelectedGugun(event.target.value);
+    if (props.onRegionChange) {
+      props.onRegionChange(selectedSido, event.target.value);
+    }
   };
 
   return (
