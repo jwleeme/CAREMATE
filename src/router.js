@@ -9,6 +9,7 @@ import {
   MyPage,
   MyPosts,
   MyWishList,
+  MyMatching,
   NotFound,
   PostDetail,
   Register,
@@ -33,6 +34,7 @@ export const router = createBrowserRouter([
       { path: '/mypage/withdraw', element: <Withdraw /> },
       { path: '/mypage/posts', element: <MyPosts /> },
       { path: '/mypage/wishlist', element: <MyWishList /> },
+      { path: '/mypage/matching', element: <MyMatching /> },
 
       { path: '/posts', element: <AllPosts /> },
       { path: '/posts/new', element: <WritePost /> },

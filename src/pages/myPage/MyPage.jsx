@@ -1,27 +1,29 @@
 import React, { useState, useRef, useCallback } from 'react';
 import styles from './MyPage.module.scss';
 import cs from 'classnames/bind';
+import ProfileImage from '../../assets/user.png';
 import { MyTitle, MySideBar, Region } from '../../components';
 const cx = cs.bind(styles);
 
 export default function MyPage() {
   const [userInfo, setUserInfo] = useState({
-    profileImg: 'https://ifh.cc/g/FpjRf1.jpg',
+    profileImg: '',
     email: 'test@test.com',
     name: 'user1',
     phone: '01011112222',
-    age: 20,
+    age: '20대',
     gender: '여자',
-    region1: '서울특별시',
-    region2: '강남구',
+    region: '서울특별시',
+    sub_region: '강남구',
     role: '돌봄유저',
     introduce: '안녕하세요! 저는 사회복지사 2급 자격증을 가지고 있습니다.',
   });
+  const formattedPhone = userInfo.phone.replace(/(\d{3})(\d{3,4})(\d{4})/, '$1-$2-$3');
 
   const [edit, setEdit] = useState(false);
   const [editPwd, setEditPwd] = useState(false);
   const imgRef = useRef(null);
-  const [selectedImage, setSelectedImage] = useState(userInfo.profileImg);
+  const [selectedImage, setSelectedImage] = useState(userInfo.profileImg || ProfileImage);
 
   // img 수정
   const onUploadImage = useCallback((e) => {
@@ -63,7 +65,7 @@ export default function MyPage() {
                 </button>
               </>
             ) : (
-              <img src="https://ifh.cc/g/FpjRf1.jpg" alt="프로필사진" />
+              <img src={ProfileImage} alt="프로필사진" />
             )}
           </div>
           <div className={cx('info')}>
@@ -104,11 +106,21 @@ export default function MyPage() {
             <div className={cx('right')}>
               <div className={cx('phone')}>
                 <h1>전화번호</h1>
-                {edit ? <input type="text" defaultValue={userInfo.phone} /> : <p>{userInfo.phone}</p>}
+                {edit ? <input type="text" defaultValue={userInfo.phone} /> : <p>{formattedPhone}</p>}
               </div>
               <div className={cx('age')}>
                 <h1>나이</h1>
-                {edit ? <input type="number" defaultValue={userInfo.age} /> : <p>{userInfo.age}세</p>}
+                {edit ? (
+                  <select defaultValue={userInfo.age}>
+                    <option value="20대">20대</option>
+                    <option value="30대">30대</option>
+                    <option value="40대">40대</option>
+                    <option value="50대">50대</option>
+                    <option value="60대 이상">60대 이상</option>
+                  </select>
+                ) : (
+                  <p>{userInfo.age}</p>
+                )}
               </div>
               <div className={cx('gender')}>
                 <h1>성별</h1>
@@ -124,10 +136,10 @@ export default function MyPage() {
               <div className={cx('region')}>
                 <h1>지역</h1>
                 {edit ? (
-                  <Region region1={userInfo.region1} region2={userInfo.region2} />
+                  <Region region1={userInfo.region} region2={userInfo.sub_region} />
                 ) : (
                   <p>
-                    {userInfo.region1}/{userInfo.region2}
+                    {userInfo.region}/{userInfo.sub_region}
                   </p>
                 )}
               </div>
@@ -156,7 +168,7 @@ export default function MyPage() {
               onClick={() => {
                 setEdit(false);
                 setEditPwd(false);
-                setSelectedImage(userInfo.profileImg);
+                setSelectedImage(userInfo.profileImg || ProfileImage);
               }}
             >
               취소
