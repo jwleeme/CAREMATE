@@ -183,7 +183,7 @@ export default function WritePost() {
           <div className={cx('preferredMateAgeWrapper')}>
             {ageList.map((age, index) => (
               <span key={index}>
-                <lael>{age}</lael>
+                <label>{age}</label>
                 <input type="checkbox" name="" id="" />
               </span>
             ))}
