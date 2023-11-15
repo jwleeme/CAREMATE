@@ -27,6 +27,8 @@ const Card = ({
   startDate,
   endDate,
 }) => {
+  const titleContainer = cx('title', { centeredTitle: title.length < 10 });
+
   return (
     <div className={cx('card')}>
       <div className={cx('mainInfo')}>
@@ -39,9 +41,11 @@ const Card = ({
           </div>
         </div>
         <div className={cx('mainBottom')}>
-          <h3 className={cx('title')}>{title}</h3>
-          <BsEnvelope className={cx('messageIcon')} />
-          <FaRegHeart className={cx('wishlistIcon')} />
+          <h3 className={titleContainer}>{title}</h3>
+          <div className={cx('iconContainer')}>
+            <BsEnvelope className={cx('messageIcon')} />
+            <FaRegHeart className={cx('wishlistIcon')} />
+          </div>
         </div>
       </div>
       <div className={cx('extraInfo')}>
@@ -64,7 +68,7 @@ const Card = ({
           </li>
           <li className={cx('wage')}>
             <PiMoneyFill />
-            {hourly_rate}원 협의
+            {hourly_rate}원 {negotiable_rate}
           </li>
         </ul>
       </div>

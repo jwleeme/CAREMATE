@@ -15,33 +15,49 @@
   background-color: #b6caff;
   border-radius: 10px 10px 0 0;
   height: 180px;
-  padding: 20px;
+  padding: 20px 10px 0 20px;
 }
 
 .mainInfo span {
-  height: 30px;
+  height: 50px;
 }
 
-.careTerm {
-  border-radius: 20px;
-  width: 50px;
-  background-color: white;
-}
-
-.mainUpper {
+.upperInfo {
   display: flex;
+  text-align: center;
+  width: 160px;
+  flex-wrap: wrap;
+  justify-content: space-between;
 
-  // &.careTerm,
-  // &.timeStamp,
-  // &.cardStatus {
-  // }
+  span {
+    display: flex;
+    justify-content: space-evenly;
+  }
 }
 
 // .upperInfo span {
 //   display: flex;
+//   justify-content: center;
 //   align-items: center;
-//   width: 50px;
 // }
+
+// component로 변경해야함 임시 아이콘
+.careTerm {
+  border-radius: 20px;
+  width: 50px;
+  max-height: 30px;
+  background-color: white;
+}
+
+.timeStamp {
+  font-size: 13px;
+}
+
+.mainUpper {
+  display: flex;
+  justify-content: space-between;
+  width: 260px;
+}
 
 .targetImage {
   width: 85px;
@@ -75,15 +91,39 @@
 
 .mainBottom {
   display: flex;
+  justify-content: space-between;
   align-items: flex-end;
 }
+
 .title {
-  font-size: 22px;
-}
-.messageIcon {
-  font-size: 30px;
+  font-size: 20px;
+  display: block;
+  max-width: 200px;
+  height: 50px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
 
-.wishlistIcon {
-  font-size: 30px;
+.centeredTitle {
+  line-height: 50px;
+}
+
+.iconContainer {
+  display: flex;
+  max-width: 78.4px;
+
+  .messageIcon {
+    font-size: 40px;
+    color: white;
+    margin-right: 10px;
+    max-width: 40px;
+  }
+
+  .wishlistIcon {
+    font-size: 40px;
+    color: white;
+  }
 }
