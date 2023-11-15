@@ -28,6 +28,7 @@
 - /mypage/withdraw : 회원탈퇴
 - /mypage/posts : MY 등록게시물
 - /mypage/wishlist: 찜한 돌봄서비스
+- /mypage/matching: 매칭 완료된 리스트
 
 ### Post
 
