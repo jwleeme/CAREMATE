@@ -6,6 +6,7 @@ export * from './login';
 export * from './myPage';
 export * from './myPosts';
 export * from './myWishList';
+export * from './myMatching';
 export * from './notFound';
 export * from './postDetail';
 export * from './register';

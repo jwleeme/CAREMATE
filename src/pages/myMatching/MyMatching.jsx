@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import styles from './MyPosts.module.scss';
+import styles from './MyMatching.module.scss';
 import cs from 'classnames/bind';
 import { MyTitle, MySideBar, MySearch, MyList, Pagination } from '../../components';
 const cx = cs.bind(styles);
 
-export default function MyPosts() {
+export default function MyMatching() {
   // list (id, title), role (돌봄, 일반)
   const postList = [
     {
@@ -39,7 +39,7 @@ export default function MyPosts() {
   const role = '일반';
   const [searchText, setSearchText] = useState('');
   const [currPage, setCurrPage] = useState(0);
-  // const [postData, setPostData] = useState([]);  // 추후에 get 요청으로 받아올 리스트
+  // const [postData, setPostData] = useState([]);  // 추후에 받아올 리스트
   // const [totalPostCount, setTotalPostCount] = useState(0); // 총 리스트 개수
 
   const handleSearchChange = (text) => {
@@ -52,10 +52,10 @@ export default function MyPosts() {
         <MySideBar />
       </div>
       <main>
-        <MyTitle text="MY 등록 게시물" />
+        <MyTitle text="매칭 완료된 리스트" />
         <MySearch onSearchChange={handleSearchChange} />
         <div className={cx('content')}>
-          <MyList postList={postList} searchText={searchText} role={role} />
+          <MyList postList={postList} searchText={searchText} role={role} matching />
           <Pagination currPage={currPage} onClickPage={setCurrPage} pageCount={10} />
         </div>
       </main>
