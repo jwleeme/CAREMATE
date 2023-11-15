@@ -25,12 +25,11 @@ const sampleData = {
   endDate: '2023-01-20',
 };
 
-
 export default function AllPosts() {
-    return (
-        <>
-            <h1>전체 게시글 리스트</h1>
-            <Card {...sampleData} />
-        </>
-    );
+  return (
+    <>
+      <h1>전체 게시글 리스트</h1>
+      <Card {...sampleData} />
+    </>
+  );
 }
