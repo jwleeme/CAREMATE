@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { regions } from '../../lib';
+import { regions } from '../../../lib';
 
 export default function Region(props) {
   const [selectedSido, setSelectedSido] = useState(props.region1 || '');

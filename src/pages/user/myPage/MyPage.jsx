@@ -2,7 +2,7 @@ import React, { useState, useRef, useCallback } from 'react';
 import styles from './MyPage.module.scss';
 import cs from 'classnames/bind';
 import ProfileImage from '../../../assets/images/user.png';
-import { MyTitle, MySideBar, Region } from '../../../components/myPage';
+import { MyTitle, MySideBar, Region } from '../../../components';
 const cx = cs.bind(styles);
 
 export default function MyPage() {

@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import styles from './MyPosts.module.scss';
 import cs from 'classnames/bind';
-import { MyTitle, MySideBar, MySearch, MyList } from '../../components/myPage';
-import { Pagination } from '../../../../components/common';
+import { MyTitle, MySideBar, MySearch, MyList, Pagination } from '../../../../components';
 
 const cx = cs.bind(styles);
 

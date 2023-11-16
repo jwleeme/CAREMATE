@@ -1,5 +1,5 @@
 export * from './common/footer';
-export * from './common/eader';
+export * from './common/header';
 export * from './common/maxWidth';
 export * from './posts/datePicker/datesPicker';
 export * from './posts/datePicker/timesPicker';
@@ -9,4 +9,4 @@ export * from './myPage/myTitle';
 export * from './posts/region';
 export * from './myPage/mySearch';
 export * from './myPage/myList';
-export * from './pagination';
+export * from './common/pagination';
