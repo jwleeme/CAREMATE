@@ -13,7 +13,7 @@ const sampleData = {
   preferredmate_gender: '남성',
   author: 'John Doe',
   timestamp: '11/10',
-  title: '5세 남아 등하원, 실내놀이 시터 구합니다.',
+  title: '5세 남아 등하원, 실내놀이실내놀이실내놀이 시터 구합니다.',
   care_term: '정기',
   care_days: '월 수 금',
   start_time: '09:00 AM',
@@ -27,9 +27,12 @@ const sampleData = {
 
 export default function AllPosts() {
   return (
-    <>
-      <h1>전체 게시글 리스트</h1>
-      <Card {...sampleData} />
-    </>
+    <div className={cx('recruitContainer')}>
+      {/* <input type="text" value={search} onChange={onChange} /> */}
+      <div className={cx('filterContainer')}></div>
+      <div className={cx('cardListContainer')}>
+        <Card {...sampleData} />
+      </div>
+    </div>
   );
 }
