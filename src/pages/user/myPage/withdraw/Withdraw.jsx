@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import styles from './Withdraw.module.scss';
 import cs from 'classnames/bind';
-import { MySideBar, MyTitle } from '../../components';
+import { MySideBar, MyTitle } from '../../../../components';
+
 const cx = cs.bind(styles);
 
 export default function Withdraw() {

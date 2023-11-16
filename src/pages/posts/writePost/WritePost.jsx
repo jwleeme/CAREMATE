@@ -1,9 +1,9 @@
 import React from 'react';
 import styles from './WritePost.module.scss';
 import cs from 'classnames/bind';
-import { DatesPicker, SeparateDatesPicker, TimesPicker } from '../../components';
-import { regions } from '../../lib';
-import { useMultiSelection } from '../../hooks/useMultiSelection/useMultiSelection';
+import { DatesPicker, SeparateDatesPicker, TimesPicker } from '../../../components';
+import { regions } from '../../../lib';
+import { useMultiSelection } from '../../../hooks/useMultiSelection/useMultiSelection';
 const cx = cs.bind(styles);
 
 export default function WritePost() {
