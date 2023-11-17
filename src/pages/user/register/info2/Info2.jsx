@@ -13,8 +13,8 @@ export default function Info2() {
 
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
-  const [age, setAge] = useState('');
-  const [gender, setGender] = useState('');
+  const [age, setAge] = useState('20대');
+  const [gender, setGender] = useState('남자');
   const [region, setRegion] = useState('');
   const [subRegion, setSubRegion] = useState('');
 
@@ -28,6 +28,18 @@ export default function Info2() {
     setStatus(status);
     setState(inputValue);
   };
+
+  // 모든 필드가 유효하고 값이 존재하는지 확인
+  const isValid =
+    nameStatus !== InputStatus.ERROR &&
+    phoneStatus !== InputStatus.ERROR &&
+    name !== '' &&
+    phone !== '' &&
+    age !== '' &&
+    gender !== '' &&
+    region !== '' &&
+    subRegion !== '';
+  console.log(isValid);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -48,7 +60,7 @@ export default function Info2() {
           onChange={(val) => handleInputChange(val, 'name', setNameStatus, setName)}
           value={name}
           placeholder="본명을 입력해주세요"
-          message={nameStatus === InputStatus.ERROR ? '이름은 2글자 이상 5글자 이하로 작성해주세요.' : ''}
+          message={nameStatus === InputStatus.ERROR ? '이름은 2글자 이상 작성해주세요.' : ''}
         />
         <AuthInput
           text="휴대폰 번호"
@@ -76,7 +88,7 @@ export default function Info2() {
           </div>
         </div>
         <div className={cx('submitBtnContainer')}>
-          <button className={cx('submitBtn')} onClick={handleSubmit}>
+          <button className={cx('submitBtn')} onClick={handleSubmit} disabled={!isValid}>
             가입하기
           </button>
         </div>

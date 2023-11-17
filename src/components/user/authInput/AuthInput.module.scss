@@ -1,6 +1,9 @@
 .authWrapper {
   display: flex;
   padding: 0 40px;
+  input:disabled {
+    cursor: not-allowed;
+  }
   .inputWithButton {
     width: 46%;
     margin-right: 4px;
