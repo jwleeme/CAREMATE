@@ -38,12 +38,12 @@ const Card = ({
           <img src={targetImg} alt="targetImage" className={cx('targetImage')} />
           <div className={cx('upperInfo')}>
             <span className={cx('careTerm')}>{care_term}</span>
-            <span className={cx('timeStamp')}>등록일 {timestamp}</span>
-            <span className={cx('cardStatus')}>{status}</span>
+            <h3 className={titleContainer}>{title}</h3>
           </div>
         </div>
         <div className={cx('mainBottom')}>
-          <h3 className={titleContainer}>{title}</h3>
+          <span className={cx('timeStamp')}>등록일 {timestamp}</span>
+          <span className={cx('cardStatus')}>{status}</span>
           <div className={cx('iconContainer')}>
             <MessageButton />
             <WishButton />
