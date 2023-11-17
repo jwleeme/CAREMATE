@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './AllPosts.module.scss';
 import cs from 'classnames/bind';
 import Card from '../../../components/posts/card/Card';
@@ -25,14 +25,57 @@ const sampleData = {
   endDate: '2023-01-20',
 };
 
+const careTargets = ['아동', '노인', '장애인'];
+
 export default function AllPosts() {
   return (
-    <div className={cx('recruitContainer')}>
-      {/* <input type="text" value={search} onChange={onChange} /> */}
-      <div className={cx('filterContainer')}></div>
-      <div className={cx('cardListContainer')}>
-        <Card {...sampleData} />
+    <>
+      <SearchBar />
+      <div className={cx('recruitContainer')}>
+        {/* <input type="text" value={search} onChange={onChange} /> */}
+        <div className={cx('filterContainer')}>
+          <FilterCareTarget />
+        </div>
+        <div className={cx('cardListContainer')}>
+          <Card {...sampleData} />
+        </div>
       </div>
-    </div>
+    </>
   );
 }
+
+const SearchBar = () => {
+  const [searchInput, setSearchInput] = useState('');
+
+  const handleChange = (e) => {
+    e.preventDefault();
+    setSearchInput(e.target.value);
+    console.log(e.target.value);
+  };
+
+  return (
+    <div className={cx('searchBarContainer')}>
+      <input
+        type="text"
+        className={cx('searchBar')}
+        placeholder="    검색어를 입력하세요"
+        onChange={handleChange}
+        value={searchInput}
+      />
+    </div>
+  );
+};
+
+const FilterCareTarget = () => {
+  const recruitingPost = [];
+  return (
+    <div className={cx('filterContainer')}>
+      {careTargets.map((target) => (
+        <label>
+          <input type="checkbox" value={target} />
+          {target}
+        </label>
+      ))}
+    </div>
+  );
+};

@@ -1,0 +1,37 @@
+.searchBarContainer {
+  display: flex;
+  justify-content: center;
+  padding: 10px 0;
+}
+
+.searchBar {
+  width: 300px;
+  height: 40px;
+  background-color: white; //수정 lightgray?
+  border-radius: 20px;
+  border: solid 2px #b6caff;
+}
+
+.filterContainer {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 30px;
+}
+
+input[type='checkbox'] {
+  // background-color: #b6caff;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 3px solid #b6caff;
+  // outline: none;
+  cursor: pointer;
+}
+
+input[type='checkbox']:checked {
+  background-color: #b6caff;
+  border: 1px solid #b6caff;
+  // content: '\2713';
+  // color: #41b883;
+  // position: absolute;
+}
