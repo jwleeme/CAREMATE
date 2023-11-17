@@ -18,15 +18,35 @@ export default function Info1() {
 
   //오류 메시지
   const [emailStatus, setEmailStatus] = useState(InputStatus.NORMAL);
+  const [emailCodeStatus, setEmailCodeStatus] = useState(InputStatus.NORMAL);
   const [passwordStatus, setPasswordStatus] = useState(InputStatus.NORMAL);
   const [passwordConfirmStatus, setPasswordConfirmStatus] = useState(InputStatus.NORMAL);
 
-  const handleInputChange = (inputValue, inputName, setStatus, setState) => {
+  const [isEmailVerified, setEmailVerified] = useState(false);
+
+  const handleEmailVerification = () => {
+    // 이메일 인증 로직 수행
+    // 이메일 인증이 성공하면 setEmailVerified(true) 호출
+    setEmailVerified(true);
+  };
+
+  const handleInputChange = (inputValue, inputName, setStatus, setState, password = null) => {
     // 유효성 검사 수행
-    const status = validateInput(inputValue, inputName);
+    const status = validateInput(inputValue, inputName, password);
     setStatus(status);
     setState(inputValue);
   };
+
+  // 모든 필드가 유효하고 값이 존재하는지 확인
+  const isValid =
+    emailStatus !== InputStatus.ERROR &&
+    emailCodeStatus !== InputStatus.ERROR &&
+    passwordStatus !== InputStatus.ERROR &&
+    passwordConfirmStatus !== InputStatus.ERROR &&
+    email !== '' &&
+    emailCode !== '' &&
+    password !== '' &&
+    passwordConfirm !== '';
 
   return (
     <div className={cx('wrapper')}>
@@ -45,11 +65,13 @@ export default function Info1() {
         />
         <AuthInput
           text="이메일 인증코드"
-          type="text"
+          status={emailCodeStatus}
+          type="string"
           name="emailCode"
           value={emailCode}
           placeholder="인증코드를 입력해주세요"
-          onChange={(e) => setEmailCode(e.target.value)}
+          onChange={(val) => handleInputChange(val, 'emailCode', setEmailCodeStatus, setEmailCode)}
+          onVerify={handleEmailVerification}
           isConfirm
         />
         <AuthInput
@@ -58,13 +80,14 @@ export default function Info1() {
           type="password"
           name="password"
           value={password}
-          placeholder="숫자+영문자+특수문자 조합으로 8자 이상 입력해주세요"
+          placeholder="숫자, 영문자, 특수문자 조합으로 8자 이상 입력해주세요"
           onChange={(val) => handleInputChange(val, 'password', setPasswordStatus, setPassword)}
           message={
             passwordStatus === InputStatus.ERROR
-              ? '비밀번호는 숫자+영문자+특수문자 조합으로 8자 이상이어야 합니다.'
+              ? '비밀번호는 숫자, 영문자, 특수문자 조합으로 8자 이상이어야 합니다.'
               : ''
           }
+          disabled={!isEmailVerified}
         />
         <AuthInput
           text="비밀번호 확인"
@@ -73,8 +96,11 @@ export default function Info1() {
           name="passwordConfirm"
           value={passwordConfirm}
           placeholder="비밀번호를 다시 한번 입력해주세요"
-          onChange={(val) => handleInputChange(val, 'passwordConfirm', setPasswordConfirmStatus, setPasswordConfirm)}
+          onChange={(val) =>
+            handleInputChange(val, 'passwordConfirm', setPasswordConfirmStatus, setPasswordConfirm, password)
+          }
           message={passwordConfirmStatus === InputStatus.ERROR ? '비밀번호가 일치하지 않습니다.' : ''}
+          disabled={!isEmailVerified}
         />
         <div className={cx('buttonContainer')}>
           <button onClick={() => nav('/register')}>이전</button>
@@ -83,6 +109,7 @@ export default function Info1() {
             onClick={() => {
               nav('/register/info2', { state: { role: role, email: email, password: password } });
             }}
+            disabled={!isValid}
           >
             다음
           </button>

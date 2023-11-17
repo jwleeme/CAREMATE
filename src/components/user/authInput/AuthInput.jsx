@@ -12,9 +12,11 @@ export default function AuthInput({
   type,
   value,
   onChange,
+  onVerify,
   message,
   isConfirm,
   isCode,
+  disabled,
 }) {
   return (
     <>
@@ -26,10 +28,11 @@ export default function AuthInput({
           value={value}
           placeholder={placeholder}
           onChange={(e) => onChange(e.target.value)}
+          disabled={disabled}
           className={cx({ inputWithButton: isConfirm || isCode })}
         />
         {isCode && <button>코드전송</button>}
-        {isConfirm && <button>인증확인</button>}
+        {isConfirm && <button onClick={onVerify}>인증확인</button>}
       </div>
       <div className={cx('messageContainer')}>
         <p>{message}</p>
