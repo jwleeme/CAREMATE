@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-// import { regions } from '../../../lib';
 import { region } from '../../../lib';
 
 export default function Region(props) {

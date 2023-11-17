@@ -1,13 +1,8 @@
 import React from 'react';
 import styles from './AuthInput.module.scss';
 import cs from 'classnames/bind';
+import { InputStatus } from '../../../lib';
 const cx = cs.bind(styles);
-
-const InputStatus = {
-  NORMAL: 'normal',
-  ERROR: 'error',
-  SUCCESS: 'success',
-};
 
 export default function AuthInput({
   text,
