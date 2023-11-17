@@ -26,19 +26,19 @@
 .targetImage {
   width: 85px;
   height: 85px;
+  margin-right: 20px;
   border-radius: 50%;
 }
 
 .mainUpper {
   display: flex;
-  justify-content: space-between;
   width: 260px;
   margin-bottom: 15px;
 }
 
 .upperInfo {
-  display: flex;
-  width: 160px;
+  // display: flex;
+  width: 200px;
   flex-wrap: wrap;
 
   span {

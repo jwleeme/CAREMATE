@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styles from './AllPosts.module.scss';
 import cs from 'classnames/bind';
 import Card from '../../../components/posts/card/Card';
+import { FaSearch } from 'react-icons/fa';
 
 const cx = cs.bind(styles);
 const sampleData = {
@@ -58,20 +59,23 @@ const SearchBar = () => {
       <input
         type="text"
         className={cx('searchBar')}
-        placeholder="    검색어를 입력하세요"
+        placeholder="검색어를 입력하세요"
         onChange={handleChange}
         value={searchInput}
       />
+      <button className={cx('searchIcon')}>
+        <FaSearch color="#d3d3d3" />
+      </button>
     </div>
   );
 };
 
 const FilterCareTarget = () => {
-  const recruitingPost = [];
+  // const recruitingPost = [];
   return (
     <div className={cx('filterContainer')}>
       {careTargets.map((target) => (
-        <label>
+        <label className={cx('filterTarget')}>
           <input type="checkbox" value={target} />
           {target}
         </label>
