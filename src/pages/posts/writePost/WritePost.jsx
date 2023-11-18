@@ -1,26 +1,46 @@
 import React from 'react';
 import styles from './WritePost.module.scss';
 import cs from 'classnames/bind';
-import { DatesPicker, SeparateDatesPicker, TimesPicker } from '../../../components';
+import { DatesPicker, SeparateDatesPicker, ShowSelectedDateList, TimesPicker } from '../../../components';
 import { region } from '../../../lib';
-import { useMultiSelection } from '../../../hooks/useMultiSelection/useMultiSelection';
+import { useMultiSelection } from '../../../hooks';
 const cx = cs.bind(styles);
 
 export default function WritePost() {
+  const [mainTime, setMainTime] = React.useState({
+    mainStartTime: new Date(2020, 0, 0, 8),
+    mainEndTime: new Date(2020, 0, 0, 20),
+  });
+
   const [values, setValues] = React.useState({
     title: '',
     content: '',
     careTarget: '',
-    careTerm: '',
+    longTerm: {
+      startDate: new Date(),
+      schedule: [
+        {
+          careDay: '',
+          startTime: mainTime.mainStartTime,
+          endTime: mainTime.mainEndTime,
+        },
+      ],
+    },
+    shortTerm: [
+      {
+        careDate: new Date(99, 1),
+        startTime: mainTime.mainStartTime,
+        endTime: mainTime.mainEndTime,
+      },
+    ],
+    careTerm: 'short',
     careDays: [],
     hourlyRate: 9620,
     negotiableRate: false,
     targetFeatures: '',
     cautionNotes: '',
-    careDates: [],
+    careDate: null,
     shortCareDates: [],
-    startTime: null,
-    endTime: null,
     region: '',
     subRegion: '',
     preferredMateAge: [],
@@ -28,39 +48,40 @@ export default function WritePost() {
   });
 
   const ageList = ['20대', '30대', '40대', '50대', '60대', '성별무관'];
+  const [checkedAgeList, setCheckedAgeList] = React.useState([]);
+  const [isAgeChecked, setIsAgeChecked] = React.useState(false);
   const careDaysList = ['월', '화', '수', '목', '금', '토', '일'];
   const [checkedDaysList, setCheckedDaysList] = React.useState([]);
   const [isDayChecked, setIsDayChecked] = React.useState(false);
 
-  function checkedDayHandler(value, isDayChecked) {
-    if (isDayChecked) {
-      setCheckedDaysList((prev) => [...prev, value]);
-      return;
-    }
-    if (!isDayChecked && checkedDaysList.includes(value)) {
-      setCheckedDaysList(checkedDaysList.filter((item) => item !== value));
-      return;
-    }
-    return;
-  }
-  function checkHandler(e, value) {
-    console.log(value);
-    setIsDayChecked((prev) => !prev);
-    checkedDayHandler(value, e.target.checked);
-  }
-  React.useEffect(() => {
-    setValues({ ...values, careDays: checkedDaysList });
-  }, [isDayChecked]);
+  const checkAgeHandler = useMultiSelection(checkedAgeList, setCheckedAgeList, isAgeChecked, setIsAgeChecked);
+  const checkDayHandler = useMultiSelection(checkedDaysList, setCheckedDaysList, isDayChecked, setIsDayChecked);
 
   React.useEffect(() => {
-    setValues({ ...values, careDates: [], shortCareDates: [] });
+    return setValues({ ...values, preferredMateAge: checkedAgeList });
+  }, [checkedAgeList]);
+
+  React.useEffect(() => {
+    return setValues({
+      ...values,
+      longTerm: {
+        ...values.longTerm,
+        schedule: checkedDaysList.map((item, index) => ({ ...values.longTerm.schedule[index], careDay: item })),
+      },
+    });
+  }, [checkedDaysList]);
+
+  React.useEffect(() => {
+    setCheckedDaysList([]);
+    setValues({ ...values, careDates: [], shortCareDates: [], careDays: [] });
+    setMainTime({ mainStartTime: new Date(2020, 0, 0, 8), mainEndTime: new Date(2020, 0, 0, 20) });
   }, [values.careTerm]);
+
   function handleChange(e) {
     setValues({
       ...values,
       [e.target.name]: e.target.value,
     });
-    console.log(e.target.name, e.target.value);
   }
   function handleSubmit(e) {
     e.preventDefault();
@@ -71,9 +92,7 @@ export default function WritePost() {
     <div className={cx('wrapper')}>
       <form onSubmit={handleSubmit}>
         <div className={cx('titleWrapper')}>
-          <label htmlFor="" placeholder="">
-            제목
-          </label>
+          <label>제목</label>
           <input
             type="text"
             onChange={handleChange}
@@ -121,13 +140,24 @@ export default function WritePost() {
           </select>
         </div>
         <div className={cx('careTermWrapper')}>
-          <input type="radio" name="careTerm" value="short" onChange={handleChange} id="careTermShort" />
+          <input
+            type="radio"
+            name="careTerm"
+            value="short"
+            onChange={handleChange}
+            id="careTermShort"
+            checked={values.careTerm === 'short'}
+          />
           <label htmlFor="careTermShort">단기</label>
           <input type="radio" name="careTerm" value="long" onChange={handleChange} id="careTermLong" />
-          <label htmlFor="careTermLong">장기</label>
+          <label htmlFor="careTermLong">정기</label>
         </div>
         {values.careTerm === 'long' && (
           <div className={cx('careDaysWrapper')}>
+            <p>돌봄 시작일</p>
+            <div className={cx('calendarWrapper')}>
+              <DatesPicker values={values} setValues={setValues} />
+            </div>
             <span>돌봄 요일</span>
             {careDaysList.map((day, index) => (
               <span key={index}>
@@ -135,7 +165,9 @@ export default function WritePost() {
                   type="checkbox"
                   name="careDays"
                   checked={checkedDaysList.includes(day)}
-                  onChange={(e) => checkHandler(e, day)}
+                  onChange={(e) => {
+                    checkDayHandler(e, day);
+                  }}
                   id={`day${index}`}
                 />
                 <label htmlFor={`day${index}`}>{day}</label>
@@ -145,13 +177,41 @@ export default function WritePost() {
         )}
         <div className={cx('careDatesWrapper')}>
           {values.careTerm === 'short' && <SeparateDatesPicker values={values} setValues={setValues} />}
-          {(values.careTerm === 'long' || !values.careTerm) && <DatesPicker values={values} setValues={setValues} />}
 
           <div>
             <label htmlFor="">시작 시간</label>
-            <TimesPicker values={values} type="startTime" setValues={setValues} />
+            <TimesPicker
+              mainTime={mainTime}
+              setMainTime={setMainTime}
+              values={values}
+              type="startTime"
+              setValues={setValues}
+            />
             <label htmlFor="">종료 시간</label>
-            <TimesPicker values={values} type="endTime" setValues={setValues} />
+            <TimesPicker
+              mainTime={mainTime}
+              setMainTime={setMainTime}
+              values={values}
+              type="endTime"
+              setValues={setValues}
+            />
+            <div>
+              {values.careTerm === 'short' ? (
+                <ShowSelectedDateList
+                  type="short"
+                  mainTime={mainTime}
+                  array={values.shortTerm.map((obj) => obj.careDate)}
+                  values={values}
+                />
+              ) : (
+                <ShowSelectedDateList
+                  type="long"
+                  mainTime={mainTime}
+                  array={values.longTerm.schedule.map((item) => item.careDay)}
+                  values={values}
+                />
+              )}
+            </div>
           </div>
         </div>
         <div className={cx('preferredMateWrapper')}>
@@ -183,8 +243,16 @@ export default function WritePost() {
           <div className={cx('preferredMateAgeWrapper')}>
             {ageList.map((age, index) => (
               <span key={index}>
-                <label>{age}</label>
-                <input type="checkbox" name="" id="" />
+                <label htmlFor={age}>{age}</label>
+                <input
+                  id={age}
+                  type="checkbox"
+                  checked={checkedAgeList.includes(age)}
+                  onChange={(e) => {
+                    checkAgeHandler(e, age);
+                    return setValues({ ...values, preferredMateAge: checkedAgeList });
+                  }}
+                />
               </span>
             ))}
           </div>
