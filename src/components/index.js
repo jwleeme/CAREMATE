@@ -5,6 +5,7 @@ export * from './common/region';
 export * from './posts/datePicker/datesPicker';
 export * from './posts/datePicker/timesPicker';
 export * from './posts/datePicker/separateDatesPicker';
+export * from './posts/datePicker/showSelectedDateList';
 export * from './myPage/mySideBar';
 export * from './myPage/myTitle';
 export * from './myPage/mySearch';
