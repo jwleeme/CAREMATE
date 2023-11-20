@@ -1,0 +1,15 @@
+.wrapper {
+  dispay: flex;
+  flex-direction: column;
+  gap: 5px;
+  li {
+    border: 1px solid black;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  .indivisual-time-controll-wrapper {
+    display: grid;
+    grid-template-columns: 100px 150px;
+    place-items: center;
+  }
+} // wrapper close

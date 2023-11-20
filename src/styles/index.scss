@@ -1,7 +1,6 @@
 @import './reset.scss';
 @import './_variables.scss';
-
-// general styling
+@import './_libraryCustom.scss';
 body {
   font-size: 16px;
 }

@@ -15,7 +15,9 @@
 
 ### Auth
 
-- /register : 회원가입
+- /register : 회원가입(role)
+- /register/authInfo : 회원가입(email, pwd)
+- /register/userInfo : 회원가입(그 외 정보들)
 - /login : 로그인
 
 ### intro
@@ -28,13 +30,14 @@
 - /mypage/withdraw : 회원탈퇴
 - /mypage/posts : MY 등록게시물
 - /mypage/wishlist: 찜한 돌봄서비스
+- /mypage/matching: 매칭 완료된 리스트
 
 ### Post
 
 - /posts : 전체게시글 리스트
 - /posts/new : 게시글 작성
 - /posts/:id : 게시글 상세페이지
-- /posts/:id/edit : 게시글 수정페이지
+- /posts/:id/edit : 게시글 수정페이지 (아직 구현x)
 
 ## 피그마
 
