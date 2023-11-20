@@ -10,5 +10,7 @@ export * from './user/myPage/myMatching';
 export * from './notFound';
 export * from './posts/postDetail';
 export * from './user/register';
+export * from './user/register/authInfo';
+export * from './user/register/userInfo';
 export * from './user/myPage/withdraw';
 export * from './posts/writePost';

@@ -1,6 +1,21 @@
-.messageIcon {
-  font-size: 40px;
-  color: white;
-  margin-right: 10px;
-  max-width: 40px;
+.wrapper {
+  .message-icon {
+    font-size: 37px;
+    color: white;
+    margin-right: 10px;
+    max-width: 40px;
+    display: inline-block;
+  }
+
+  .envelope-fill-icon {
+    display: none;
+  }
+
+  .message-icon:hover .envelope-icon {
+    display: none;
+  }
+
+  .message-icon:hover .envelope-fill-icon {
+    display: inline-block;
+  }
 }

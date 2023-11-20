@@ -6,13 +6,13 @@ import { CiCircleCheck } from 'react-icons/ci';
 import cs from 'classnames/bind';
 const cx = cs.bind(styles);
 
-export default function MyList(props) {
+export default function MyList({ postList, searchText, role, edit, checkedId, onChangeCheckbox, matching }) {
   const [filteredPostList, setFilteredPostList] = useState([]);
 
   useEffect(() => {
-    const filteredList = props.postList.filter((post) => post.title.includes(props.searchText));
+    const filteredList = postList.filter((post) => post.title.includes(searchText));
     setFilteredPostList(filteredList);
-  }, [props.searchText, props.postList]);
+  }, [searchText, postList]);
 
   const handleDeletePost = (id) => {
     // id로 del 요청 > 데이터 get 요청
@@ -20,39 +20,25 @@ export default function MyList(props) {
     }
   };
 
-  const handleChangeCheckbox = (id) => {
-    if (props.setCheckedId) {
-      const isChecked = props.checkedId.includes(id);
-      let newCheckedId = [];
-
-      if (isChecked) {
-        newCheckedId = props.checkedId.filter((checked) => checked !== id);
-      } else {
-        newCheckedId = [...props.checkedId, id];
-      }
-      props.setCheckedId(newCheckedId);
-    }
-  };
-
   return (
-    <>
+    <div className={cx('wrapper')}>
       {filteredPostList.length > 0 ? (
         filteredPostList.map((post, idx) => (
           <div key={`${post._id}-${idx}`} className={cx('post')}>
-            {props.edit && (
+            {edit && (
               <input
                 type="checkbox"
-                checked={props.checkedId && props.checkedId.includes(post._id)}
-                onChange={() => handleChangeCheckbox(post._id)}
+                checked={checkedId && checkedId.includes(post._id)}
+                onChange={() => onChangeCheckbox(post._id)}
               />
             )}
             <Link to={`/posts/${post._id}`}>
               <span>{post.title}</span>
             </Link>
-            {props.matching ? (
+            {matching ? (
               <CiCircleCheck className={cx('whole')} />
-            ) : props.role === '일반' ? (
-              <button className={cx('deleteBtn')} onClick={() => handleDeletePost(post._id)}>
+            ) : role === '일반' ? (
+              <button className={cx('delete-button')} onClick={() => handleDeletePost(post._id)}>
                 삭제
               </button>
             ) : (
@@ -63,6 +49,6 @@ export default function MyList(props) {
       ) : (
         <div className={cx('nothing')}>검색결과가 없습니다.</div>
       )}
-    </>
+    </div>
   );
 }
