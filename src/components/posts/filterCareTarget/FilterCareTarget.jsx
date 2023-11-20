@@ -8,13 +8,23 @@ const careTargets = ['아동', '노인', '장애인'];
 const FilterCareTarget = () => {
   // const recruitingPost = [];
   return (
-    <div className={cx('filter-container')}>
-      {careTargets.map((target) => (
+    <div className={cx('wrapper')}>
+      <div className={cx('filter-container')}>
+        {careTargets.map((target) => (
+          <label className={cx('filter-target')}>
+            <input type="checkbox" value={target} />
+            {target}
+          </label>
+        ))}
         <label className={cx('filter-target')}>
-          <input type="checkbox" value={target} />
-          {target}
+          <input type="checkbox" value="단기" />
+          단기
         </label>
-      ))}
+        <label className={cx('filter-target')}>
+          <input type="checkbox" value="정기" />
+          정기
+        </label>
+      </div>
     </div>
   );
 };
