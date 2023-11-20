@@ -174,8 +174,16 @@
   }
   .generalButton {
     background-color: var(--crl-blue-900);
+    color: white;
+    &:disabled {
+      background-color: var(--crl-blue-700);
+    }
   }
   .careButton {
     background-color: var(--crl-red-800);
+    color: white;
+    &:disabled {
+      background-color: var(--crl-red-600);
+    }
   }
 } // wrapper close
