@@ -8,3 +8,4 @@ export const Infant = require('./infant.png');
 export const Disabled = require('./disabled.png');
 export const Logo = require('./logo.png');
 export const LogoClam = require('./logo-clam.png');
+export const ProfileImage = require('./user.png');
