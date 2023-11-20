@@ -105,7 +105,7 @@ export default function AuthInfo() {
         <div className={cx('buttonContainer')}>
           <button onClick={() => nav('/register')}>이전</button>
           <button
-            className={cx('nextBtn')}
+            className={cx('nextBtn', { careButton: role === '돌봄유저', generalButton: role === '일반유저' })}
             onClick={() => {
               nav('/register/userInfo', { state: { role: role, email: email, password: password } });
             }}

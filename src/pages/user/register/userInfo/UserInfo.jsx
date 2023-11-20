@@ -105,7 +105,11 @@ export default function UserInfo() {
           </div>
         </div>
         <div className={cx('submitBtnContainer')}>
-          <button className={cx('submitBtn')} onClick={handleSubmit} disabled={!isValid}>
+          <button
+            className={cx('submitBtn', { careButton: role === '돌봄유저', generalButton: role === '일반유저' })}
+            onClick={handleSubmit}
+            disabled={!isValid}
+          >
             가입하기
           </button>
         </div>
