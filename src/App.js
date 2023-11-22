@@ -1,25 +1,29 @@
 import { RecoilRoot } from 'recoil';
 import { Footer, Header, MaxWidth } from './components';
-
+import { QueryClient, QueryClientProvider } from 'react-query';
 import './styles/index.scss';
 import { Outlet } from 'react-router-dom';
+
+const queryClient = new QueryClient();
 
 function App() {
   return (
     <RecoilRoot>
-      <div className="entireWrapper">
-        <MaxWidth>
-          <Header />
-        </MaxWidth>
-        <main>
-          <MaxWidth >
-            <Outlet />
+      <QueryClientProvider client={queryClient}>
+        <div className="entireWrapper">
+          <MaxWidth>
+            <Header />
           </MaxWidth>
-        </main>
-        <MaxWidth>
-          <Footer />
-        </MaxWidth>
-      </div>
+          <main>
+            <MaxWidth>
+              <Outlet />
+            </MaxWidth>
+          </main>
+          <MaxWidth>
+            <Footer />
+          </MaxWidth>
+        </div>
+      </QueryClientProvider>
     </RecoilRoot>
   );
 }
