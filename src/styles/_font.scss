@@ -1,14 +1,30 @@
 @font-face {
-  font-family: 'GmarketSansMedium';
-  src: url('../font/GmarketSansTTFMedium.ttf');
+  font-family: 'Pretendard';
+  src: url('/assets/font/pretendard/Pretendard-Light.ttf');
+  font-weight: 200;
 }
-
 @font-face {
-  font-family: 'GmarketSansLight';
-  src: url('../font/GmarketSansTTFLight.ttf');
+  font-family: 'Pretendard';
+  src: url('/assets/font/pretendard/Pretendard-Regular.ttf');
+  font-weight: 400;
 }
-
 @font-face {
-  font-family: 'GmarketSansBold';
-  src: url('../font/GmarketSansTTFBold.ttf');
+  font-family: 'Pretendard';
+  src: url('/assets/font/pretendard/Pretendard-Medium.ttf');
+  font-weight: 500;
+}
+@font-face {
+  font-family: 'Pretendard';
+  src: url('/assets/font/pretendard/Pretendard-Bold.ttf');
+  font-weight: 600;
+}
+@font-face {
+  font-family: 'Soyo-Maple';
+  src: url('/assets/font/soyoMaple/Soyo-Maple-Regular.ttf');
+  font-weight: 200;
+}
+@font-face {
+  font-family: 'Soyo-Maple';
+  src: url('/assets/font/soyoMaple/Soyo-Maple-Bold.ttf');
+  font-weight: 600;
 }
