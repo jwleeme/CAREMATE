@@ -4,3 +4,4 @@ export * from './putUser';
 export * from './postRegister';
 export * from './postSendMail';
 export * from './postVerifyCode';
+export * from './postLogin';
