@@ -11,10 +11,13 @@ import { Child } from 'assets/images';
 import { Link } from 'react-router-dom';
 import { Button } from 'components';
 import axios from 'axios';
+import { useGetRequest } from 'hooks';
 const cx = cs.bind(styles);
 
 export default function PostDetail() {
   const [userRole, setUserRole] = React.useState('user');
+  const [postData, setPostData] = React.useState({});
+  const { mutate } = useGetRequest('655819a3e1f7d427ef5c147');
   const postStatus = '모집중';
   const countOfCandidates = 3;
   const isLongTerm = true;
@@ -69,8 +72,7 @@ export default function PostDetail() {
 
   React.useEffect(
     () => async () => {
-      const response = await axios.get('http://localhost:5001/api/post/655819a3e1f7d427ef5c1474');
-      console.log(response.data);
+      mutate();
     },
     []
   );
