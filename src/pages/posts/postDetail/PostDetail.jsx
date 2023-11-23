@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styles from './PostDetail.module.scss';
 import cs from 'classnames/bind';
 import { FiTrash } from 'react-icons/fi';
@@ -10,6 +10,7 @@ import { BiSolidPencil } from 'react-icons/bi';
 import { Child } from 'assets/images';
 import { Link } from 'react-router-dom';
 import { Button } from 'components';
+import axios from 'axios';
 const cx = cs.bind(styles);
 
 export default function PostDetail() {
@@ -65,6 +66,14 @@ export default function PostDetail() {
   //       return;
   //   }
   // }
+
+  React.useEffect(
+    () => async () => {
+      const response = await axios.get('http://localhost:5001/api/post/655819a3e1f7d427ef5c1474');
+      console.log(response.data);
+    },
+    []
+  );
 
   function handleUserRole() {
     if (userRole === 'user') setUserRole('care-user');
@@ -129,8 +138,8 @@ export default function PostDetail() {
                 <IoMdPerson />
               </span>
               <span className={cx('text-information')}>
-                {mockData.preferredMateAge.map((item) => (
-                  <span>{item} </span>
+                {mockData.preferredMateAge.map((item, index) => (
+                  <span key={index}>{item} </span>
                 ))}
               </span>
               <span className={cx('text-information')}>{mockData.preferredMateGender}</span>
