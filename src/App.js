@@ -11,17 +11,13 @@ function App() {
     <RecoilRoot>
       <QueryClientProvider client={queryClient}>
         <div className="entireWrapper">
-          <MaxWidth>
-            <Header />
-          </MaxWidth>
+          <Header />
           <main>
             <MaxWidth>
               <Outlet />
             </MaxWidth>
           </main>
-          <MaxWidth>
-            <Footer />
-          </MaxWidth>
+          <Footer />
         </div>
       </QueryClientProvider>
     </RecoilRoot>
