@@ -1,1 +1,10 @@
-// 모든화면보임 메시지함(채팅창 열기)버튼 scss
+.wrapper {
+  .message-box-btn {
+    width: 50px;
+    position: fixed;
+    right: 100px;
+    bottom: 120px;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+}

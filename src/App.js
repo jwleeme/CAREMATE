@@ -16,7 +16,7 @@ function App() {
           <MaxWidth >
             <Outlet />
           </MaxWidth>
-          {/* 메시지함(채팅방) 버튼 컴포넌트 */}
+          {/* 메시지함(채팅방) 버튼 컴포넌트 - 회원한정 모든 페이지에서 보임 */}
             <MessageButton/>
         </main>
         <MaxWidth>

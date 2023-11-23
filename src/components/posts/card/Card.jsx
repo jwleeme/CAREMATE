@@ -5,7 +5,7 @@ import { PiMoneyFill } from 'react-icons/pi';
 import targetImg from './draftImage.png';
 import { WishButton } from 'components';
 
-import { LongTerm, ShortTerm } from 'assets/images';
+import { LongTerm} from 'assets/images';
 import styles from './Card.module.scss';
 import cs from 'classnames/bind';
 
