@@ -1,47 +1,63 @@
-.post {
-  width: 590px;
-  padding: 8px 16px;
-  display: flex;
-  align-items: center;
-  background-color: #ffffff;
-  border-bottom: 1px solid rgb(197, 197, 197);
-  input {
-    width: 16px;
-  }
-
-  span {
-    margin-left: 10px;
-    font-size: 16px;
-  }
-  .deleteBtn {
-    padding: 2px 4px;
-    border-radius: 8px;
-    border: 1px solid black;
-    width: 60px;
-    background-color: #fff9f9;
-    cursor: pointer;
-    &:hover {
-      background-color: #ffdddd;
+.wrapper {
+  padding-left: 8px;
+  input[type='checkbox']:checked {
+    accent-color: var(--crl-red-800);
+    &:focus {
+      outline: none;
     }
   }
-  .heart {
-    color: #8aa1dd;
-  }
-  .whole {
-    color: #8aa1dd;
-    font-size: 20px;
-  }
-  .deleteBtn,
-  .heart,
-  .whole {
-    margin-left: auto;
-  }
-  input {
-    accent-color: #8aa1dd;
-  }
-}
+  .all-checkbox-container {
+    display: flex;
+    align-items: center;
 
-.nothing {
-  display: flex;
-  justify-content: center;
-}
+    span {
+      font-size: 15px;
+      margin-left: 14px;
+      color: var(--crl-blue-900);
+    }
+  }
+  .post {
+    width: 590px;
+    height: 50px;
+    padding: 8px 0;
+    display: flex;
+    align-items: center;
+    background-color: #ffffff;
+    border-bottom: 1px solid var(--crl-neutral-400);
+
+    .matched-name {
+      font-size: 13px;
+      padding: 8px 12px;
+      color: white;
+      background-color: var(--crl-blue-900);
+      border: none;
+      border-radius: 20px;
+    }
+    .title {
+      font-size: 16px;
+      margin-left: 16px;
+    }
+    .delete-button {
+      color: var(--crl-neutral-400);
+      margin-right: 8px;
+      cursor: pointer;
+    }
+    .heart {
+      color: var(--crl-blue-900);
+      margin-right: 8px;
+    }
+
+    .delete-button,
+    .heart {
+      margin-left: auto;
+    }
+    // input[type='checkbox'] {
+    //   accent-color: var(--crl-red-800);
+    // }
+  }
+
+  .nothing {
+    display: flex;
+    justify-content: center;
+  }
+} // wrapper close

@@ -2,17 +2,26 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './MyList.module.scss';
 import { FaHeart } from 'react-icons/fa';
-import { CiCircleCheck } from 'react-icons/ci';
+import { PiTrashFill } from 'react-icons/pi';
 import cs from 'classnames/bind';
 const cx = cs.bind(styles);
 
-export default function MyList(props) {
+export default function MyList({
+  postList,
+  searchText,
+  role,
+  edit,
+  checkedId,
+  onAllCheck,
+  onChangeCheckbox,
+  matching,
+}) {
   const [filteredPostList, setFilteredPostList] = useState([]);
 
   useEffect(() => {
-    const filteredList = props.postList.filter((post) => post.title.includes(props.searchText));
+    const filteredList = postList.filter((post) => post.title.includes(searchText));
     setFilteredPostList(filteredList);
-  }, [props.searchText, props.postList]);
+  }, [searchText, postList]);
 
   const handleDeletePost = (id) => {
     // id로 del 요청 > 데이터 get 요청
@@ -20,41 +29,36 @@ export default function MyList(props) {
     }
   };
 
-  const handleChangeCheckbox = (id) => {
-    if (props.setCheckedId) {
-      const isChecked = props.checkedId.includes(id);
-      let newCheckedId = [];
-
-      if (isChecked) {
-        newCheckedId = props.checkedId.filter((checked) => checked !== id);
-      } else {
-        newCheckedId = [...props.checkedId, id];
-      }
-      props.setCheckedId(newCheckedId);
-    }
-  };
-
   return (
-    <>
+    <div className={cx('wrapper')}>
+      {edit && (
+        <div className={cx('all-checkbox-container')}>
+          <input
+            type="checkbox"
+            onChange={(e) => onAllCheck(e.target.checked)}
+            checked={checkedId.length === postList.length ? true : false}
+          />
+          <span>전체선택</span>
+        </div>
+      )}
       {filteredPostList.length > 0 ? (
         filteredPostList.map((post, idx) => (
           <div key={`${post._id}-${idx}`} className={cx('post')}>
-            {props.edit && (
+            {edit && (
               <input
                 type="checkbox"
-                checked={props.checkedId && props.checkedId.includes(post._id)}
-                onChange={() => handleChangeCheckbox(post._id)}
+                checked={checkedId && checkedId.includes(post._id)}
+                onChange={() => onChangeCheckbox(post._id)}
               />
             )}
+            {matching && <span className={cx('matched-name')}>{post.matched}님과 매칭</span>}
             <Link to={`/posts/${post._id}`}>
-              <span>{post.title}</span>
+              <span className={cx('title')}>{post.title}</span>
             </Link>
-            {props.matching ? (
-              <CiCircleCheck className={cx('whole')} />
-            ) : props.role === '일반' ? (
-              <button className={cx('deleteBtn')} onClick={() => handleDeletePost(post._id)}>
-                삭제
-              </button>
+            {matching ? (
+              ''
+            ) : role === '일반' ? (
+              <PiTrashFill className={cx('delete-button')} onClick={() => handleDeletePost(post._id)} size="18" />
             ) : (
               <FaHeart className={cx('heart')} />
             )}
@@ -63,6 +67,6 @@ export default function MyList(props) {
       ) : (
         <div className={cx('nothing')}>검색결과가 없습니다.</div>
       )}
-    </>
+    </div>
   );
 }

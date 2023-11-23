@@ -1,12 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './AuthInput.module.scss';
 import cs from 'classnames/bind';
-import { InputStatus } from '../../../lib';
 const cx = cs.bind(styles);
 
 export default function AuthInput({
   text,
-  status = InputStatus.NORMAL,
   placeholder,
   name,
   type,
@@ -18,9 +16,31 @@ export default function AuthInput({
   isCode,
   disabled,
 }) {
+  // email 인증코드 전송 30초 제한
+  const [countdown, setCountdown] = useState(30);
+  const [isDisabled, setIsDisabled] = useState(false);
+
+  const handleVerify = () => {
+    if (isCode) {
+      onVerify();
+      setIsDisabled(true);
+      setCountdown(30);
+      const timer = setInterval(() => {
+        setCountdown((prevCount) => {
+          if (prevCount === 0) {
+            clearInterval(timer);
+            setIsDisabled(false);
+            return 0;
+          }
+          return prevCount - 1;
+        });
+      }, 1000);
+    }
+  };
+
   return (
-    <>
-      <div className={cx('authWrapper')} status={status}>
+    <div className={cx('wrapper')}>
+      <div className={cx('auth-wrapper')}>
         <label htmlFor={name}>{text}</label>
         <input
           type={type}
@@ -31,12 +51,16 @@ export default function AuthInput({
           disabled={disabled}
           className={cx({ inputWithButton: isConfirm || isCode })}
         />
-        {isCode && <button>코드전송</button>}
+        {isCode && (
+          <button onClick={handleVerify} disabled={isDisabled}>
+            {isDisabled ? `재전송 (${countdown}s)` : '코드전송'}
+          </button>
+        )}
         {isConfirm && <button onClick={onVerify}>인증확인</button>}
       </div>
-      <div className={cx('messageContainer')}>
+      <div className={cx('message-container')}>
         <p>{message}</p>
       </div>
-    </>
+    </div>
   );
 }

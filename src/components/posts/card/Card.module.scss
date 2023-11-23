@@ -1,132 +1,132 @@
-.card {
-  border: 1px solid #ccc;
-  width: 310px;
-  height: 380px;
-  border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  transition: box-shadow 0.3s ease-in-out;
+.wrapper {
+  .card {
+    border: 1px solid #e0e0e0;
+    width: 270px;
+    height: 350px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease-in-out;
 
-  &:hover {
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
-  }
-}
-
-/* 폰트 지정 후 수정 */
-.mainInfo {
-  background-color: #b6caff;
-  border-radius: 10px 10px 0 0;
-  height: 180px;
-  padding: 20px 10px 0 20px;
-}
-
-.mainInfo span {
-  height: 50px;
-}
-
-.targetImage {
-  width: 85px;
-  height: 85px;
-  margin-right: 20px;
-  border-radius: 50%;
-}
-
-.mainUpper {
-  display: flex;
-  width: 260px;
-  margin-bottom: 15px;
-}
-
-.upperInfo {
-  // display: flex;
-  width: 200px;
-  flex-wrap: wrap;
-
-  span {
-    //careTerm 이미지로 변경 후 삭제
-    display: flex;
-    justify-content: space-evenly;
-  }
-}
-
-// .upperInfo span {
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-// }
-
-// 이미지로 변경해야함 임시 아이콘
-.careTerm {
-  border-radius: 20px;
-  width: 50px;
-  max-height: 30px;
-  background-color: white;
-}
-
-.mainBottom {
-  display: flex;
-  justify-content: space-between;
-  // align-items: flex-end; 폰트 정하고 결정
-}
-
-.timeStamp {
-  display: flex;
-  font-size: 13px;
-  align-items: center;
-  color: #575757;
-}
-
-.cardStatus {
-  display: flex;
-  align-items: center;
-  color: white;
-  font-size: 25px;
-}
-
-.iconContainer {
-  display: flex;
-  align-items: center;
-  margin-right: 10px;
-  max-width: 78.4px;
-}
-
-.extraInfo {
-  ul {
-    display: flex;
-    flex-direction: column;
-    margin-top: 10px;
+    &:hover {
+      box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+    }
   }
 
-  li {
-    display: flex;
-    align-items: center;
-    box-sizing: content-box;
-    padding: 9px 35px;
+  /* 폰트 지정 후 수정 */
+  .main-info {
+    background-color: #b6caff;
+    border-radius: 10px 10px 0 0;
+    height: 170px;
+    padding: 20px 10px 0 20px;
 
-    &.location,
-    &.date,
-    &.time,
-    &.preferMate,
-    &.wage {
-      svg {
-        margin-right: 12px;
+    .main-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-self: center;
+
+      .wish-icon {
+        margin-right: 20px;
+        padding-right: 20px;
+      }
+
+      .time-stamp {
+        font-size: 13px;
+        color: #575757;
+      }
+
+      .card-status {
+        color: white;
+        font-size: 23px;
+        font-family: var(--ff-accent) !important;
+        font-weight: var(--fw-bold);
       }
     }
   }
-}
 
-.title {
-  font-size: 18px;
-  line-height: normal;
-  display: block;
-  max-width: 200px;
-  height: 50px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-}
+  .target-image {
+    width: 80px;
+    height: 80px;
+    margin-right: 20px;
+    border-radius: 50%;
+  }
 
-.centeredTitle {
-  line-height: 50px;
-}
+  .main-upper {
+    display: flex;
+    width: 230px; // 타이틀 길이
+    margin-bottom: 20px;
+  }
+
+  .upper-info {
+    // display: flex;
+    width: 200px;
+    flex-wrap: wrap;
+
+    img {
+      display: flex;
+      justify-content: space-evenly;
+      width: 50px;
+    }
+  }
+
+  .main-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-self: center;
+  }
+
+  .time-stamp {
+    font-size: 13px;
+    padding: 15px 20px 0 0;
+    color: #575757;
+  }
+
+  .card-status {
+    color: white;
+    font-size: 25px;
+    font-family: var(--font-soyoMapleBold) !important;
+    padding: 5px 0 0 5px;
+  }
+
+  .extra-info {
+    ul {
+      display: flex;
+      flex-direction: column;
+      margin-top: 10px;
+    }
+
+    li {
+      display: flex;
+      align-items: center;
+      box-sizing: content-box;
+      padding: 9px 40px;
+
+      &.location,
+      &.date,
+      &.time,
+      &.prefer-mate,
+      &.wage {
+        font-size: 14px;
+        svg {
+          margin-right: 15px;
+        }
+      }
+    }
+  }
+
+  .title {
+    font-size: 19px;
+    line-height: normal;
+    display: block;
+    height: 55px;
+    padding: 10px 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+
+  .centered-title {
+    line-height: 50px;
+  }
+} // wrapper close

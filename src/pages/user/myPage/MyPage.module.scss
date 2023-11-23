@@ -1,126 +1,160 @@
-.mypage {
-  display: flex;
-  .sidebar {
-    margin-top: 120px;
+.wrapper {
+  .mypage {
+    display: flex;
+    .sidebar {
+      margin-top: 120px;
+    }
+    main {
+      padding: 20px 50px;
+      form {
+        gap: 0;
+        display: block;
+      }
+      input,
+      select {
+        width: 90%;
+        margin-top: 2px;
+        padding: 6px;
+        border-radius: 4px;
+        border: 1px solid var(--crl-neutral-400);
+      }
+      button {
+        padding: 8px;
+        border-radius: 4px;
+        margin-top: 10px;
+        cursor: pointer;
+      }
+    }
   }
-  main {
-    padding: 20px 50px;
-    form {
-      gap: 0;
-      display: block;
+
+  .content {
+    margin-top: 32px;
+    width: 80%;
+    padding: 20px 40px;
+    display: flex;
+  }
+
+  .profile {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    img {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
     }
-    input,
-    select {
-      width: 90%;
-      margin-top: 2px;
-      padding: 6px;
+  }
+
+  .info {
+    display: flex;
+    flex: 1;
+    margin-left: 40px;
+    h1 {
+      font-size: 16px;
+      font-weight: bold;
+      margin-bottom: 4px;
     }
-    button {
-      padding: 4px 8px;
-      border-radius: 4px;
+    .left,
+    .right {
+      width: 50%;
+      padding: 0 10px;
+      div:not(:first-child) {
+        margin-top: 12px;
+      }
+    }
+  }
+
+  .introduce {
+    margin-top: 16px;
+    margin-left: 34px;
+    width: 71%;
+    padding: 20px;
+    display: flex;
+    border: 1px solid var(--crl-neutral-400);
+    border-radius: 4px;
+    flex-direction: column;
+    font-size: 12px;
+
+    h1 {
+      font-size: 1.1rem;
+      font-weight: bold;
+    }
+    span {
+      width: 60px;
+      padding: 4px 2px;
+      text-align: center;
       margin-top: 10px;
-      cursor: pointer;
+      border: none;
+      border-radius: 4px;
+      background-color: var(--crl-neutral-400);
+    }
+    p,
+    textarea {
+      margin-top: 16px;
     }
   }
-}
 
-.content {
-  margin-top: 32px;
-  width: 80%;
-  padding: 20px 10px;
-  display: flex;
-}
-
-.profile {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  img {
-    width: 150px;
-    border-radius: 50%;
-  }
-}
-
-.info {
-  display: flex;
-  flex: 1;
-  margin-left: 20px;
-  h1 {
-    font-size: 16px;
-    font-weight: bold;
-    margin-bottom: 4px;
-  }
-  .left,
-  .right {
-    width: 50%;
-    padding: 0 10px;
-    div:not(:first-child) {
-      margin-top: 12px;
-    }
-  }
-}
-
-.introduce {
-  margin-top: 16px;
-  width: 80%;
-  padding: 20px;
-  display: flex;
-  border: 1px solid rgba(128, 128, 128, 0.598);
-  border-radius: 4px;
-  flex-direction: column;
-  font-size: 12px;
-
-  h1 {
-    font-size: 1.1rem;
-    font-weight: bold;
-  }
-  span {
-    width: 60px;
-    padding: 2px;
-    text-align: center;
-    margin-top: 10px;
-    background-color: #dcdcdc;
+  .edit-button,
+  .save-button,
+  .cancel-button {
+    float: right;
+    width: 90px;
     border: none;
   }
-  p,
-  textarea {
-    margin-top: 10px;
+
+  .edit-button,
+  .save-button {
+    background-color: var(--crl-blue-900);
+    color: white;
+    margin-right: 25%;
   }
-}
+  .save-button:disabled {
+    cursor: not-allowed;
+    background-color: var(--crl-blue-700);
+  }
 
-.editBtn,
-.saveBtn,
-.cancelBtn {
-  float: right;
-  width: 90px;
-  border: none;
-}
+  .cancel-button {
+    background-color: white;
+    margin-right: 4px;
+    border: 1px solid var(--crl-blue-900);
+  }
 
-.editBtn,
-.saveBtn {
-  background-color: #8aa1dd;
-  color: white;
-  margin-right: 20%;
-}
+  .edit-password,
+  .cancel-password,
+  .edit-image {
+    border: none;
+  }
+  .edit-image {
+    width: 80px;
+  }
+  .edit-password,
+  .cancel-password {
+    width: 90%;
+  }
 
-.cancelBtn {
-  background-color: #fff9f9;
-  color: black;
-  margin-right: 4px;
-  border: 1px solid #8aa1dd;
-}
+  .error-text {
+    width: 90%;
+    margin-top: 4px;
+    font-size: 13px;
+    color: #ff6464;
+  }
 
-.editPwd,
-.cancelPwd,
-.editImg {
-  width: 90%;
-  border: none;
-}
+  input:focus {
+    outline: none;
+  }
 
-input:focus {
-  outline: none;
-}
+  input[type='file'] {
+    display: none;
+  }
 
-input[type='file'] {
-  display: none;
-}
+  input:-internal-autofill-selected {
+    background-image: none !important;
+    background-color: transparent !important;
+    color: inherit !important;
+  }
+  input:-webkit-autofill,
+  input:-webkit-autofill:active {
+    transition: background-color 5000s ease-in-out 0s;
+    -webkit-text-fill-color: inherit !important;
+  }
+} // wrapper close

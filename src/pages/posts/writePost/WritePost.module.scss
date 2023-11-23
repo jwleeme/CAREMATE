@@ -1,141 +1,257 @@
 .wrapper {
-  border: 1px solid black;
-  padding: 80px 120px;
-  input + label,
-  label + input,
-  span + select,
-  select + select {
-    margin-left: 15px;
-  }
-}
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 50px;
-}
-textarea {
-  resize: none;
-}
-*:focus {
-  outline: 0;
-}
+  padding: 80px 80px;
 
-.titleWrapper {
-  input {
-    width: 500px;
-    border: 0;
-    border-bottom: 1px solid black;
-  }
-}
-
-.regionWrapper {
-  select {
-    width: 100px;
-  }
-}
-
-.careTermWrapper,
-.careDaysWrapper {
-  label {
-    border: 1px solid black;
-    padding: 2px 6px;
-  }
-  input {
-    display: none;
-    &:checked + label {
-      background: rgb(189, 189, 189);
-    }
-  }
-}
-
-.calendarWrapper {
-  margin-top: 20px;
-  margin-bottom: 50px;
-}
-
-.careDatesWrapper {
-  display: flex;
-  gap: 30px;
-  & > div {
+  form {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 100px;
   }
-}
+  input::placeholder,
+  textarea::placeholder {
+    color: var(--crl-neutral-500);
+  }
+  input,
+  textarea,
+  select {
+    border: 0;
+  }
+  select {
+    cursor: pointer;
+  }
+  textarea {
+    resize: none;
+    background-color: var(--crl-blue-100);
+    width: 100%;
+    padding: 20px;
+  }
+  .title-level {
+    font-size: 20px;
+  }
+  *:focus {
+    outline: 0;
+  }
+  .caution-note-wrapper {
+    textarea {
+      padding: 16px 10px;
+    }
+  }
+  .content {
+    textarea {
+      margin-top: -40px;
+    }
+  }
+  .title-wrapper {
+    input[name='title'] {
+      width: 500px;
+      padding: 10px;
+      border-style: solid;
+      border-width: 1px;
+      border-color: transparent transparent var(--crl-blue-800) transparent;
+      margin-left: 20px;
+    }
+  }
 
-.hourlyRateWrapper {
-  input + label {
-    margin-left: 6px;
+  .region-wrapper {
+    span {
+      margin-right: 100px;
+    }
+    select {
+      width: 134px;
+      padding: 4px 10px;
+      border-radius: 100vmax;
+      appearance: none;
+      background: url('/assets/images/icon-arrow-down.png') var(--crl-blue-100) no-repeat right 10px center;
+      margin-right: 40px;
+    }
   }
-  input[type='checkbox'] {
-    margin-left: 20px;
-  }
-}
 
-.cautionNoteWrapper {
-  display: grid;
-  grid-template-columns: 140px 400px;
-  grid-auto-rows: 80px;
-  row-gap: 40px;
-  column-gap: 70px;
-}
-
-.buttonWrapper {
-  display: flex;
-  margin-left: auto;
-  gap: 20px;
-  button {
-    width: 100px;
-    background: white;
-    border: 1px solid black;
-    padding-block: 6px;
+  .care-days-wrapper {
+    margin-top: -10px;
+    input {
+      display: none;
+    }
   }
-}
-.preferredMateWrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-.preferredMateGenderWrapper {
-  display: flex;
-  gap: 10px;
-  label {
+
+  .days-title-wrapper {
+    margin-top: 60px;
+  }
+
+  .care-term-wrapper {
     display: flex;
-    gap: 6px;
     align-items: center;
+    gap: 62px;
   }
-  .radioOn {
-    display: inline-block;
-    border: 1px solid black;
-    border-radius: 2px;
-    width: 13px;
-    height: 13px;
-    background-color: white;
-    position: relative;
+
+  .targets-wrapper {
+    display: flex;
+    justify-content: space-between;
+    padding-inline: 30px;
+    margin-top: 30px;
   }
-  [type='radio'] {
-    display: none;
 
-    &:checked + .radioOn {
-      background-color: var(--crl-blue);
-
-      &:after {
-        content: '\2713';
-        position: absolute;
-        left: 1px;
-        top: -2px;
-        color: white;
-        font-size: 11px;
-        font-weight: bold;
+  .target-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    cursor: pointer;
+    &:nth-child(1) .target-image-wrapper {
+      background-color: var(--crl-green-800);
+    }
+    &:nth-child(2) .target-image-wrapper {
+      background-color: var(--crl-red-800);
+    }
+    &:nth-child(3) .target-image-wrapper {
+      background-color: var(--crl-blue-800);
+    }
+    input {
+      display: none;
+      &:checked + label .target-image-wrapper {
+        opacity: 1;
       }
     }
   }
-}
 
-.preferredMateAgeWrapper {
-  display: flex;
-  gap: 10px;
-  input {
-    margin-left: 5px;
+  .target-image-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 180px;
+    aspect-ratio: 1;
+    border-radius: 100%;
+    opacity: 40%;
+    transition: 0.2s;
+    cursor: pointer;
+    img {
+      object-fit: contain;
+      height: 100%;
+    }
+    &:hover {
+      opacity: 1;
+    }
   }
-}
+
+  .calendar-wrapper {
+    margin-top: 20px;
+    margin-bottom: 50px;
+    margin-left: 50px;
+  }
+
+  .main-time-wrapper {
+    display: flex;
+    flex-direction: column;
+    padding-block: 30px;
+    align-items: flex-end;
+    width: 200px;
+    label {
+      align-self: flex-start;
+    }
+  }
+  .time-wrapper {
+    background: black;
+    overflow: hidden;
+    width: 60px;
+    cursor: pointer;
+  }
+  .care-dates-wrapper {
+    display: flex;
+    justify-content: space-between;
+    gap: 40px;
+    margin-top: -20px;
+    & > div {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+  }
+  .selected-time-wrapper {
+    flex-grow: 1;
+  }
+  .hourly-rate-wrapper {
+    display: flex;
+    align-items: center;
+    padding-right: 180px;
+    input {
+      background-color: var(--crl-blue-100);
+    }
+    input[type='text'] {
+      margin-left: 180px;
+      width: 130px;
+      padding-block: 8px;
+    }
+    input + label {
+      margin-left: 6px;
+      cursor: pointer;
+    }
+    input[type='checkbox'] {
+      margin-left: auto;
+      cursor: pointer;
+    }
+  }
+
+  .days-wrapper {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    label {
+      background: var(--crl-blue-100);
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      width: 50px;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+    input:checked + label {
+      background-color: var(--crl-blue-900);
+      color: var(--crl-neutral-100);
+    }
+  }
+
+  .caution-note-wrapper {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    grid-auto-rows: 80px;
+    row-gap: 40px;
+    column-gap: 70px;
+  }
+
+  .button-wrapper {
+    display: flex;
+    margin-left: auto;
+    margin-top: 20px;
+    padding-right: 80px;
+    gap: 20px;
+  }
+
+  .preferred-mate-wrapper,
+  .preferred-mate-age-wrapper {
+    justify-content: center;
+    label {
+      background-color: var(--crl-blue-700);
+      padding: 4px 8px;
+      border-radius: 100vmax;
+      cursor: pointer;
+    }
+    input {
+      display: none;
+      &:checked + label {
+        background-color: var(--crl-blue-900);
+        color: var(--crl-neutral-100);
+      }
+    }
+  }
+  .preferred-mate-gender-wrapper {
+    margin-top: 30px;
+    label {
+      margin-right: 20px;
+    }
+  }
+  .preferred-mate-age-wrapper {
+    margin-top: 30px;
+    label {
+      margin-right: 16px;
+    }
+  }
+} // wrapper close

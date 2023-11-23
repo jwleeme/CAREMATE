@@ -1,8 +1,19 @@
 @import './reset.scss';
 @import './_variables.scss';
 @import './_libraryCustom.scss';
+@import './_font.scss';
+
+*,
+*::after,
+*::before {
+  font-family: var(--ff-primary);
+  font-weight: var(--fw-medium);
+}
+
 body {
   font-size: 16px;
+  font-family: var(--ff-primary);
+  font-weight: var(--fw-medium);
 }
 
 // 본문 content 최소영역 확보
