@@ -1,34 +1,25 @@
 import React from 'react';
 import styles from './DatesPicker.module.scss';
 import cs from 'classnames/bind';
-import DatePicker from 'react-datepicker';
-import { addDays } from 'date-fns';
-import 'react-datepicker/dist/react-datepicker.css';
 import { ko } from 'date-fns/esm/locale';
+import DatePicker from 'react-datepicker';
 const cx = cs.bind(styles);
 
-export default function DatesPicker({ values, setValues }) {
-  const [startDate, setStartDate] = React.useState(new Date());
-  const [endDate, setEndDate] = React.useState(null);
-  const onChange = (dates) => {
-    const [start, end] = dates;
-    setStartDate(start);
-    setEndDate(end);
-    setValues({ ...values, careDates: [new Date(start), new Date(end)] });
-  };
-
+export default function DatesPicker(props) {
+  const { values, setValues } = props;
+  const ExampleCustomInput = React.forwardRef(({ value, onClick }, ref) => (
+    <button className={cx('example-custom-input')} onClick={onClick} ref={ref}>
+      {value}
+    </button>
+  ));
   return (
     <DatePicker
-      dateFormat="dd-MM-YYYY"
-      selected={startDate}
-      onChange={onChange}
-      startDate={startDate}
-      endDate={endDate}
-      selectsRange
-      selectsDisabledDaysInRange
+      selected={values.longTerm.startDate}
+      onChange={(date) => setValues({ ...values, longTerm: { ...values.longTerm, startDate: date } })}
+      customInput={<ExampleCustomInput />}
       locale={ko}
-      inline
       minDate={new Date()}
+      dateFormat="yyyy/MM/dd"
     />
   );
 }
