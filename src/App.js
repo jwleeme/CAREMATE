@@ -3,8 +3,7 @@ import { Footer, Header, MaxWidth } from './components';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import './styles/index.scss';
 import { Outlet } from 'react-router-dom';
-import MessageButton from 'components/common/message/MessageButton';
-
+import MessageButton from 'components/common/message/MessageButton.jsx';
 
 const queryClient = new QueryClient();
 
