@@ -8,6 +8,7 @@ import SeniorOneImage from 'assets/images/senior1.png';
 import DisabledImage from 'assets/images/disabled.png';
 import axios from 'axios';
 import { usePostRequest } from 'hooks';
+import { useNavigate } from 'react-router';
 const cx = cs.bind(styles);
 
 export default function WritePost() {
@@ -70,7 +71,7 @@ export default function WritePost() {
 
   async function handleSubmit(e) {
     e.preventDefault();
-
+    console.log(e);
     checkEmptyValue();
     checkEmptyValueOfDate();
     if (isEmptyValueInputNames.length > 0) {
@@ -114,6 +115,16 @@ export default function WritePost() {
     checkEmptyValue();
   }
 
+  const navigation = useNavigate();
+
+  function handleCancel() {
+    if (window.confirm('페이지의 내용이 삭제됩니다. 계속 진행하시겠습니까?')) {
+      navigation('/');
+      return;
+    }
+    return;
+  }
+
   function checkEmptyValue() {
     setIsEmptyValueInputNames([]);
     for (let key in postContent) {
@@ -139,7 +150,7 @@ export default function WritePost() {
     const regex = new RegExp(/^(\d{1,3},)*(\d{3},)*\d{1,3}$/);
     if (regex.test(StringOfMoney))
       setPostContent((prev) => ({ ...prev, hourlyRate: Number(removeCommaInString(StringOfMoney)) }));
-    else if (!null) {
+    else if (!null && e.target.value.length > 0) {
       alert('시급을 숫자로 입력해주세요');
       e.target.value = '';
       return;
@@ -400,13 +411,7 @@ export default function WritePost() {
         )}
         <div className={cx('care-dates-wrapper')}>
           {postContent.careTerm === 'short' && (
-            <SeparateDatesPicker
-              postContent={postContent}
-              setPostContent={setPostContent}
-              mainTime={mainTime}
-              maxDate={postContent.shortTerm[0].startTime}
-              // maxDate={postContent.shortTerm[0].careDate}
-            />
+            <SeparateDatesPicker postContent={postContent} setPostContent={setPostContent} mainTime={mainTime} />
           )}
 
           <div className={cx('main-time-wrapper')}>
@@ -540,12 +545,12 @@ export default function WritePost() {
           ></textarea>
         </div>
         <div className={cx('button-wrapper')}>
-          <Button type="reset" types="cancel">
+          <button type="button" className={cx('cancel')} onClick={handleCancel}>
             취소
-          </Button>
-          <Button type="submit" types="primary">
+          </button>
+          <button type="submit" className={cx('primary')}>
             작성하기
-          </Button>
+          </button>
         </div>
       </form>
     </div>
