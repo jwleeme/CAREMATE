@@ -51,34 +51,52 @@ export default function ChattingRoom () {
 
           {/* 메시지 내용들 */}
           <div className={cx('chat-room-contents')}>
+
+            {/* 채팅 일자 */}
             <div className={cx('chat-date')}>2023-11-20</div>
 
+            {/* 채팅 내용(texts)들 영역 */}
             <ul className={cx('chat-textsbox')}>
 
+              {/* 1번 유저 */}
               <li className={cx('text-item')}>
-                <img className={cx('chat-user1')} src={ProfileImage} alt="채팅창 유저1 이미지" />
+                <div className={cx('user-imgbox')}>
+                  <img className={cx('img-user1')} src={ProfileImage} alt="채팅창 유저1이미지" />
+                </div>
 
-                <span className={cx('chat-user1')}>홍길동</span>
-                <p className={cx('chat-text')}>
-                  가지고 계신 지병이 있나요?</p>
-                
+                <div>
+                  <span className={cx('username1')}>홍길동</span>
+
+                  <p className={cx('chat-text')}>
+                    가지고 계신 지병이 있나요?</p>
+                  
+                </div>
+
                 <p className={cx('chat-time')}>11:20</p>
                 <p className={cx('chat-read')}>읽음</p>
+              
 
               </li>
 
+              {/* 2번 유저 */}
               <li className={cx('text-item')}>
-               
-                <p className={cx('chat-read')}>읽음</p>
-                <p className={cx('chat-time')}>13:18</p>
-                <p className={cx('chat-text')}>
-                  네..고혈압을 가지고 계십니다</p> 
-                
-                <span className={cx('chat-user2')}>나</span>
 
-                <img className={cx('chat-user1')} src={ProfileImage} alt="채팅창 유저1 이미지" />
+                <p className={cx('chat-read')}>읽음</p>
+                <p className={cx('chat-time')}>13:10</p>
+
+                <div>
+                  <span className={cx('username2')}>나</span>
+                  <p className={cx('chat-text')}>
+                    네.. 고혈압을 가지고 계십니다.</p>
+                </div>
+
+                <div className={cx('user-imgbox')}>
+                  
+                  <img className={cx('img-user2')} src={ProfileImage} alt="채팅창 유저1이미지" />
+                </div>
 
               </li>
+              
 
             </ul>
             
@@ -86,8 +104,10 @@ export default function ChattingRoom () {
 
           {/* 푸터 영역 */}
           <div className={cx('chat-room-footer')}>
-
-          {/* counterpart */}
+            <input type="text" placeholder="메시지를 입력해주세요." />
+            <button className={cx('send-message')}>
+              보내기
+            </button>
           </div>
 
         </div>
