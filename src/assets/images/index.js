@@ -5,6 +5,8 @@ export const Senior1 = require('./senior1.png');
 export const Senior2 = require('./senior2.png');
 export const PinkClam = require('./clam-pink.png');
 export const BlueClam = require('./clam-blue.png');
+export const PinkClam3D = require('./clam-red-3d.png');
+export const BlueClam3D = require('./clam-blue-3d.png');
 export const Infant = require('./infant.png');
 // export const Disabled = require('./disabled.pngs');
 export const Logo = require('./logo.png');
@@ -15,5 +17,5 @@ export const NewMessageImage = require('./badge-new.png');
 export const ChildHat = require('./infant-item.png');
 export const SeniorYarn = require('./senior-item.png');
 export const DesabledBathchair = require('./disabled-item.png');
-
-
+export const PinkPearl = require('./pearl-red.png');
+export const BluePearl = require('./pearl-blue.png');

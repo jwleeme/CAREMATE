@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { useMutation } from 'react-query';
 import { useNavigate } from 'react-router-dom';
+import { isLoggedInState } from 'recoil/storage';
+import { useRecoilState } from 'recoil';
 
 const postLogin = async (email, password) => {
   const response = await axios.post(
@@ -16,9 +18,12 @@ const postLogin = async (email, password) => {
 
 export function usePostLogin(email, password) {
   const nav = useNavigate();
+  const [loggedIn, setLoggedIn] = useRecoilState(isLoggedInState);
+
   return useMutation(() => postLogin(email, password), {
     onSuccess: (response) => {
       alert(response.message);
+      setLoggedIn(true);
       nav('/');
     },
     onError: (error) => {
