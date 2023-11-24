@@ -28,7 +28,7 @@ export default function MyPage() {
         region: data.area.region,
         subRegion: data.area.subRegion,
         role: displayedRole,
-        introduction: '',
+        introduction: data.introduction || '',
       });
     }
   }, [data]);
@@ -127,9 +127,13 @@ export default function MyPage() {
       formData.append(key, updatedUserInfo[key]);
     });
 
-    mutate(formData);
-    setEdit(false);
-    setEditPwd(false);
+    // mutate(formData);
+    mutate(formData, {
+      onSuccess: () => {
+        setEdit(false);
+        setEditPwd(false);
+      },
+    });
   };
 
   return (
@@ -288,7 +292,12 @@ export default function MyPage() {
                 <h1>INTRODUCE</h1>
                 <span>{userInfo.role}</span>
                 {edit ? (
-                  <textarea name="introduction" value={userInfo.introduction} onChange={handleInputChange} />
+                  <textarea
+                    name="introduction"
+                    value={userInfo.introduction}
+                    onChange={handleInputChange}
+                    placeholder="안녕하세요. 저는 사회복지사 자격증 2급을 가지고 있습니다."
+                  />
                 ) : (
                   <p>{userInfo.introduction}</p>
                 )}
