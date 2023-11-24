@@ -17,7 +17,7 @@ const cx = cs.bind(styles);
 export default function PostDetail() {
   const [userRole, setUserRole] = React.useState('user');
   const [postData, setPostData] = React.useState({});
-  const { mutate } = useGetRequest('655819a3e1f7d427ef5c147');
+  const { mutate } = useGetRequest('655819a3e1f7d427ef5c1474');
   const postStatus = '모집중';
   const countOfCandidates = 3;
   const isLongTerm = true;
