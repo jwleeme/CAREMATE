@@ -5,7 +5,7 @@ import { DatesPicker, Button, SeparateDatesPicker, ShowSelectedDateList, NewTime
 import { region } from 'lib';
 import InfantImage from 'assets/images/infant.png';
 import SeniorOneImage from 'assets/images/senior1.png';
-import DisabledImage from 'assets/images/disabled.png';
+// import DisabledImage from 'assets/images/disabled.png';
 import axios from 'axios';
 import { usePostRequest } from 'hooks';
 const cx = cs.bind(styles);
@@ -352,7 +352,7 @@ export default function WritePost() {
               <input type="radio" onChange={handleChange} name="careTarget" value="장애인" id="target-disabled" />
               <label htmlFor="target-disabled">
                 <span className={cx('target-image-wrapper')}>
-                  <img src={DisabledImage} alt="장애인" />
+                  {/* <img src={DisabledImage} alt="장애인" /> */}
                 </span>
               </label>
               <span>장애인</span>

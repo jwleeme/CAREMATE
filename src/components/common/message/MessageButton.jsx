@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styles from './MessageButton.module.scss';
-import { Child } from 'assets/images';
+import { MessageBtn } from 'assets/images';
 import MessageBox from './MessageBox';
 import cs from 'classnames/bind';
 const cx = cs.bind(styles);
@@ -17,7 +17,7 @@ export default function MessageButton() {
         <button
           onClick={() => { setPopup(!popup) }}
           className={cx('message-box-btn')}>
-          <img src={Child} alt="메시지함이미지" />
+          <img src={MessageBtn} alt="메시지함 버튼 이미지" />
         </button>
 
         {

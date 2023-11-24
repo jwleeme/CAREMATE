@@ -1,4 +1,126 @@
 // 채팅 창 스타일
 .wrapper {
+  position: relative;
+
+  .chat-roombox {
+    position: fixed;
+    right: 700px;
+    bottom: 140px;
+    width: 450px;
+    height: 620px;
+    background-color: var(--crl-neutral-100);
+    box-shadow: 1px 1px 12px #777;
+    box-shadow: 0 0 0 555;
+    border-radius: 10px;
+    z-index: 9;
+
+    .chat-room-header {
+      position: relative;
+      display: flex;
+      height: 130px;
+      margin: 25px 5px;
+      padding-top: 10px;
+      
+
+      .backbtn {
+        position: absolute;
+        top: -20px;
+        right: 0;
+        border: 0;
+        background: none;
+        cursor: pointer;
+      }
+    
+
+      .mate-photobox { // 돌봄메이트 프로필 사진 자동으로 들어가는곳
+        flex: 0 0 65px;
+        padding-top: 10px;
+
+        .profile-photo {
+          display: block;
+          width: 100%;
+          object-fit: cover;
+        }
+      }
+    
+
+    .mateinfo-leftbox {
+      flex: 1 1 auto;
+      padding: 0 15px;
+      
+      .matename {
+        font-size: 20px;
+        font-weight: 700;
+        margin-right: 10px;
+      }
+      .keyword {
+        display: inline-block;
+        width: 60px;
+        height: 22px;
+        border-radius: 10px;
+        background-color: var(--crl-green-800);
+        text-align: center;
+        line-height: 1.2;
+      }
+
+      .certificate {
+        font-weight: 600;
+        line-height: 2.8;
+
+      }
+
+      .icons-box {
+        display: flex;
+
+        span {
+          margin: 0 8px;
+          font-size: 14px;
+
+
+          &:last-child {
+            margin-right: 0;
+          }
+        }
+        
+      } // react-icons box End
+
+    } // leftbox End
+
+      .mateinfo-rightbox {
+        line-height: 1.8;
+        
+        span {
+          font-weight: 600;
+        }
+
+        .mate-phonenum {
+          font-size: 14px;
+        }
+
+        button {
+          height: 35px;
+          border: 0;
+          outline: 0;
+          border-radius: 10px;
+          font-size: 12px;
+          font-weight: 500;
+          cursor: pointer;
+        }
+
+        .mate-confirmed {
+          background-color: var(--crl-blue-900);
+          color: var(--crl-neutral-100);
+          
+        }
+        .chatroom-out {
+          margin-left: 10px;
+          background-color: var(--crl-red-800);
+        }
+
+      }
+    }
+
+  }
 
 }
+
