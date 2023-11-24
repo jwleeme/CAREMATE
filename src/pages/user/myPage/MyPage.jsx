@@ -127,11 +127,6 @@ export default function MyPage() {
       formData.append(key, updatedUserInfo[key]);
     });
 
-    // 값 확인
-    for (let key of formData.keys()) {
-      console.log(key, ':', formData.get(key));
-    }
-
     mutate(formData);
     setEdit(false);
     setEditPwd(false);
