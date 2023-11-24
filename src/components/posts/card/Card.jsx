@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './Card.module.scss';
-import cs from 'classnames/bind';
+
 import { BsPersonFill } from 'react-icons/bs';
 import { FaMapMarkerAlt, FaCalendar, FaClock } from 'react-icons/fa';
 import { PiMoneyFill } from 'react-icons/pi';
@@ -10,6 +10,7 @@ import { LongTerm, ShortTerm, Child, Senior1, Disabled } from 'assets/images';
 import axios from 'axios';
 import { useGetRequest } from 'hooks';
 
+import cs from 'classnames/bind';
 const cx = cs.bind(styles);
 
 export default function Card({
