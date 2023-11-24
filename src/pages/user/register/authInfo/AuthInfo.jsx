@@ -4,7 +4,8 @@ import cs from 'classnames/bind';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { AuthInput } from 'components';
 import { InputStatus, validateInput } from 'lib';
-import { usePostSendMail, usePostVerifyCode } from 'hooks';
+import { usePostSendMail } from '../../../../hooks/postSendMail';
+import { usePostVerifyCode } from '../../../../hooks/postVerifyCode';
 const cx = cs.bind(styles);
 
 export default function AuthInfo() {

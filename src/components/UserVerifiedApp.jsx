@@ -8,7 +8,7 @@ import '../styles/index.scss';
 import { Outlet } from 'react-router-dom';
 import { isLoggedInState } from 'recoil/storage';
 import { useSetRecoilState } from 'recoil';
-import { useGetUser } from '../hooks';
+import { useGetUser } from '../hooks/getUser';
 
 export default function UserVerifiedApp() {
   const setIsLoggedIn = useSetRecoilState(isLoggedInState);
