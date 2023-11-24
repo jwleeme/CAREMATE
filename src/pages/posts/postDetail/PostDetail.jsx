@@ -26,7 +26,6 @@ export default function PostDetail() {
   // React.useEffect(() => {
   //   (async () => {
   //     const response = await axios.get('http://localhost:5001/api/post/655819a3e1f7d427ef5c1474');
-  //     console.log(response);
   //   })();
   // }, []);
   // function changeTargetTypeStringToComponentOfImage(type) {
@@ -151,7 +150,7 @@ export default function PostDetail() {
                 <PiMoneyFill />
               </span>
               <span className={cx('text-information')}>{`${displayData.hourlyRate}원 ${
-                displayData.negotiableRate ? '(협의가능)' : null
+                displayData.negotiableRate ? '(협의가능)' : ''
               }`}</span>
             </div>
           </div>
@@ -170,10 +169,10 @@ export default function PostDetail() {
             </div>
           ) : (
             <div className={cx('button-wrapper', 'post-control-icon')}>
-              <span>
+              <span className={cx('post-edit-icons')}>
                 <BiSolidPencil />
               </span>
-              <span>
+              <span className={cx('post-edit-icons')}>
                 <PiTrashFill />
               </span>
               <button>
