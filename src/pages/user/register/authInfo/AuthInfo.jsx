@@ -20,8 +20,6 @@ export default function AuthInfo() {
   // error 존재 여부 (email, emailCode, password, passwordConfirm)
   const [hasError, setHasError] = useState([false, false, false, false]);
 
-  // const [isEmailVerified, setEmailVerified] = useState(false);
-
   const [isEmailButtonDisabled, setEmailButtonDisabled] = useState(false);
   const [isVerifyButtonDisabled, setVerifyButtonDisabled] = useState(false);
 

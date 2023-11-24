@@ -1,3 +1,4 @@
+// App.js 에서 로그인상태 확인을 위해 get 요청을 보내는 컴포넌트
 import React, { useEffect } from 'react';
 import { Footer } from './common/footer';
 import { Header } from './common/header';

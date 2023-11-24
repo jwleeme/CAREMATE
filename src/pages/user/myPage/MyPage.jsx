@@ -127,7 +127,6 @@ export default function MyPage() {
       formData.append(key, updatedUserInfo[key]);
     });
 
-    // mutate(formData);
     mutate(formData, {
       onSuccess: () => {
         setEdit(false);
