@@ -29,7 +29,7 @@ export default function AuthInfo() {
     sendMailMutate();
   };
 
-  const handleEmailVerification = async () => {
+  const handleEmailVerification = () => {
     verifyCodeMutate();
   };
 
