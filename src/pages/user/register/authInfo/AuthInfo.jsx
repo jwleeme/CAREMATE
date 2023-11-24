@@ -23,15 +23,14 @@ export default function AuthInfo() {
   const [isEmailVerified, setEmailVerified] = useState(false);
 
   const { mutate: sendMailMutate } = usePostSendMail(email);
-  const { mutate: verifyCodeMutate } = usePostVerifyCode(email, emailCode);
+  const { mutate: verifyCodeMutate } = usePostVerifyCode(email, emailCode, setEmailVerified);
 
   const handleSendMail = () => {
     sendMailMutate();
   };
 
-  const handleEmailVerification = () => {
+  const handleEmailVerification = async () => {
     verifyCodeMutate();
-    setEmailVerified(true); // 이메일 인증이 성공
   };
 
   const handleInputChange = (inputValue, inputName, index, setState, password = null) => {
@@ -93,7 +92,12 @@ export default function AuthInfo() {
           disabled={!isEmailVerified}
         />
         <div className={cx('button-container')}>
-          <button onClick={() => nav('/register')}>이전</button>
+          <button
+            className={cx({ 'prev-care-button': role === 'careUser', 'prev-general-button': role === 'user' })}
+            onClick={() => nav('/register')}
+          >
+            이전
+          </button>
           <button
             className={cx({ 'care-button': role === 'careUser', 'general-button': role === 'user' })}
             onClick={() => {
