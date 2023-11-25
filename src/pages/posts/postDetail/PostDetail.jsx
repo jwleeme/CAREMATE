@@ -12,35 +12,15 @@ import { Link } from 'react-router-dom';
 import { Button } from 'components';
 import * as date from 'lib';
 import axios from 'axios';
-import { useGetRequest, useGetUser } from 'hooks';
+import { useGetRequest } from '../../../hooks/post/getRequest';
+import { useGetUser } from '../../../hooks/getUser';
 const cx = cs.bind(styles);
 
 export default function PostDetail() {
   const [displayData, setDisplayData] = React.useState({});
   const { data: requestData, isLoading: isRequestLoading } = useGetRequest('65600c3a09c52d1b49d688ba');
   const { data: userData, isLoading: isUserLoading } = useGetUser();
-  const postStatus = '모집중';
-  const countOfCandidates = 3;
-  const isLongTerm = true;
 
-  // React.useEffect(() => {
-  //   (async () => {
-  //     const response = await axios.get('http://localhost:5001/api/post/655819a3e1f7d427ef5c1474');
-  //     console.log(response);
-  //   })();
-  // }, []);
-  // function changeTargetTypeStringToComponentOfImage(type) {
-  //   switch (type) {
-  //     case '아동':
-  //       return ();
-  //     case '노인':
-  //       return 'Senior1';
-  //     case '장애인':
-  //       return 'Disabled';
-  //     default:
-  //       return;
-  //   }
-  // }
   React.useEffect(() => {
     if (requestData && userData) {
       setDisplayData({
@@ -151,7 +131,7 @@ export default function PostDetail() {
                 <PiMoneyFill />
               </span>
               <span className={cx('text-information')}>{`${displayData.hourlyRate}원 ${
-                displayData.negotiableRate ? '(협의가능)' : null
+                displayData.negotiableRate ? '(협의가능)' : ''
               }`}</span>
             </div>
           </div>
@@ -170,10 +150,10 @@ export default function PostDetail() {
             </div>
           ) : (
             <div className={cx('button-wrapper', 'post-control-icon')}>
-              <span>
+              <span className={cx('post-edit-icons')}>
                 <BiSolidPencil />
               </span>
-              <span>
+              <span className={cx('post-edit-icons')}>
                 <PiTrashFill />
               </span>
               <button>

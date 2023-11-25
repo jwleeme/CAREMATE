@@ -47,8 +47,6 @@ export default function Card({
     [disabledString]: careTarget === '장애인',
   });
 
-  console.log(currentCareTarget);
-
   return (
     <div className={cx('wrapper')}>
       <div className={cx('card')}>
