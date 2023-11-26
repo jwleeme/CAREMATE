@@ -15,7 +15,6 @@ const cx = cs.bind(styles);
 
 export default function Home() {
   const naviagate = useNavigate();
-  const naviagate = useNavigate();
   return (
     <div className={cx('wrapper')}>
       <div className={cx('mainImage')}>
@@ -59,7 +58,6 @@ export default function Home() {
           <br />- 윈스턴 처칠
         </div>
       </div>
-      {/* <div className={cx('message')}></div> */}
       {/* <div className={cx('message')}></div> */}
     </div>
   );
