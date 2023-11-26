@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './PostDetail.module.scss';
 import cs from 'classnames/bind';
 import { FiTrash } from 'react-icons/fi';
@@ -9,94 +9,123 @@ import { PiMoneyFill, PiTrashFill } from 'react-icons/pi';
 import { BiSolidPencil } from 'react-icons/bi';
 import { Child } from 'assets/images';
 import { Link } from 'react-router-dom';
-import { Button } from 'components';
+import * as date from 'lib';
+import { useGetRequest, useGetUser, useDeletePost } from 'hooks';
+import * as data from 'lib';
+import MessageForm from 'components/common/message/MessageForm';
 const cx = cs.bind(styles);
 
 export default function PostDetail() {
-  const [userRole, setUserRole] = React.useState('user');
-  const postStatus = '모집중';
-  const countOfCandidates = 3;
-  const isLongTerm = true;
-  const userName = '쓰담이';
-  const mockData = {
-    title: '등하원 시터 구합니다.',
-    content: `등하원 시터 구합니다. 여아 7세 한명이랑 남아 3살입니다.\n\n안녕하세요 저는 디자이너입니다~\n지우실거면 지워주세용용\n\n귀염뽀짝한 글이네요 지우지말아주세요~`,
-    region: '부산',
-    subRegion: '서면',
-    careTarget: '아동',
-    longTerm: {
-      startDate: new Date(),
-      schedule: [
-        {
-          careDay: '월',
-          startTime: new Date(),
-          endTime: new Date(),
-        },
-        {
-          careDay: '수',
-          startTime: new Date(),
-          endTime: new Date(),
-        },
-        {
-          careDay: '금',
-          startTime: new Date(),
-          endTime: new Date(),
-        },
-      ],
-    },
+  const postId = '6562692d32ba0d0a88ea977f';
+  const [displayData, setDisplayData] = React.useState({});
+  const { data: requestData, isLoading: isRequestLoading } = useGetRequest(postId);
+  const { data: userData } = useGetUser();
+  const { mutate } = useDeletePost(postId);
 
-    preferredMateAge: ['20대', '30대'],
-    preferredMateGender: '여성',
-    hourlyRate: 15000,
-    negotiableRate: true,
-    targetFeatures: '7살 여아, 활발함',
-    cautionNotes: '조류공포증있음',
-    careTerm: 'short',
+  // 신청 form 양식 모달창 state
+  const [requestForm, setRequestForm] = useState(false);
+  // 돌봄메이트 신청하기 버튼 함수
+  const requestButton = () => {
+    setRequestForm(!requestForm);
   };
-  // function changeTargetTypeStringToComponentOfImage(type) {
-  //   switch (type) {
-  //     case '아동':
-  //       return ();
-  //     case '노인':
-  //       return 'Senior1';
-  //     case '장애인':
-  //       return 'Disabled';
-  //     default:
-  //       return;
-  //   }
-  // }
 
-  function handleUserRole() {
-    if (userRole === 'user') setUserRole('care-user');
-    else setUserRole('user');
+  React.useEffect(() => {
+    if (requestData) {
+      setDisplayData({
+        title: requestData.post.title,
+        content: requestData.post.content,
+        region: requestData.post.careInformation.area.region,
+        subRegion: requestData.post.careInformation.area.subRegion,
+        careTarget: requestData.post.careInformation.careTarget,
+        preferredmateAge: requestData.post.careInformation.preferredmateAge,
+        preferredmateGender: requestData.post.careInformation.preferredmateGender,
+        hourlyRate: requestData.post.reservation.hourlyRate,
+        negotiableRate: requestData.post.negotiableRate,
+        targetFeatures: requestData.post.careInformation.targetFeatures,
+        cautionNotes: requestData.post.careInformation.cautionNotes,
+        isLongTerm: requestData.post.reservation.isLongTerm,
+        longTerm: requestData.post.reservation.longTerm,
+        shortTerm:
+          requestData.post.reservation.shortTerm &&
+          requestData.post.reservation.shortTerm
+            .filter((obj, index) => index !== 0)
+            .sort((a, b) => new Date(a.careDate) - new Date(b.careDate)),
+        status: requestData.post.reservation.status,
+        userRole: userData.role.role,
+        userId: userData._id,
+        authorName: requestData.authorProfile.name,
+        authorId: requestData.post.author,
+      });
+    }
+  }, [requestData]);
+
+  function handleDeletePost() {
+    if (window.confirm('게시물을 삭제하시겠습니까?')) {
+      mutate();
+    }
     return;
   }
+
+  function isSomeWordsInArray(array) {
+    return array.some((item) => item.includes('이상'));
+  }
+  function sortAgeList(array) {
+    return array.map((age) => parseInt(age[0])).sort();
+  }
+  function formmatAgeListToTrimPretty(array) {
+    let sortedArray = [];
+    if (array.length > 1 && !isSomeWordsInArray(array)) {
+      sortedArray = sortAgeList(array);
+      return sortedArray.map((item, index, arr) => {
+        if (index < arr.length - 1) {
+          return `${item}0, `;
+        } else if (index === arr.length - 1) return `${item}0대`;
+        return item;
+      });
+    } else if (array.length > 1 && isSomeWordsInArray(array)) {
+      sortedArray = sortAgeList(array);
+      return sortedArray.map((item, index, arr) => {
+        if (index < arr.length - 1) {
+          return `${item}0, `;
+        } else if (index === arr.length - 1) return `${item}0대 이상`;
+        return item;
+      });
+    }
+    return array;
+  }
+  if (isRequestLoading) return <div>로딩중</div>;
+
   return (
     <div className={cx('wrapper')}>
-      <p style={{ fontSize: '30px' }}>현재 {userRole === 'user' ? '일반유저 페이지' : '돌봄유저 페이지'}</p>
-      <button onClick={handleUserRole}>
-        {userRole === 'user' ? '돌봄유저 보기(임시용)' : '일반유저 보기(임시용)'}
-      </button>
-      <div className={cx('title-wrapper', userRole === 'user' ? 'user-role-background' : 'care-user-role-background')}>
+      <span className={cx('role-bookmark', displayData.isLongTerm ? 'long-term-background' : 'short-term-background')}>
+        {displayData.isLongTerm ? '정기' : '단기'}
+      </span>
+      <button onClick={() => console.log(requestData.post.author)}>조회</button>
+      <div
+        className={cx(
+          'title-wrapper',
+          displayData.userRole === 'user' ? 'user-role-background' : 'care-user-role-background'
+        )}
+      >
         <div className={cx('even-columns')}>
           <div className={cx('writer-image-wrapper')}>
             <span className={cx('writer-image')}>{<IoMdPerson />}</span>
-            <span>{userName}</span>
+            <span>{displayData.authorName}</span>
           </div>
         </div>
         <div className={cx('even-columns')}>
           <div className={cx('post-title-wrapper')}>
-            <p className={cx('post-title')}>{mockData.title}</p>
+            <p className={cx('post-title')}>{displayData.title}</p>
             <div className={cx('post-badge-wrapper')}>
               <span
                 className={cx(
                   'post-badge',
-                  userRole === 'user' ? 'user-background-accent' : 'care-user-background-accent'
+                  displayData.userRole === 'user' ? 'user-background-accent' : 'care-user-background-accent'
                 )}
               >
-                {postStatus}
+                {displayData.status}
               </span>
-              <span>지원자 수 {countOfCandidates}/5</span>
+              <span>지원자 수 {displayData.applicantsCount ?? 0}/5</span>
             </div>
           </div>
         </div>
@@ -106,90 +135,124 @@ export default function PostDetail() {
               <span className={cx('information-icons')}>
                 <MdLocationOn />
               </span>
-              <span className={cx('text-information')}>{`${mockData.region} ${mockData.subRegion}`}</span>
+              <span className={cx('text-information')}>{`${displayData.region} ${displayData.subRegion}`}</span>
             </div>
             <div className={cx('icon-text-wrapper')}>
               <span className={cx('information-icons')}>
                 <AiFillCalendar />
               </span>
-              <span className={cx('text-information')}>{`${
-                mockData.longTerm.startDate.getMonth() + 1
-              }/20~    ${mockData.longTerm.schedule.map((obj) => obj.careDay)}`}</span>
+              {displayData.isLongTerm ? (
+                <span className={cx('text-information')}>
+                  {`${date.changeDateToMonthAndDate(
+                    displayData.longTerm.startDate
+                  )} ~ ${displayData.longTerm.schedule.map((obj) => obj.careDay)}`}
+                </span>
+              ) : (
+                displayData.shortTerm && (
+                  <span className={cx('text-information')}>
+                    {`${date.changeDateToMonthAndDate(
+                      displayData?.shortTerm[0].careDate
+                    )} ~ ${date.changeDateToMonthAndDate(
+                      displayData?.shortTerm[displayData.shortTerm.length - 1].careDate
+                    )} (총 ${displayData.shortTerm.length}일)`}
+                  </span>
+                )
+              )}
             </div>
             <div className={cx('icon-text-wrapper')}>
               <span className={cx('information-icons', 'watch-icon')}>
                 <MdWatchLater />
               </span>
-              <span
-                className={cx('text-information')}
-              >{`${mockData.longTerm.schedule[0].startTime} ~ ${mockData.longTerm.schedule[0].endTime}`}</span>
+              {displayData.isLongTerm ? (
+                <span className={cx('text-information')}>
+                  {displayData.longTerm &&
+                    `${date.changeDateToAmPmAndHour(
+                      displayData.longTerm.schedule[0]?.startTime
+                    )} ~ ${date.changeDateToAmPmAndHour(displayData.longTerm.schedule[0]?.endTime)}`}
+                </span>
+              ) : (
+                <span className={cx('text-information')}>
+                  {displayData.shortTerm &&
+                    `${date.changeDateToAmPmAndHour(
+                      displayData.shortTerm[0].startTime
+                    )} ~ ${date.changeDateToAmPmAndHour(displayData.shortTerm[0].endTime)}`}
+                </span>
+              )}
             </div>
             <div className={cx('icon-text-wrapper')}>
               <span className={cx('information-icons')}>
                 <IoMdPerson />
               </span>
               <span className={cx('text-information')}>
-                {mockData.preferredMateAge.map((item) => (
-                  <span>{item} </span>
-                ))}
+                {displayData.preferredmateAge &&
+                  formmatAgeListToTrimPretty(displayData.preferredmateAge).map((item, index) => (
+                    <span key={index}>{item} </span>
+                  ))}
               </span>
-              <span className={cx('text-information')}>{mockData.preferredMateGender}</span>
+              <span className={cx('text-information', 'gender-span')}>{displayData.preferredmateGender}</span>
             </div>
             <div className={cx('icon-text-wrapper')}>
               <span className={cx('information-icons')}>
                 <PiMoneyFill />
               </span>
-              <span className={cx('text-information')}>{`${mockData.hourlyRate}원 ${
-                mockData.negotiableRate ? '(협의가능)' : null
+              <span className={cx('text-information')}>{`${data.addCommas(displayData.hourlyRate)}원 ${
+                displayData.negotiableRate ? '(협의가능)' : ''
               }`}</span>
             </div>
           </div>
         </div>
         <div className={cx('even-columns')}>
-          {userRole === 'care-user' ? (
+          {displayData.userRole === 'careUser' ? (
             <div className={cx('button-wrapper')}>
               <button
+                onClick={() => {
+                  requestButton();
+                }}
                 className={cx(
                   'post-badge',
-                  userRole === 'user' ? 'user-background-accent' : 'care-user-background-accent'
+                  displayData.userRole === 'user' ? 'user-background-accent' : 'care-user-background-accent'
                 )}
               >
                 신청하기
               </button>
             </div>
           ) : (
-            <div className={cx('button-wrapper', 'post-control-icon')}>
-              <span>
-                <BiSolidPencil />
-              </span>
-              <span>
-                <PiTrashFill />
-              </span>
-              <button>
-                <Link to="/posts/new">글 작성(임시)</Link>
-              </button>
-            </div>
+            displayData.userId === displayData.authorId && (
+              <div className={cx('button-wrapper', 'post-control-icon')}>
+                <span className={cx('post-edit-icons')}>
+                  <Link to={`/posts/${postId}/edit`}>
+                    <BiSolidPencil />
+                  </Link>
+                </span>
+                <span className={cx('post-edit-icons')} onClick={handleDeletePost}>
+                  <PiTrashFill />
+                </span>
+                <button>
+                  <Link to="/posts/new">글 작성(임시)</Link>
+                </button>
+              </div>
+            )
           )}
         </div>
       </div>
       <div className={cx('body-wrapper')}>
-        <pre>{mockData.content}</pre>
+        <pre>{displayData.content}</pre>
       </div>
       <div
         className={cx(
           'description-wrapper',
-          userRole === 'user' ? 'user-role-background' : 'care-user-role-background'
+          displayData.userRole === 'user' ? 'user-role-background' : 'care-user-role-background'
         )}
       >
         <div className={cx('even-columns')}>
           <div className={cx('features-wrapper')}>
             <p>
               <span>돌봄 대상 특징</span>
-              <span>{mockData.targetFeatures}</span>
+              <span>{displayData.targetFeatures}</span>
             </p>
             <p>
               <span>돌봄 대상 유의사항</span>
-              <span>{mockData.cautionNotes}</span>
+              <span>{displayData.cautionNotes}</span>
             </p>
           </div>
         </div>
@@ -199,6 +262,10 @@ export default function PostDetail() {
           </span>
         </div>
       </div>
+
+      {/* 신청하기 모달창 */}
+
+      {requestForm === true ? <MessageForm /> : null}
     </div>
   );
 }

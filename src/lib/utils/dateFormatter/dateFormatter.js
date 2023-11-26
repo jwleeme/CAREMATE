@@ -1,5 +1,3 @@
-import moment from 'moment';
-import 'moment/locale/ko';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
 dayjs.locale('ko');
@@ -10,6 +8,16 @@ export function changeDateToHHMM(date) {
 
 export function changeDateToMonthAndDateAndDayOfTheWeek(date) {
   return dayjs(date).format('MM/DD(dd)');
+}
+export function changeDateToMonthAndDate(date) {
+  return dayjs(date).format('MM/DD');
+}
+export function changeDateToMonth(date) {
+  return dayjs(date).format('');
+}
+/** 오후 6시 */
+export function changeDateToAmPmAndHour(date) {
+  return dayjs(date).format('a h시');
 }
 
 /** 월 => 0 */

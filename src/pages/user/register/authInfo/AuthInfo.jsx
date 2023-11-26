@@ -4,7 +4,8 @@ import cs from 'classnames/bind';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { AuthInput } from 'components';
 import { InputStatus, validateInput } from 'lib';
-import { usePostSendMail, usePostVerifyCode } from 'hooks';
+import { usePostSendMail } from '../../../../hooks/postSendMail';
+import { usePostVerifyCode } from '../../../../hooks/postVerifyCode';
 const cx = cs.bind(styles);
 
 export default function AuthInfo() {
@@ -20,18 +21,20 @@ export default function AuthInfo() {
   // error 존재 여부 (email, emailCode, password, passwordConfirm)
   const [hasError, setHasError] = useState([false, false, false, false]);
 
-  const [isEmailVerified, setEmailVerified] = useState(false);
+  const [isEmailButtonDisabled, setEmailButtonDisabled] = useState(false);
+  const [isVerifyButtonDisabled, setVerifyButtonDisabled] = useState(false);
 
-  const { mutate: sendMailMutate } = usePostSendMail(email);
-  const { mutate: verifyCodeMutate } = usePostVerifyCode(email, emailCode);
+  const { mutate: sendMailMutate } = usePostSendMail(email, setEmailButtonDisabled);
+  const { mutate: verifyCodeMutate } = usePostVerifyCode(email, emailCode, setVerifyButtonDisabled);
 
   const handleSendMail = () => {
+    setEmailButtonDisabled(true);
     sendMailMutate();
   };
 
   const handleEmailVerification = () => {
+    setVerifyButtonDisabled(true);
     verifyCodeMutate();
-    setEmailVerified(true); // 이메일 인증이 성공
   };
 
   const handleInputChange = (inputValue, inputName, index, setState, password = null) => {
@@ -44,8 +47,12 @@ export default function AuthInfo() {
   };
 
   // 모든 필드가 유효하고 값이 존재하는지 확인
-  const isValid =
-    !hasError.includes(true) && email !== '' && emailCode !== '' && password !== '' && passwordConfirm !== '';
+  const isValid = [
+    !hasError[0] && email !== '' && isEmailButtonDisabled,
+    !hasError[1] && emailCode !== '' && isVerifyButtonDisabled,
+    !hasError[2] && password !== '',
+    !hasError[3] && passwordConfirm !== '',
+  ].some((field) => !field);
 
   return (
     <div className={cx('wrapper')}>
@@ -59,6 +66,7 @@ export default function AuthInfo() {
           placeholder="이메일을 입력해주세요"
           onChange={(val) => handleInputChange(val, 'email', 0, setEmail)}
           onVerify={handleSendMail}
+          isDisabled={isEmailButtonDisabled}
           message={hasError[0] ? '이메일의 형식이 올바르지 않습니다.' : ''}
           isCode
         />
@@ -70,6 +78,7 @@ export default function AuthInfo() {
           placeholder="인증코드를 입력해주세요"
           onChange={(val) => handleInputChange(val, 'emailCode', 1, setEmailCode)}
           onVerify={handleEmailVerification}
+          isDisabled={isVerifyButtonDisabled}
           isConfirm
         />
         <AuthInput
@@ -80,7 +89,6 @@ export default function AuthInfo() {
           placeholder="숫자, 영문자, 특수문자 조합으로 8자 이상 입력해주세요"
           onChange={(val) => handleInputChange(val, 'password', 2, setPassword)}
           message={hasError[2] ? '비밀번호는 숫자, 영문자, 특수문자 조합으로 8자 이상이어야 합니다.' : ''}
-          disabled={!isEmailVerified}
         />
         <AuthInput
           text="비밀번호 확인"
@@ -90,16 +98,20 @@ export default function AuthInfo() {
           placeholder="비밀번호를 다시 한번 입력해주세요"
           onChange={(val) => handleInputChange(val, 'passwordConfirm', 3, setPasswordConfirm, password)}
           message={hasError[3] ? '비밀번호가 일치하지 않습니다.' : ''}
-          disabled={!isEmailVerified}
         />
         <div className={cx('button-container')}>
-          <button onClick={() => nav('/register')}>이전</button>
+          <button
+            className={cx({ 'prev-care-button': role === 'careUser', 'prev-general-button': role === 'user' })}
+            onClick={() => nav('/register')}
+          >
+            이전
+          </button>
           <button
             className={cx({ 'care-button': role === 'careUser', 'general-button': role === 'user' })}
             onClick={() => {
               nav('/register/userInfo', { state: { role: role, email: email, password: password } });
             }}
-            disabled={!isValid}
+            disabled={isValid}
           >
             다음
           </button>

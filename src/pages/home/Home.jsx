@@ -4,7 +4,7 @@ import styles from './Home.module.scss';
 import cs from 'classnames/bind';
 import InfantImage from '../../assets/images/infant.png';
 import SeniorOneImage from '../../assets/images/SeniorOne.png';
-import DisabledImage from '../../assets/images/disabled.png';
+// import DisabledImage from '../../assets/images/disabled.png';
 import MainLogo from '../../assets/images/logo.png';
 import InfantItem from '../../assets/images/infant-item.png';
 import SeniorItem from '../../assets/images/senior-item.png';

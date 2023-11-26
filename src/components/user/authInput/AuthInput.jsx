@@ -14,22 +14,22 @@ export default function AuthInput({
   message,
   isConfirm,
   isCode,
-  disabled,
+  isDisabled,
 }) {
   // email 인증코드 전송 30초 제한
   const [countdown, setCountdown] = useState(30);
-  const [isDisabled, setIsDisabled] = useState(false);
+  const [countdownDisabled, setCountdownDisabled] = useState(false);
 
   const handleVerify = () => {
     if (isCode) {
       onVerify();
-      setIsDisabled(true);
+      setCountdownDisabled(true);
       setCountdown(30);
       const timer = setInterval(() => {
         setCountdown((prevCount) => {
           if (prevCount === 0) {
             clearInterval(timer);
-            setIsDisabled(false);
+            setCountdownDisabled(false);
             return 0;
           }
           return prevCount - 1;
@@ -48,15 +48,18 @@ export default function AuthInput({
           value={value}
           placeholder={placeholder}
           onChange={(e) => onChange(e.target.value)}
-          disabled={disabled}
           className={cx({ inputWithButton: isConfirm || isCode })}
         />
         {isCode && (
-          <button onClick={handleVerify} disabled={isDisabled}>
-            {isDisabled ? `재전송 (${countdown}s)` : '코드전송'}
+          <button onClick={handleVerify} disabled={isDisabled || countdownDisabled || !value || message}>
+            {countdownDisabled ? `재전송 (${countdown}s)` : '코드전송'}
           </button>
         )}
-        {isConfirm && <button onClick={onVerify}>인증확인</button>}
+        {isConfirm && (
+          <button onClick={onVerify} disabled={isDisabled || !value}>
+            인증확인
+          </button>
+        )}
       </div>
       <div className={cx('message-container')}>
         <p>{message}</p>
