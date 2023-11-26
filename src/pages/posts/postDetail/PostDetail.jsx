@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './PostDetail.module.scss';
 import cs from 'classnames/bind';
 import { FiTrash } from 'react-icons/fi';
@@ -14,12 +14,21 @@ import * as date from 'lib';
 import axios from 'axios';
 import { useGetRequest } from '../../../hooks/post/getRequest';
 import { useGetUser } from '../../../hooks/getUser';
+import MessageForm from 'components/common/message/MessageForm';
 const cx = cs.bind(styles);
 
 export default function PostDetail() {
   const [displayData, setDisplayData] = React.useState({});
   const { data: requestData, isLoading: isRequestLoading } = useGetRequest('65600c3a09c52d1b49d688ba');
   const { data: userData, isLoading: isUserLoading } = useGetUser();
+
+
+  // 신청 form 양식 모달창 state
+  const [requestForm, setRequestForm] = useState(false);
+  // 돌봄메이트 신청하기 버튼 함수
+  const requestButton = () => {
+    setRequestForm(!requestForm)
+  }
 
   React.useEffect(() => {
     if (requestData && userData) {
@@ -140,6 +149,7 @@ export default function PostDetail() {
           {displayData.userRole === 'careUser' ? (
             <div className={cx('button-wrapper')}>
               <button
+                onClick={() => {requestButton()}}
                 className={cx(
                   'post-badge',
                   displayData.userRole === 'user' ? 'user-background-accent' : 'care-user-background-accent'
@@ -190,6 +200,13 @@ export default function PostDetail() {
           </span>
         </div>
       </div>
+
+      {/* 신청하기 모달창 */}
+      
+      {
+        requestForm === true ? <MessageForm /> : null
+      }
+
     </div>
   );
 }

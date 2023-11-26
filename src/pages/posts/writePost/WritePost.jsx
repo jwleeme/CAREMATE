@@ -5,9 +5,8 @@ import { DatesPicker, SeparateDatesPicker, ShowSelectedDateList, NewTimesPicker,
 import { region } from 'lib';
 import InfantImage from 'assets/images/infant.png';
 import SeniorOneImage from 'assets/images/senior1.png';
-// import DisabledImage from 'assets/images/disabled.png';
+import DisabledImage from 'assets/images/disabled.png';
 import axios from 'axios';
-import { usePostRequest } from 'hooks';
 import { useNavigate } from 'react-router';
 import { usePostRequest } from '../../../hooks/post/postRequest';
 const cx = cs.bind(styles);
