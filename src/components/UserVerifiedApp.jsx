@@ -18,7 +18,6 @@ export default function UserVerifiedApp() {
     if (data) {
       setIsLoggedIn(true);
     } else if (error && error.response && error.response.status === 403) {
-      alert(error.response.data.message);
       setIsLoggedIn(false);
     }
   }, [data, error, setIsLoggedIn]);
