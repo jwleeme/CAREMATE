@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import styles from 'pages/user/register/Register.module.scss';
 import cs from 'classnames/bind';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import { AuthInput, AuthSelect, Region } from 'components';
 import { InputStatus, validateInput } from 'lib';
+import { usePostRegister } from '../../../../hooks/postRegister';
 const cx = cs.bind(styles);
 
 const genderOptions = [
@@ -20,68 +21,79 @@ const ageOptions = [
 ];
 
 export default function UserInfo() {
-  const nav = useNavigate();
   const location = useLocation();
-  const { role, email, password } = location.state;
+  const { role, email, password } = location.state || '';
 
   const [name, setName] = useState('');
-  const [phone, setPhone] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
   const [age, setAge] = useState('20대');
   const [gender, setGender] = useState('남자');
   const [region, setRegion] = useState('');
   const [subRegion, setSubRegion] = useState('');
 
-  //오류 메시지
-  const [nameStatus, setNameStatus] = useState(InputStatus.NORMAL);
-  const [phoneStatus, setPhoneStatus] = useState(InputStatus.NORMAL);
+  // error 존재 여부 (name, phone)
+  const [hasError, setHasError] = useState([false, false]);
+
+  const { mutate } = usePostRegister({
+    role: role,
+    email: email,
+    password: password,
+    name: name,
+    phoneNumber: phoneNumber,
+    age: age,
+    gender: gender,
+    region: region,
+    subRegion: subRegion,
+  });
 
   // 입력 값 변경 시 유효성 검사 수행
-  const handleInputChange = (inputValue, inputName, setStatus, setState) => {
+  const handleInputChange = (inputValue, inputName, index, setState) => {
     const status = validateInput(inputValue, inputName);
-    setStatus(status);
     setState(inputValue);
+    const newErrors = [...hasError];
+    newErrors[index] = status === InputStatus.ERROR;
+    setHasError(newErrors);
   };
 
   // 모든 필드가 유효하고 값이 존재하는지 확인
-  const isValid =
-    nameStatus !== InputStatus.ERROR &&
-    phoneStatus !== InputStatus.ERROR &&
-    name !== '' &&
-    phone !== '' &&
-    age !== '' &&
-    gender !== '' &&
-    region !== '' &&
-    subRegion !== '';
-
-  const handleSubmit = (e) => {
+  const isValid = [
+    !hasError[0] && name !== '',
+    !hasError[1] && phoneNumber !== '',
+    age !== '',
+    gender !== '',
+    region !== '',
+    subRegion !== '',
+    role !== undefined,
+    email !== undefined,
+    password !== undefined,
+  ].some((field) => !field);
+  console.log(role, email, password);
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert('회원가입이 완료되었습니다!');
-    nav('/login');
+    mutate();
   };
 
   return (
     <div className={cx('wrapper')}>
       <p>서비스 이용에 필요한 정보를 작성해주세요.</p>
-      <div className={cx('registerContainer')}>
+      <div className={cx('register-container')}>
         <AuthInput
           text="이름"
-          status={nameStatus}
           type="string"
           name="name"
-          onChange={(val) => handleInputChange(val, 'name', setNameStatus, setName)}
+          onChange={(val) => handleInputChange(val, 'name', 0, setName)}
           value={name}
           placeholder="본명을 입력해주세요"
-          message={nameStatus === InputStatus.ERROR ? '이름은 2글자 이상 작성해주세요.' : ''}
+          message={hasError[0] ? '이름은 2글자 이상 작성해주세요.' : ''}
         />
         <AuthInput
           text="휴대폰 번호"
-          status={phoneStatus}
           type="string"
-          name="phone"
-          value={phone}
+          name="phoneNumber"
+          value={phoneNumber}
           placeholder="-을 제외하고 입력해주세요"
-          onChange={(val) => handleInputChange(val, 'phone', setPhoneStatus, setPhone)}
-          message={phoneStatus === InputStatus.ERROR ? '올바른 형식이 아닙니다.' : ''}
+          onChange={(val) => handleInputChange(val, 'phoneNumber', 1, setPhoneNumber)}
+          message={hasError[1] ? '올바른 형식이 아닙니다.' : ''}
         />
         <AuthSelect
           name="gender"
@@ -91,25 +103,37 @@ export default function UserInfo() {
           options={genderOptions}
         />
         <AuthSelect name="age" text="나이" value={age} onChange={(e) => setAge(e.target.value)} options={ageOptions} />
-        <div className={cx('regionContainer')}>
+        <div className={cx('region-container')}>
           <label htmlFor="">지역</label>
           <div className={cx('region')}>
             <Region
-              region1={region}
-              region2={subRegion}
-              onRegionChange={(reg1, reg2) => {
-                setRegion(reg1);
-                setSubRegion(reg2);
+              region={region}
+              subRegion={subRegion}
+              onRegionChange={(reg, subReg) => {
+                setRegion(reg);
+                setSubRegion(subReg);
               }}
             />
           </div>
         </div>
-        <div className={cx('submitBtnContainer')}>
-          <button className={cx('submitBtn')} onClick={handleSubmit} disabled={!isValid}>
+        <div className={cx('submit-container')}>
+          <button
+            className={cx('submit-button', { 'care-button': role === 'careUser', 'general-button': role === 'user' })}
+            onClick={handleSubmit}
+            disabled={isValid}
+          >
             가입하기
           </button>
         </div>
       </div>
+      {(!role || !email || !password) && (
+        <>
+          <p>회원가입을 다시 진행해주세요.</p>
+          <Link to="/register" className={cx('go-register')}>
+            회원가입 하러가기
+          </Link>
+        </>
+      )}
     </div>
   );
 }

@@ -9,7 +9,10 @@
 *::before {
   box-sizing: border-box;
 }
-
+li::marker {
+  content: ' ';
+  list-style: none;
+}
 a,
 abbr,
 acronym,
@@ -140,5 +143,11 @@ q:before {
 table {
   border-collapse: collapse;
   border-spacing: 0;
+}
+img,
+picture,
+svg {
+  max-width: 100%;
+  display: block;
 }
 /*# sourceMappingURL=/sm/04f4d35563f7cf9516264fcbb6e11a85def2ae5616df66563711867fe05befec.map */

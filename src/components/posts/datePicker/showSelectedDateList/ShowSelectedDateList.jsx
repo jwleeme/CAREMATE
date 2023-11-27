@@ -1,123 +1,140 @@
 import React from 'react';
 import styles from './ShowSelectedDateList.module.scss';
 import cs from 'classnames/bind';
-import { dateFormatter } from 'lib';
 import { v4 as uuidv4 } from 'uuid';
 import { NewTimesPicker } from 'components';
+import { BiSolidPencil } from 'react-icons/bi';
+import {
+  changeDateToHHMM,
+  changeDateToMonthAndDateAndDayOfTheWeek,
+  changeKoreaDayOfWeekToNumber,
+  changeNumberToKoreaDayOfWeek,
+} from 'lib';
+import { getHours } from 'date-fns';
 const cx = cs.bind(styles);
 
-export default function ShowSelectedDateList({ postContent, setPostContent, array, type, mainTime }) {
-  function patchDateToLongTermValuesState(selectedTimeIndex, property, value) {
-    setPostContent({
-      ...postContent,
-      longTerm: {
-        ...postContent.longTerm,
-        schedule: postContent.longTerm.schedule.map((obj, index) => {
-          if (index === selectedTimeIndex && property === 'startTime') {
-            return { ...obj, startTime: value };
-          } else if (index === selectedTimeIndex && property === 'endTime') {
-            return { ...obj, endTime: value };
-          }
-          return obj;
-        }),
-      },
-    });
-  }
-  function patchDateToShortTermValuesState(selectedTimeIndex, property, value) {
-    setPostContent({
-      ...postContent,
-      shortTerm: postContent.shortTerm.map((obj, index) => {
-        if (index === selectedTimeIndex && property === 'startTime') {
-          return { ...obj, startTime: value };
-        } else if (index === selectedTimeIndex && property === 'endTime') {
-          return { ...obj, endTime: value };
-        }
-        return obj;
-      }),
-    });
-  }
-
+export default function ShowSelectedDateList({ postContent, setPostContent, array, type }) {
   const [isIndivisualTimeControll, setIsIndivisualTimeControll] = React.useState(
     new Array((array.length || 1) - 1).fill(false)
   );
-
   React.useEffect(() => {
     setIsIndivisualTimeControll(new Array((array.length || 1) - 1).fill(false));
   }, [postContent.careTerm]);
+  /** 정해진 시간을 정보에 업데이트  */
+  const patchDateToPostContentState = (type, date, property, scheduleArray, selectedTimeIndex) => {
+    if (type === 'longTerm') {
+      setPostContent({
+        ...postContent,
+        longTerm: {
+          ...postContent.longTerm,
+          schedule: inputDateToObjectInArray(date, property, scheduleArray, selectedTimeIndex),
+        },
+      });
+    } else if (type === 'shortTerm') {
+      setPostContent({
+        ...postContent,
+        shortTerm: inputDateToObjectInArray(date, property, scheduleArray, selectedTimeIndex),
+      });
+    }
+  };
 
-  function handleItemClick(index) {
+  /** 배열객체에 날짜를 주입함 */
+  const inputDateToObjectInArray = (date, property, scheduleArray, selectedTimeIndex) => {
+    return scheduleArray.map((obj, index) => {
+      if (index === selectedTimeIndex && property === 'startTime') {
+        return { ...obj, startTime: date };
+      } else if (index === selectedTimeIndex && property === 'endTime') {
+        return { ...obj, endTime: date };
+      }
+      return obj;
+    });
+  };
+
+  const handleItemClick = (index) => {
     const newStates = [...isIndivisualTimeControll];
     newStates[index] = !newStates[index];
     setIsIndivisualTimeControll(newStates);
-  }
+  };
   return (
-    <>
-      <ul className={cx('wrapper')}>
-        {type === 'short'
-          ? array
-              .filter((value, index) => index !== 0)
-              .sort((a, b) => a - b)
-              .map((item, index) => (
-                <li key={uuidv4()}>
-                  <div>
-                    {`${dateFormatter.changeDateToMonthAndDateAndDayOfTheWeek(item)} ${dateFormatter.changeDateToHHMM(
+    <ul className={cx('wrapper')}>
+      {type === 'short'
+        ? array
+            .filter((value, index) => index !== 0)
+            .sort((a, b) => a - b)
+            .map((item, index) => (
+              <li key={uuidv4()}>
+                <div className={cx('selected-time-wrapper')}>
+                  <span>
+                    {`${changeDateToMonthAndDateAndDayOfTheWeek(item)} ${changeDateToHHMM(
                       postContent.shortTerm[index].startTime
-                    )}-${dateFormatter.changeDateToHHMM(postContent.shortTerm[index].endTime)}`}
-                    <button onClick={() => handleItemClick(index)}>+시간 수정</button>
-                  </div>
-                  {isIndivisualTimeControll[index] && (
-                    <span className={cx('indivisual-time-controll-wrapper')}>
-                      <span>시작시간</span>
-                      <NewTimesPicker
-                        time={postContent.shortTerm[index].startTime}
-                        setTime={(date) => {
-                          patchDateToShortTermValuesState(index, 'startTime', date);
-                        }}
-                      />
-                      <span>종료시간</span>
-                      <NewTimesPicker
-                        time={postContent.shortTerm[index].endTime}
-                        setTime={(date) => {
-                          patchDateToShortTermValuesState(index, 'endTime', date);
-                        }}
-                      />
-                    </span>
-                  )}
-                </li>
-              ))
-          : array
-              .map((day) => dateFormatter.changeKoreaDayOfWeekToNumber(day))
-              .sort()
-              .map((number) => dateFormatter.changeNumberToKoreaDayOfWeek(number))
-              .map((item, index) => (
-                <li key={uuidv4()}>
-                  <div>
-                    {`${item}요일 ${postContent.longTerm.schedule[
-                      index
-                    ].startTime.getHours()}:00-${postContent.longTerm.schedule[index].endTime.getHours()}:00`}
-                    <button onClick={() => handleItemClick(index)}>+시간 수정</button>
-                  </div>
-                  {isIndivisualTimeControll[index] && (
-                    <span className={cx('indivisual-time-controll-wrapper')}>
-                      <span>시작시간</span>
-                      <NewTimesPicker
-                        time={postContent.longTerm.schedule[index].startTime}
-                        setTime={(date) => {
-                          patchDateToLongTermValuesState(index, 'startTime', date);
-                        }}
-                      />
-                      <span>종료시간</span>
-                      <NewTimesPicker
-                        time={postContent.longTerm.schedule[index].endTime}
-                        setTime={(date) => {
-                          patchDateToLongTermValuesState(index, 'endTime', date);
-                        }}
-                      />
-                    </span>
-                  )}
-                </li>
-              ))}
-      </ul>
-    </>
+                    )}-${changeDateToHHMM(postContent.shortTerm[index].endTime)}`}
+                  </span>
+                  <button className={cx('hover-icon')} onClick={() => handleItemClick(index)}>
+                    <BiSolidPencil />
+                  </button>
+                </div>
+                {isIndivisualTimeControll[index] && (
+                  <span className={cx('indivisual-time-controll-wrapper')}>
+                    <span>시작시간</span>
+                    <NewTimesPicker
+                      time={postContent.shortTerm[index].startTime}
+                      setTime={(date) => {
+                        patchDateToPostContentState('shortTerm', date, 'startTime', postContent.shortTerm, index);
+                      }}
+                    />
+                    <span>종료시간</span>
+                    <NewTimesPicker
+                      time={postContent.shortTerm[index].endTime}
+                      setTime={(date) => {
+                        patchDateToPostContentState('shortTerm', date, 'endTime', postContent.shortTerm, index);
+                      }}
+                    />
+                  </span>
+                )}
+              </li>
+            ))
+        : array
+            .map((day) => changeKoreaDayOfWeekToNumber(day))
+            .sort()
+            .map((number) => changeNumberToKoreaDayOfWeek(number))
+            .map((item, index) => (
+              <li key={uuidv4()}>
+                <div className={cx('selected-time-wrapper')}>
+                  <span>
+                    {`${item}요일 ${getHours(postContent.longTerm.schedule[index].startTime)}:00-${getHours(
+                      postContent.longTerm.schedule[index].endTime
+                    )}:00`}
+                  </span>
+                  <button className={cx('hover-icon')} onClick={() => handleItemClick(index)}>
+                    <BiSolidPencil />
+                  </button>
+                </div>
+                {isIndivisualTimeControll[index] && (
+                  <span className={cx('indivisual-time-controll-wrapper')}>
+                    <span>시작시간</span>
+                    <NewTimesPicker
+                      time={postContent.longTerm.schedule[index].startTime}
+                      setTime={(date) => {
+                        patchDateToPostContentState(
+                          'longTerm',
+                          date,
+                          'startTime',
+                          postContent.longTerm.schedule,
+                          index
+                        );
+                      }}
+                    />
+                    <span>종료시간</span>
+                    <NewTimesPicker
+                      time={postContent.longTerm.schedule[index].endTime}
+                      setTime={(date) => {
+                        patchDateToPostContentState('longTerm', date, 'endTime', postContent.longTerm.schedule, index);
+                      }}
+                    />
+                  </span>
+                )}
+              </li>
+            ))}
+    </ul>
   );
 }

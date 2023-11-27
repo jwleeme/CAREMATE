@@ -3,11 +3,12 @@ import styles from './DatesPicker.module.scss';
 import cs from 'classnames/bind';
 import { ko } from 'date-fns/esm/locale';
 import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 const cx = cs.bind(styles);
 
 export default function DatesPicker({ postContent, setPostContent }) {
   const ExampleCustomInput = React.forwardRef(({ value, onClick }, ref) => (
-    <button className={cx('example-custom-input')} onClick={onClick} ref={ref}>
+    <button className={cx('example-custom-input')} type="button" onClick={onClick} ref={ref}>
       {value}
     </button>
   ));
