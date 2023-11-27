@@ -45,7 +45,7 @@ export default function MessageList(props) {
               <div className={cx('user-itembox')}>
                   
                 <p className={cx('post-title')}>
-                  <span className={cx('post-num')}>#1 </span>
+                  <span className={cx('post-num')}>#123 </span>
                   병원 동행해주실 메이트분 구합니다.</p>
                  
                   <span className={cx('username')}>홍길동</span>

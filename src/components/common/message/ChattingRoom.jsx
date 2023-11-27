@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from './ChattingRoom.module.scss';
-import { ProfileImage } from 'assets/images';
+import { ChatBackHat,ChatBackBath, ChatBackYarn, ProfileImage } from 'assets/images';
 import { FaUser, FaMapMarkerAlt } from "react-icons/fa";
 import { IoReturnUpBackOutline } from "react-icons/io5";
 import cs from 'classnames/bind';
@@ -78,20 +78,28 @@ export default function ChattingRoom(props) {
             </a>
 
             
-            
               <span className={cx('matename')}>홍길동</span>
-              <span className={cx('keyword')}>장애인</span>
+                <span className={cx('keyword')}>장애인</span>
               {/* react-icons */}
               
-              <div className={cx('icons-box')}>
-                <FaUser size="15" color="#999" />
-                <span className={cx('genderinfo')}>20대 남성</span>
-                <FaMapMarkerAlt size="15" color="#999" />
-                <span className={cx('areainfo')}>서울 강남</span>
               
-                <button className={cx('mate-confirmed')}>돌봄메이트 확정</button>
-                <button className={cx('chatroom-out')}>대화 종료하기</button>
+            
+              <div className={cx('icons-box')}>
+
+              <div className={cx('box1')}>
+               <span> <FaUser size="15" color="#999" /></span>
+              
+                <span className={cx('genderinfo')}>20대 남성</span>
+                <span><FaMapMarkerAlt size="15" color="#999" /></span>
+                <span className={cx('areainfo')}>서울특별시 강남구</span>
+                
               </div>
+              
+              
+              <button className={cx('mate-confirmed')}>돌봄메이트 확정</button>
+              <button className={cx('chatroom-out')}>대화 종료하기</button>
+              
+            </div>
 
               
             </div>
@@ -99,6 +107,7 @@ export default function ChattingRoom(props) {
 
           {/* 메시지 내용들 */}
           <div className={cx('chat-room-contents')}>
+            
 
             {/* 채팅 일자 */}
             <div className={cx('chat-date')}>2023-11-20</div>
@@ -144,9 +153,12 @@ export default function ChattingRoom(props) {
                 </div>
 
               </li>
-              
 
-            </ul>
+          </ul>
+          
+          <img className={cx('backimg-hat')} src={ChatBackHat} alt="채팅창 배경 모자이미지" />
+          <img className={cx('backimg-yarn')}  src={ChatBackYarn} alt="채팅창 배경 털실이미지" />
+          <img className={cx('backimg-bath')}  src={ChatBackBath} alt="채팅창 배경 휠체어이미지" />
             
           </div>
 

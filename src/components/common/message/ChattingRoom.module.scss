@@ -32,12 +32,12 @@
       align-items: center;
       width: calc(100% - 10px);
       height: 110px;
-      margin: 10px 5px;
+      margin: 25px 5px 20px;
       
 
       .backbtn {
         position: absolute;
-        top: -5px;
+        top: -22px;
         right: 0;
         border: 0;
         background: none;
@@ -94,17 +94,43 @@
       .icons-box {
         display: flex;
         align-items: center;
-        margin-bottom: 10px;
+        justify-content: space-between;
+
+
+        .box1 {
+          display: flex;
+          flex-direction: column;
+          width: 150px;
+          padding: 5px 0;
+
+          .genderinfo {
+            padding-bottom: 8px;
+          }
+          .areainfo {
+            display: block;
+
+          }
+
+        }
+        .box3 {
+          display: inline-block;
+          flex-direction: row;
+        }
 
         span {
           margin: 0 8px;
           font-size: 13px;
-
-
+  
+  
           &:last-child {
             margin-right: 0;
           }
-        }
+  
+      }
+
+      
+      }
+        
 
 
         button {
@@ -127,7 +153,7 @@
         }
         
       } // react-icons box End
-
+//ChatBackYarn ChatBackBath ChatBackHat
       
 
     } // leftbox End
@@ -135,27 +161,30 @@
     } // chat-room-header End
 
     .chat-room-contents {
-
-      height: 410px;
+      position: relative;
+      height: 380px;
+      margin-top: 10px;
 
       .chat-date {
-        max-width: 100px;
+        font-size: 13px;
+        max-width: 80px;
         margin: 0px auto;
       }
 
       .chat-textsbox {
         padding: 0 10px;
-        margin-top: 40px;
+        margin-top: 20px;
 
         .text-item { 
           display: flex;
           justify-content: space-around;
-          align-items: flex-start;
-          margin-bottom: 40px;
+          align-items: center;
+          margin-bottom: 25px;
+          overflow: hidden;
           
 
           .user-imgbox {
-            flex: 0 0 60px;
+            flex: 0 0 50px;
 
             .img-user1,
             .img-user2 {
@@ -172,6 +201,9 @@
             font-size: 16px;
             font-weight: 700;
           }
+          .username2 {
+            float: right;
+          }
 
           .chat-text {
             width: 230px;
@@ -185,7 +217,7 @@
           }
           .chat-time,
           .chat-releftboxchat-roomboxad {
-            padding-top: 30px;
+            // padding-top: 30px;
             font-size: 14px;
             
           }
@@ -195,6 +227,30 @@
 
 
         } // li tag End
+
+      } // ul tag End
+
+      .backimg-hat,
+      .backimg-yarn,
+      .backimg-bath {
+        position: absolute;
+      }
+
+      .backimg-hat {
+        width: 100px;
+        top: 75px;
+        left: 40px;
+      }
+      .backimg-yarn {
+        width: 120px;
+        bottom: 50px;
+        left: 30px;
+      }
+
+      .backimg-bath {
+        width: 200px;
+        right: 0;
+        bottom: -30px;
 
       }
     } // chat-room-contents End
@@ -227,5 +283,5 @@
 
   }
 
-}
+
 
