@@ -10,22 +10,24 @@
   }
 
   .content {
-    margin-top: 40px;
+    margin: 40px 60px 0 60px;
+    // margin-top: 40px;
     padding: 30px;
-    width: 80%;
+    width: 70%;
     height: 300px;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    border: 1.2px solid black;
+    border: 1.2px solid var(--crl-neutral-400);
+    border-radius: 4px;
 
     h1 {
       font-size: 24px;
     }
     p {
       color: #ff2929;
-      font-size: 13px;
+      font-size: 12px;
       margin: 12px 0;
     }
     input {

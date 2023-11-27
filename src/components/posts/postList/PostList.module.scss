@@ -1,0 +1,12 @@
+.wrapper {
+  .card-list-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 50px;
+  }
+
+  .card-list-container > * {
+    margin: 20px 35px 10px 35px;
+  }
+}
