@@ -1,22 +1,23 @@
 import axios from 'axios';
 import { useMutation } from 'react-query';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { errorHandler } from 'lib';
 
-const deleteUser = async (password) => {
-  const response = await axios.delete('/api/user', {
-    data: { password: password },
+const apiUrl = '/api/post';
+
+const postRequest = async (body) => {
+  const response = await axios.post(apiUrl, body, {
     withCredentials: true,
   });
   return response.data;
 };
 
-export function useDeleteUser(password) {
+export function usePostRequest(body) {
   const nav = useNavigate();
-  return useMutation(() => deleteUser(password), {
+  return useMutation(() => postRequest(body), {
     onSuccess: (response) => {
       alert(response.message);
-      nav('/');
+      nav('/posts');
     },
     onError: (error) => {
       errorHandler(error);

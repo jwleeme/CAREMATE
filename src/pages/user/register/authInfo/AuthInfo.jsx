@@ -11,7 +11,7 @@ const cx = cs.bind(styles);
 export default function AuthInfo() {
   const nav = useNavigate();
   const location = useLocation();
-  const { role } = location.state;
+  const { role } = location.state || '';
 
   const [email, setEmail] = useState('');
   const [emailCode, setEmailCode] = useState('');
@@ -47,14 +47,13 @@ export default function AuthInfo() {
   };
 
   // 모든 필드가 유효하고 값이 존재하는지 확인
-  const isValid =
-    !hasError.includes(true) &&
-    email !== '' &&
-    emailCode !== '' &&
-    password !== '' &&
-    passwordConfirm !== '' &&
-    isEmailButtonDisabled &&
-    isVerifyButtonDisabled;
+  const isValid = [
+    !hasError[0] && email !== '' && isEmailButtonDisabled,
+    !hasError[1] && emailCode !== '' && isVerifyButtonDisabled,
+    !hasError[2] && password !== '',
+    !hasError[3] && passwordConfirm !== '',
+    role !== undefined,
+  ].some((field) => !field);
 
   return (
     <div className={cx('wrapper')}>
@@ -113,12 +112,13 @@ export default function AuthInfo() {
             onClick={() => {
               nav('/register/userInfo', { state: { role: role, email: email, password: password } });
             }}
-            disabled={!isValid}
+            disabled={isValid}
           >
             다음
           </button>
         </div>
       </div>
+      {!role && <p>이전 페이지에서 유저 역할을 선택해주세요.</p>}
     </div>
   );
 }
