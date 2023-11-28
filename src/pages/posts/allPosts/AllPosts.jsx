@@ -18,7 +18,7 @@ export default function AllPosts() {
     <div className={cx('wrapper')}>
       <SearchBar className={cx('all-posts-style')} searchInput={searchInput} onSearchChange={handleSearchChange} />
       <div className={cx('recruit-container')}>
-        <FilterCareTarget />
+        <FilterCareTarget postsData={postsData}/>
         { isLoading || !postsData ? (
           <div className={cx('loading')}>로딩중...</div>
           ) : (
