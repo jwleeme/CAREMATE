@@ -12,9 +12,10 @@ const cx = cs.bind(styles);
 
 export default function Card({ data }) {
   const {
-    careInformation: { area, careTarget, preferredmateAge, preferredmateGender, isBookmarked
+    careInformation: { area, careTarget, preferredmateAge, preferredmateGender
     },
     createdAt,
+    isBookmarked,
     reservation: { hourlyRate, isLongTerm, negotiableRate, status, longTerm, shortTerm },
     title,
   } = data;
@@ -22,7 +23,7 @@ export default function Card({ data }) {
   const titleContainer = cx('title', { 'centered-title': title.length < 10 });
   const formattedHourlyRate = hourlyRate.toLocaleString();
   const formattedMateAge = preferredmateAge.join(' ');
-
+  
   const currentCareTarget = cx('main-info', {
     child: careTarget === '아동',
     senior: careTarget === '노인',
@@ -49,7 +50,7 @@ export default function Card({ data }) {
           <div className={cx('main-bottom')}>
             <span className={cx('card-status')}>모집 중</span>
             <span className={cx('time-stamp')}>등록일 {date.changeDateToMonthAndDate(createdAt)}</span>
-            <WishButton />
+            <WishButton isBookmarked={isBookmarked}/>
           </div>
         </div>
         <div className={cx('extra-info')}>
@@ -81,6 +82,21 @@ export default function Card({ data }) {
             <li className={cx('time')}>
               <FaClock color="#d3d3d3" className={cx('extra-info-icon')} />
               {/* {start_time}, {end_time} */}
+              {isLongTerm ? (
+                  <span className={cx('text-information')}>
+                    {longTerm &&
+                      `${date.changeDateToAmPmAndHour(
+                        longTerm.schedule[0]?.startTime
+                      )} ~ ${date.changeDateToAmPmAndHour(longTerm.schedule[0]?.endTime)}`}
+                  </span>
+                ) : (
+                  <span className={cx('text-information')}>
+                    {shortTerm &&
+                      `${date.changeDateToAmPmAndHour(
+                        shortTerm[0].startTime
+                      )} ~ ${date.changeDateToAmPmAndHour(shortTerm[0].endTime)}`}
+                  </span>
+                )}
             </li>
             <li className={cx('prefer-mate')}>
               <BsPersonFill color="#d3d3d3" className={cx('extra-info-icon')} />
