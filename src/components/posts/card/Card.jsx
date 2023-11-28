@@ -23,7 +23,7 @@ export default function Card({ data }) {
   const titleContainer = cx('title', { 'centered-title': title.length < 10 });
   const formattedHourlyRate = hourlyRate.toLocaleString();
   const formattedMateAge = preferredmateAge.join(' ');
-  
+
   const currentCareTarget = cx('main-info', {
     child: careTarget === '아동',
     senior: careTarget === '노인',
@@ -81,7 +81,6 @@ export default function Card({ data }) {
             </li>
             <li className={cx('time')}>
               <FaClock color="#d3d3d3" className={cx('extra-info-icon')} />
-              {/* {start_time}, {end_time} */}
               {isLongTerm ? (
                   <span className={cx('text-information')}>
                     {longTerm &&
