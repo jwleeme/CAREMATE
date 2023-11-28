@@ -1,7 +1,8 @@
 import axios from 'axios';
-import { useMutation } from 'react-query';
+import { QueryClient, useMutation } from 'react-query';
 import { useNavigate } from 'react-router';
 import { errorHandler } from 'lib';
+import { queryClient } from 'App';
 
 const apiUrl = '/api/post';
 
@@ -13,14 +14,16 @@ const postRequest = async (body) => {
 };
 
 export function usePostRequest(body) {
-  const nav = useNavigate();
+  const navigate = useNavigate();
   return useMutation(() => postRequest(body), {
     onSuccess: (response) => {
+      queryClient.invalidateQueries('getPostList');
       alert(response.message);
-      nav('/posts');
+      navigate('/posts');
     },
     onError: (error) => {
-      errorHandler(error);
+      errorHandler(error, navigate);
     },
+    retry: 0,
   });
 }
