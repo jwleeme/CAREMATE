@@ -1,15 +1,25 @@
 .wrapper {
   display: flex;
-  flex-direction: column;
-  text-align: center;
   justify-content: center;
   align-items: center;
-  gap: 20px;
-  padding-block: 3rem;
-  h2 {
-    font-size: 30px;
-  }
-  button {
-    width: 100px;
+  height: 100vh;
+
+  .errorContainer {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    padding-block: 3rem;
+
+    h2 {
+      font-size: 30px;
+    }
+
+    button {
+      width: 100px;
+      height: 40px;
+    }
   }
 } // wrapper close
