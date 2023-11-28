@@ -9,7 +9,6 @@ export default function PostList({ postsData, searchInput, currentPage }) {
   const postsList = postsData.posts;
   const [searchedPostsList, setSearchedPostsList] = useState([]);
 
-  console.log(postsData)
   useEffect(() => {
     if (!searchInput) {
       setSearchedPostsList(postsList);
@@ -18,6 +17,18 @@ export default function PostList({ postsData, searchInput, currentPage }) {
       setSearchedPostsList(searchedPosts);
     }
   }, [searchInput, postsList]);
+
+
+  // const filteredPosts = searchInput
+  //     ? postsList.filter((card) => card.title && card.title.includes(searchInput))
+  //     : postsList;
+
+  //   const startIndex = currentPage * 6;
+  //   const endIndex = startIndex + 6;
+  //   const paginatedPosts = filteredPosts.slice(startIndex, endIndex);
+
+  //   setSearchedPostsList(paginatedPosts);
+  // }, [searchInput, postsList, currentPage]);
 
   return (
     <div className={cx('wrapper')}>
