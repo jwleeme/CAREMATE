@@ -26,19 +26,18 @@ import { errorHandler } from 'lib';
 // }
 
 
-const getPostList = async () => {
-  const response = await axios.get(`/api/post`, {
+const getPostList = async (pageNumber) => {
+  const response = await axios.get(`/api/post?page=${pageNumber}&limit=6`, {
     withCredentials: true,
   });
   return response.data.data;
 };
 
-export function useGetPostList() {
+export function useGetPostList(pageNumber) {
   const navigate = useNavigate();
 
-  return useQuery(['getPostList'], () => getPostList(), {
+  return useQuery(['getPostList', pageNumber], () => getPostList(pageNumber), {
     cacheTime: 10 * 60 * 1000,
-    staleTime: Infinity,
     onError: (error) => {
       errorHandler(error, navigate);
     },

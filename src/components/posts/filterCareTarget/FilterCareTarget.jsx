@@ -7,7 +7,6 @@ const cx = cs.bind(styles);
 const careTargets = ['아동', '노인', '장애인'];
 
 export default function FilterCareTarget(){
-
   const [serchParams, setSearchParams] = useSearchParams();
 
   return (
