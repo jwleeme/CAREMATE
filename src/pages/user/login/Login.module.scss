@@ -1,2 +1,19 @@
 .wrapper {
+  .logo {
+    width: 350px;
+  }
+
+  .loginContainer {
+    display: flex;
+    flex-direction: column;
+    input {
+      width: 400px;
+      height: 50px;
+    }
+
+    button {
+      width: 400px;
+      height: 50px;
+    }
+  }
 } //wrapper close (이 안에서 작업하기)
