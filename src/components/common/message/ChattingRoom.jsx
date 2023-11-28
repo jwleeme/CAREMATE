@@ -256,7 +256,7 @@ export default function ChattingRoom(props) {
           <div className={cx('chat-room-footer')}>
             {/* <input type="text" placeholder="메시지를 입력해주세요." /> */}
           <textarea className={cx('inputbox')}
-            placeholder="메시지를 입력해주세요."></textarea>
+            placeholder="메시지를 입력해주세요." maxlength="100"></textarea>
             <button className={cx('send-message')}>
               <FiSend size="30" color="var(--crl-blue-900) "/>
             </button>
