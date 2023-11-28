@@ -64,6 +64,11 @@
       align-items: center;
       padding: 0 0 20px;
 
+      // &:hover { 상의 후 적용예정.
+      //   border-radius: 10px;
+      //   background-color: var(--crl-neutral-200);
+      // }
+
       .user-profilebox { // 감싸는 div
         position: relative; 
         flex: 0 0 60px;
