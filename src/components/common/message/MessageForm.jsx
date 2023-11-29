@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './MessageForm.module.scss';
 import cs from'classnames/bind';
 import { ProfileImage } from 'assets/images';
 import { FaUser, FaMapMarkerAlt, FaPhone } from "react-icons/fa";
+import { IoMdClose } from 'react-icons/io';
 const cx = cs.bind(styles); 
 
 
@@ -10,6 +11,13 @@ const cx = cs.bind(styles);
 신청하기 버튼 클릭시 뜨는 신청form 모달 창 컴포넌트 */
 
 export default function MessageForm () {
+
+  const [modalOpen, setModalOpen] = useState(true);
+
+  const modalClose = () => {
+    	setModalOpen(!modalOpen);
+  };
+
   return (
     <div className={cx('wrapper')}>
       
@@ -19,7 +27,9 @@ export default function MessageForm () {
         {/* 돌봄메이트 정보 영역 */}
         <div className={cx('request-mate-infos')}>
 
-          <button className={cx('btn-close')}>X</button>
+          <button onClick={modalClose} className={cx('btn-close')}>
+            <IoMdClose size="15" />
+          </button>
 
           {/* 돌봄메이트 프로필 사진 영역 */}
           <div className={cx('mate-imgbox')}>
