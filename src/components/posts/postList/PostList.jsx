@@ -8,6 +8,7 @@ const cx = cs.bind(styles);
 export default function PostList({ postsData, searchInput, currentPage, onPageChange }) {
   const postsList = postsData.posts;
   const [searchedPostsList, setSearchedPostsList] = useState([]);
+
   useEffect(() => {
     if (!searchInput) {
       setSearchedPostsList(postsList);
@@ -22,7 +23,7 @@ export default function PostList({ postsData, searchInput, currentPage, onPageCh
       {searchedPostsList.length > 0 ? (
         <div className={cx('card-list-container')}>
           {searchedPostsList.map((data, index) => (
-            <Link to={`/posts/${data._id}`} key={index}>
+            <Link to={`./${data._id}`} key={index}>
               {console.log(`data ${index}:`, data)}
               <Card data={data} />
             </Link>

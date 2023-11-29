@@ -1,11 +1,32 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './Header.module.scss';
 import cs from 'classnames/bind';
 import { Link } from 'react-router-dom';
 import { LogoClam } from 'assets/images';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { isLoggedInState } from 'recoil/isLoggedInState';
+import { roleState } from 'recoil/roleState';
+
 const cx = cs.bind(styles);
 
 export default function Header() {
+  const isLoggedIn = useRecoilValue(isLoggedInState);
+  const role = useRecoilValue(roleState);
+
+  const setIsLoggedIn = useSetRecoilState(isLoggedInState);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+
+  const handleDropdown = () => {
+    setDropdownOpen((prevState) => !prevState);
+  };
+
+  const handleLogout = () => {
+    if (window.confirm('로그아웃 하시겠습니까?')) {
+      // logout api 호출
+      setIsLoggedIn(false);
+    }
+  };
+
   return (
     <header>
       <div className={cx('wrapper')}>
@@ -20,8 +41,19 @@ export default function Header() {
               <li>
                 <Link to="about-us">서비스 소개</Link>
               </li>
-              <li>
-                <Link to="/posts">돌봄서비스</Link>
+              <li onMouseEnter={handleDropdown} onMouseLeave={handleDropdown}>
+                <Link to={role === 'user' ? '/posts/new' : '/posts'}>돌봄서비스</Link>
+                <ul className={cx('dropdown', { open: dropdownOpen })}>
+                  <li>
+                    <Link to="/posts?careTarget=아동">아동</Link>
+                  </li>
+                  <li>
+                    <Link to="/posts?careTarget=노인">노인</Link>
+                  </li>
+                  <li>
+                    <Link to="/posts?careTarget=장애인">장애인</Link>
+                  </li>
+                </ul>
               </li>
               <li>
                 <Link to="/mypage">마이페이지</Link>
@@ -29,9 +61,13 @@ export default function Header() {
             </ul>
           </nav>
           <ul>
-            <li>
-              <Link to="/login">로그인</Link>
-            </li>
+            {isLoggedIn ? (
+              <li onClick={handleLogout}>로그아웃</li>
+            ) : (
+              <li>
+                <Link to="/login">로그인</Link>
+              </li>
+            )}
             <li>
               <Link to="/register">회원가입</Link>
             </li>
