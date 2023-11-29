@@ -7,15 +7,15 @@ const cx = cs.bind(styles);
 const careTargets = ['아동', '노인', '장애인'];
 
 export default function FilterCareTarget(postsData) {
-  const [serchParams, setSearchParams] = useSearchParams();
-  const [selectedTarget, setSelectedTarget] = useState('아동');
+  const [selectedTarget, setSelectedTarget] = useSearchParams(); 
   const [selectedTerm, setSelectedTerm] = useState(null);
+ 
 
   const handleTargetCheckboxChange = (target) => {
     if (selectedTarget === target) {
-      setSelectedTarget(null);
-    } else {
       setSelectedTarget(target);
+    } else {
+      setSelectedTarget(`?careTarget=${target}`);
     }
   };
 
