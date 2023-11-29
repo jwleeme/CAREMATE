@@ -1,23 +1,25 @@
 import axios from 'axios';
 import { useQuery } from 'react-query';
-import { useNavigate } from 'react-router';
 import { errorHandler } from 'lib';
+import { useRecoilValue } from 'recoil';
+import { isLoggedInState } from 'recoil/isLoggedInState';
 
 const getPostList = async (pageNumber, careTarget) => {
-  const response = await axios.get(`/api/post?page=${pageNumber}&limit=6?careTarget=${careTarget}`, {
+  const response = await axios.get(`/api/post?page=${pageNumber}&limit=6&careTargets=${careTarget}`, {
     withCredentials: true,
   });
   return response.data.data;
 };
 
-export function useGetPostList(pageNumber, careTarge) {
-  const navigate = useNavigate();
+export function useGetPostList(pageNumber, careTarget) {
+  const loginStatus = useRecoilValue(isLoggedInState);
 
-  return useQuery(['getPostList', pageNumber, careTarge], () => getPostList(pageNumber, careTarge), {
+  return useQuery(['getPostList'], () => getPostList(pageNumber, careTarget), {
     cacheTime: 10 * 60 * 1000,
     onError: (error) => {
-      errorHandler(error, navigate);
+      errorHandler(error);
     },
     retry: 0,
+    enabled: loginStatus !== 'LOADING',
   });
 }
