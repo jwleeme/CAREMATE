@@ -14,6 +14,13 @@ export default function MessageBox (props) {
   const selectedChatId = useRecoilValue(chatId);
   const setSelectedChatId = useSetRecoilState(chatId);  // 전역 chatId 설정 리코일 함수
 
+  const outsideRef = useClickOutsideDetector(() => {
+    if (showmessagebox) {
+      chatInfoSelect('');
+      toggleMessageBox(true);
+    }
+  });
+
   return (
     <div className={cx('wrapper', { open: props.showmessagebox })}>
       <MessageList chatInfoSelect={setSelectedChatId} />

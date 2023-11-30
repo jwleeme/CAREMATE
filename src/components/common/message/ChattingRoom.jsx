@@ -9,6 +9,7 @@ import { useRecoilValue } from 'recoil';
 import { roleState } from 'recoil/roleState';
 import { useGetRoom, usePostSendMessage, usePutConfirmMate } from 'hooks';
 import { useLeaveRoom } from 'hooks/leaveRoom';
+import { useQueryClient } from 'react-query';
 
 const cx = cs.bind(styles);
 
@@ -54,6 +55,9 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
    // 채팅 메시지 전송(send) 메서드
    const useSendMessageRequest = () => {
      postSendMutate.mutate({ chatId: selectedChatId, content: inputmessage });
+  // 채팅 메시지 전송(send) 메서드
+  const useSendMessageRequest = () => {
+    mutate({ chatId: selectedChatId, content: inputmessage });
   };
 
   useEffect(() => {
@@ -121,7 +125,6 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
     // 검증 로직은 추후에..
     if (window.confirm(`대화를 종료하면 채팅방 및 모든 채팅내용이 사라집니다.\n 그래도 대화를 종료하시겠습니까?`)) {
       const result = mutateAsync(selectedChatId);
-      console.log('###', result);
       return;
     }
     return;
@@ -136,7 +139,13 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
         <div className={cx('chat-roombox')}>
           {/* 헤더 영역 */}
           <div className={cx('chat-room-header')}>
-            <button onClick={() => showChatRoom(false)} className={cx('backbtn')}>
+            <button
+              onClick={() => {
+                queryClient.invalidateQueries('getChatRooms', { refetchActive: true });
+                showChatRoom(false);
+              }}
+              className={cx('backbtn')}
+            >
               <IoReturnUpBackOutline size="30" color="var(--crl-blue-900)" />
             </button>
 
