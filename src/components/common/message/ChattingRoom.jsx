@@ -7,7 +7,7 @@ import cs from 'classnames/bind';
 import { FiSend } from 'react-icons/fi';
 import { useRecoilValue } from 'recoil';
 import { roleState } from 'recoil/roleState';
-import { useGetRoom, usePostSendMessage } from 'hooks';
+import { useGetRoom, usePostSendMessage, usePutConfirmMate } from 'hooks';
 import { useLeaveRoom } from 'hooks/leaveRoom';
 
 const cx = cs.bind(styles);
@@ -32,7 +32,9 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
   const { data, isLoading } = useGetRoom(selectedChatId);
   const { mutateAsync } = useLeaveRoom();
 
-  const { mutate } = usePostSendMessage();
+  const postSendMutate = usePostSendMessage();
+  const confirmMate = usePutConfirmMate();
+
 
 
   // 채팅 입력(textarea) 메서드
@@ -40,10 +42,17 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
     setInputMessage(e.target.value);
   };
 
+  // 채팅 keyup 이벤트 (엔터만 구분)
+  const handleInputSend = e => {
+    if (e.key === 'Enter') {
+      postSendMutate.mutate({ chatId: selectedChatId, content: inputmessage });
+      setInputMessage('');
+    }
+  }
+
    // 채팅 메시지 전송(send) 메서드
    const useSendMessageRequest = () => {
-     mutate({ chatId: selectedChatId, content: inputmessage });
-     console.log(selectedChatId)
+     postSendMutate.mutate({ chatId: selectedChatId, content: inputmessage });
   };
 
   useEffect(() => {
@@ -87,13 +96,21 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
 
   // 돌봄메이트 확정 메서드
   const careMateConfirm = () => {
-    // 검증 로직은 추후에..
+   // 확정 로직
     if (
       window.confirm(
         `돌봄메이트를 확정하면 되돌릴 수 없으며\n매칭된 게시글은 내려갑니다.\n\n돌봄메이트를 최종 확정하시겠습니까?`
       )
     ) {
-      return alert('해당 게시글의 돌봄메이트가 확정되었습니다!\n돌봄메이트의 연락처는 채팅창에서 확인해주세요!');
+      confirmMate.mutate({ chatId: selectedChatId }, {
+        onSuccess: (res) => {
+          console.log(res)
+          if (res.data?.careUserPhoneNumber) {
+            return alert('해당 게시글의 돌봄메이트가 확정되었습니다!\n돌봄메이트의 연락처는 채팅창에서 확인해주세요!');
+            
+          }
+        }
+      })
     }
     return;
   };
@@ -249,11 +266,12 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
 
           {/* 푸터 영역 */}
           <div className={cx('chat-room-footer')}>
-          <textarea className={cx('inputbox')}
+          <input className={cx('inputbox')}
             placeholder="메시지를 입력해주세요."
             value={inputmessage}
             onChange={handleInputChange}
-            maxlength="100"></textarea>
+            onKeyUp={handleInputSend}
+            maxlength="100"></input>
           <button onClick={useSendMessageRequest} className={cx('send-message')}>
               <FiSend size="30" color="var(--crl-blue-900) "/>
           </button>

@@ -58,6 +58,7 @@ export default function MessageList(props) {
                   onClick={() => {
                     props.chatInfoSelect(chatItem.chatId);
                   }}
+                  key={chatItem.chatId}
                 >
                   {/* 프로필사진, n이미지 영역 */}
                   <div className={cx('user-profilebox')}>
