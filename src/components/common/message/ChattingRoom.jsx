@@ -23,9 +23,11 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
   const [showFlag, setShowFlag] = useState(false);
   const [postUrl, setPostUrl] = useState(''); // 채팅방 내 게시글 주소
   const [careTarget, setCareTarget] = useState('');
+  const [message, setMessage] = useState([]);
   // 채팅창 입력 시 저장될 state
   const [inputmessage, setInputMessage] = useState('');
   const unreadMessageRef = useRef(null);
+  const scrollRef = useRef(null);
 
   const role = useRecoilValue(roleState);
 
@@ -36,6 +38,22 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
   const confirmMate = usePutConfirmMate();
 
 
+  useEffect(() => {
+    // 채팅방에 진입하면 안읽은 메시지로 스크롤이 내려감
+    if (unreadMessageRef.current) {
+      unreadMessageRef.current.scrollIntoView({
+        behavior: 'smooth',
+      });
+    } else {
+      scrollRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    if (data) {
+      setPostUrl('/posts/' + data.chat.post._id);
+      setCareTarget(data.chat.post.careInformation.careTarget);
+      setMessage(data.chat.message);
+    }
+  }, [data, message]);
 
   // 채팅 입력(textarea) 메서드
   const handleInputChange = (e) => {
@@ -64,7 +82,6 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
     }
 
     if (data) {
-      console.log(data.chat);
       setPostUrl('/posts/' + data.chat.post._id);
       setCareTarget(data.chat.post.careInformation.careTarget);
     }
@@ -257,6 +274,7 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
                   </>
                 );
               })}
+              <div ref={scrollRef}></div>
             </ul>
 
             <img className={cx('backimg-hat')} src={ChatBackHat} alt="채팅창 배경 모자이미지" />
