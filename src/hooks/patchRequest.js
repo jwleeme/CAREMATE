@@ -1,21 +1,21 @@
 import axios from 'axios';
-import { useMutation } from 'react-query';
+import { QueryClient, useMutation } from 'react-query';
 import { useNavigate } from 'react-router';
 import { errorHandler } from 'lib';
 import { queryClient } from 'App';
 
 const apiUrl = '/api/post';
 
-const postRequest = async (body) => {
-  const response = await axios.post(apiUrl, body, {
+const patchRequest = async (postId, body) => {
+  const response = await axios.patch(`${apiUrl}/${postId}`, body, {
     withCredentials: true,
   });
   return response.data;
 };
 
-export function usePostRequest(body) {
+export function usePatchRequest(postId, body) {
   const navigate = useNavigate();
-  return useMutation(() => postRequest(body), {
+  return useMutation(() => patchRequest(postId, body), {
     onSuccess: (response) => {
       queryClient.invalidateQueries('getPostList');
       alert(response.message);

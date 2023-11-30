@@ -6,6 +6,7 @@ export * from './postSendMail';
 export * from './postVerifyCode';
 export * from './postLogin';
 export * from './postRequest';
+export * from './patchRequest';
 export * from './getRequest';
 export * from './deletePost';
 export * from './getUserPostList';
@@ -14,5 +15,10 @@ export * from './getCompletedPostList';
 export * from './putCancelBookmarks';
 export * from './getPostList';
 export * from './postLogout';
+<<<<<<< HEAD
 export * from './requestModal';
 export * from './postMessage';
+=======
+export * from './getRoom';
+export * from './getRooms';
+>>>>>>> dev

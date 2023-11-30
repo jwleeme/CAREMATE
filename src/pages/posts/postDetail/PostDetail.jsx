@@ -14,6 +14,7 @@ import * as date from 'lib';
 import { useGetUser, useDeletePostAndGoHome, useGetRequestGoHome } from 'hooks';
 import * as data from 'lib';
 import MessageForm from 'components/common/message/MessageForm.jsx';
+import { LoadingModal } from 'components';
 const cx = cs.bind(styles);
 
 export default function PostDetail() {
@@ -21,12 +22,11 @@ export default function PostDetail() {
   const postId = id;
   const [displayData, setDisplayData] = React.useState({});
   const { data: requestData, isLoading: isRequestLoading } = useGetRequestGoHome(postId);
-  const { data: userData } = useGetUser();
+  const { data: userData, isLoading: isUserLoading } = useGetUser();
   const { mutate } = useDeletePostAndGoHome(postId);
 
   // 신청 form 양식 모달창 state
   const [requestForm, setRequestForm] = useState(false);
-
 
   React.useEffect(() => {
     if (requestData) {
@@ -39,7 +39,7 @@ export default function PostDetail() {
         preferredmateAge: requestData.post.careInformation.preferredmateAge,
         preferredmateGender: requestData.post.careInformation.preferredmateGender,
         hourlyRate: requestData.post.reservation.hourlyRate,
-        negotiableRate: requestData.post.negotiableRate,
+        negotiableRate: requestData.post.reservation.negotiableRate,
         targetFeatures: requestData.post.careInformation.targetFeatures,
         cautionNotes: requestData.post.careInformation.cautionNotes,
         isLongTerm: requestData.post.reservation.isLongTerm,
@@ -93,7 +93,7 @@ export default function PostDetail() {
     }
     return array;
   }
-  if (isRequestLoading) return <div>로딩중</div>;
+  if (isRequestLoading && isUserLoading) return <LoadingModal message="게시글을 불러오는 중입니다" />;
 
   return (
     <div className={cx('wrapper')}>
@@ -153,6 +153,7 @@ export default function PostDetail() {
                     )} ~ ${displayData.longTerm.schedule.map((obj) => obj.careDay)}`}
                   </span>
                 ) : (
+                  displayData &&
                   displayData.shortTerm && (
                     <span className={cx('text-information')}>
                       {`${date.changeDateToMonthAndDate(
@@ -210,14 +211,20 @@ export default function PostDetail() {
             {displayData.userRole === 'careUser' ? (
               <div className={cx('button-wrapper')}>
                 {/* 게시글 상세 - 신청하기 버튼 */}
-              <button
-                onClick={() => { setRequestForm(!requestForm) }}
-                className={cx('post-badge', displayData.userRole === 'user' ? 'user-background-accent' : 'care-user-background-accent')}>
-                신청하기
-              </button>
+                <button
+                  onClick={() => {
+                    setRequestForm(!requestForm);
+                  }}
+                  className={cx(
+                    'post-badge',
+                    displayData.userRole === 'user' ? 'user-background-accent' : 'care-user-background-accent'
+                  )}
+                >
+                  신청하기
+                </button>
               </div>
             ) : (
-              displayData.userId !== displayData.authorId && (
+              displayData.userId === displayData.authorId && (
                 <div className={cx('button-wrapper', 'post-control-icon')}>
                   <span className={cx('post-edit-icons')}>
                     <Link to={`/posts/${postId}/edit`}>
@@ -261,10 +268,8 @@ export default function PostDetail() {
         </div>
       </div>
 
-      {/* 신청하기 모달창 띄움 */} 
-      {
-        requestForm === true ? <MessageForm /> : null
-      }
+      {/* 신청하기 모달창 띄움 */}
+      {requestForm === true ? <MessageForm /> : null}
     </div>
   );
 }
