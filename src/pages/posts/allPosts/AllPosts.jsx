@@ -1,19 +1,45 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './AllPosts.module.scss';
 import cs from 'classnames/bind';
-import { Pagination, FilterCareTarget, SearchBar, PostList } from 'components';
+import { Pagination, FilterCareTarget, SearchBar, Card, LoadingModal } from 'components';
 import { useGetPostList } from 'hooks';
-import { useLocation } from 'react-router';
-import { useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 const cx = cs.bind(styles);
 
 export default function AllPosts() {
   const [searchInput, setSearchInput] = useState('');
-  const [currentPage, setCurrentPage] = useState(0);
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [currPage, setCurrPage] = useState(0);
+  const [searchParams] = useSearchParams();
+  const showPage = currPage + 1;
   const careTarget = searchParams.get('careTarget');
+  const isLongTerm = searchParams.get('isLongTerm');
+  const { data, isLoading } = useGetPostList({ showPage, careTarget, isLongTerm });
+  const [postList, setPostList] = useState([]);
+  const [filteredPostList, setFilteredPostList] = useState([]);
 
-  const { data: postsData, isLoading } = useGetPostList(currentPage + 1, careTarget);
+  React.useEffect(() => {
+    setPostList([]);
+    if (data) {
+      setPostList([...data.posts]);
+    }
+  }, [data, currPage]);
+
+  React.useEffect(() => {
+    if (searchInput.length === 0) {
+      setFilteredPostList([...postList]);
+      return;
+    } else {
+      const filteredList = postList.filter((post) =>
+        post.title.toLowerCase().replace(' ', '').includes(searchInput.toLowerCase().replace(' ', ''))
+      );
+      setFilteredPostList(filteredList);
+      return;
+    }
+  }, [searchInput, postList, careTarget, isLongTerm]);
+
+  React.useEffect(() => {
+    setCurrPage(0);
+  }, [searchInput, careTarget, isLongTerm]);
 
   const handleSearchChange = (text) => {
     setSearchInput(text);
@@ -21,18 +47,23 @@ export default function AllPosts() {
 
   return (
     <div className={cx('wrapper')}>
-      <SearchBar className={cx('all-posts-style')} searchInput={searchInput} onSearchChange={handleSearchChange} />
-      <div className={cx('recruit-container')}>
-        <FilterCareTarget postsData={postsData} />
-        {isLoading || !postsData ? (
-          <div className={cx('loading')}>로딩중...</div>
+      <SearchBar className={cx('all-posts-style')} searchInput={searchInput} onSearchChange={handleSearchChange} />{' '}
+      <FilterCareTarget />
+      <div className={cx('card-list-container')}>
+        {isLoading && <LoadingModal message="게시글 목록을 불러오는 중입니다" />}
+        {!isLoading && filteredPostList.length === 0 ? (
+          <div>검색결과가 없습니다.</div>
         ) : (
-          <PostList postsData={postsData} searchInput={searchInput} pageNumber={currentPage + 1} />
+          filteredPostList.map((data, index) => (
+            <span key={index}>
+              <Link to={`/posts/${data._id}`}>
+                <Card data={data} />
+              </Link>
+            </span>
+          ))
         )}
-        <div className={cx('pagination-container')}>
-          <Pagination currPage={currentPage} onClickPage={setCurrentPage} pageCount={10} />
-        </div>
       </div>
+      <Pagination currPage={currPage} onClickPage={setCurrPage} pageCount={data && Math.ceil(data.totalCount / 6)} />
     </div>
   );
 }
