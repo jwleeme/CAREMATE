@@ -16,7 +16,7 @@ export default function MessageList(props) {
     postId: 1,
     username: '홍길동',
     keyword: '노인',
-    postTitle: '병원 동행해주실 메이트분 구합니다.',
+    postTitle: '병원 동행해주실 친절한 돌봄메이트분 구합니다.',
     messagetext: '가지고 계신 지병이 있나요?',
     lastdate: "2023-11-20",
     lasttime: '오후 2:30'

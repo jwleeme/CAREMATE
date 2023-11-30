@@ -1,31 +1,46 @@
 import React, { useState, useEffect } from 'react';
 import styles from './ChattingRoom.module.scss';
-import { ChatBackHat,ChatBackBath, ChatBackYarn, ProfileImage } from 'assets/images';
+import { ChatBackHat, ChatBackBath, ChatBackYarn, ProfileImage } from 'assets/images';
 import { FaUser, FaMapMarkerAlt } from "react-icons/fa";
 import { IoReturnUpBackOutline } from "react-icons/io5";
 import cs from 'classnames/bind';
 import { FiSend } from 'react-icons/fi';
-
+import { usePostSendMessage } from 'hooks';
 const cx = cs.bind(styles); 
 
 // 채팅(메시지)방 컴포넌트
 export default function ChattingRoom(props) {
 
-
   const [showFlag, setShowFlag] = useState(false);
   const [postUrl, setPostUrl] = useState(""); // 채팅방 내 게시글 주소
   const [chatRoomInfo, setChatRoomInfo] = useState({});
+  const { mutate } = usePostSendMessage(email, password);
 
+  // 채팅창 입력 시 저장될 state
+  const [inputmessage, setInputMessage] = useState('');
+
+  // 채팅 입력(textarea) 메서드
+  const handleInputChange = (e) => {
+    setInputMessage(e.target.value);
+  };
+
+
+   // 채팅 메시지 전송(send) 메서드
+   const useSendMessageRequest = () => {
+    const sendMessageData = usePostSendMessage({ chatId: props.selectedChatId, content: inputmessage });
+    console.log(sendMessageData);
+  };
   
+
   // 채팅방 정보 조회 메서드
   const getChatRoom = () => {
-    console.log(chatRoomInfo) // eslint 에러 방지용
-    setChatRoomInfo({ postId: "123" })
+   console.log(chatRoomInfo) // eslint 에러 방지용
+   setChatRoomInfo()
     
-      setPostUrl("/posts/" + "123")
+   setPostUrl()
+
     
   }
-
 
   // 채팅창 보임 메서드 (애니메이션 처리를 위한)
   const showChatRoom = (flag) => {
@@ -254,12 +269,16 @@ export default function ChattingRoom(props) {
 
           {/* 푸터 영역 */}
           <div className={cx('chat-room-footer')}>
-            {/* <input type="text" placeholder="메시지를 입력해주세요." /> */}
           <textarea className={cx('inputbox')}
-            placeholder="메시지를 입력해주세요." maxlength="100"></textarea>
-            <button className={cx('send-message')}>
+            placeholder="메시지를 입력해주세요."
+            value={inputmessage}
+            onChange={handleInputChange}
+            maxlength="100"></textarea>
+          <button onClick={useSendMessageRequest} className={cx('send-message')}>
               <FiSend size="30" color="var(--crl-blue-900) "/>
-            </button>
+          </button>
+          
+          
           </div>
 
         </div>

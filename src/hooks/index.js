@@ -14,3 +14,5 @@ export * from './getCompletedPostList';
 export * from './putCancelBookmarks';
 export * from './getPostList';
 export * from './postLogout';
+export * from './requestModal';
+export * from './postMessage';

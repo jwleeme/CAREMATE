@@ -9,7 +9,8 @@ const cx = cs.bind(styles);
 // 메시지함 전체 감싸기 용도 컴포넌트(부모 컴포넌트)
 export default function MessageBox (props) {
 
-  const [selectedChatId ,setSelectedChatId] = useState("");
+  const [selectedChatId, setSelectedChatId] = useState("");
+ 
 
   // 채팅 리스트에서 선택한 채팅방의 id값을 채팅방으로 전달하는 함수
   const chatInfoSelect = (chatId) => {
@@ -22,7 +23,7 @@ export default function MessageBox (props) {
       <MessageList chatInfoSelect={ chatInfoSelect }/>
 
         {
-        selectedChatId !== "" ? <ChattingRoom selectedChatId={selectedChatId} chatInfoSelect={ chatInfoSelect } /> : null
+        selectedChatId !== "" ? <ChattingRoom selectedChatId={selectedChatId} chatInfoSelect={chatInfoSelect} /> : null
         }
 
       </div>
