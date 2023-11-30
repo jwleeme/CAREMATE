@@ -14,7 +14,6 @@ export default function MessageList(props) {
 
   const [chatList, setChatList] = useState([]);
   const [currentPage, setCurrentPage] = useState([]);
-
   const { data: roomData } = useGetChatRooms(currentPage + 1);
 
   useEffect(() => {
