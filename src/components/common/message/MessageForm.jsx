@@ -5,7 +5,7 @@ import cs from'classnames/bind';
 import { ProfileImage } from 'assets/images';
 import { FaUser, FaMapMarkerAlt, FaPhone } from "react-icons/fa";
 import { IoMdClose } from 'react-icons/io';
-import { useGetMateUserInfo, useApplicate } from 'hooks';
+import { useGetMateUserInfo, usePostApplicate } from 'hooks';
 const cx = cs.bind(styles); 
 
 
@@ -16,7 +16,7 @@ export default function MessageForm () {
   const { id } = useParams();
 
   const [displayData, setDisplayData] = useState({});
-
+  const { mutate } = usePostApplicate();
 
   // 돌봄유저 정보 조회
   const { data: getMateUser } = useGetMateUserInfo({postId: id});
@@ -40,8 +40,7 @@ export default function MessageForm () {
 
     // 신청하기(send)
     const useApplicateRequest = () => {
-      const { data: applicateResponse } = useApplicate(getMateUser);
-      console.log(applicateResponse);
+      mutate({postId: id, content: displayData.introduction})
     }
     // const { data: applicateResponse } = useApplicate(getMateUser);
   

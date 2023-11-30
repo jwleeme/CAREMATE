@@ -23,21 +23,4 @@ export function useGetMateUserInfo(param) { // postID 호출함수
 }
 
 
-// 신청하기(send) 함수
-export const postApplicate = async (param) => {
-
-  const res = await axios.post(`/api/chat/applicate`, {data: param});
- 
-  return res.data;
-
-}
-
-export function useApplicate(param) {
-  return useQuery('applicateResponse', () => postApplicate(param), {
-    onError: (error) => {
-      errorHandler(error);
-    },
-    retry: 0,
-  })
-}
 

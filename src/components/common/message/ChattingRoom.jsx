@@ -23,27 +23,27 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
   const [showFlag, setShowFlag] = useState(false);
   const [postUrl, setPostUrl] = useState(''); // 채팅방 내 게시글 주소
   const [careTarget, setCareTarget] = useState('');
+  // 채팅창 입력 시 저장될 state
+  const [inputmessage, setInputMessage] = useState('');
   const unreadMessageRef = useRef(null);
 
   const role = useRecoilValue(roleState);
 
   const { data, isLoading } = useGetRoom(selectedChatId);
   const { mutateAsync } = useLeaveRoom();
-  const { mutate } = usePostSendMessage(email, password);
 
-  // 채팅창 입력 시 저장될 state
-  const [inputmessage, setInputMessage] = useState('');
+  const { mutate } = usePostSendMessage();
+
 
   // 채팅 입력(textarea) 메서드
   const handleInputChange = (e) => {
     setInputMessage(e.target.value);
   };
 
-
    // 채팅 메시지 전송(send) 메서드
    const useSendMessageRequest = () => {
-    const sendMessageData = usePostSendMessage({ chatId: props.selectedChatId, content: inputmessage });
-    console.log(sendMessageData);
+     mutate({ chatId: selectedChatId, content: inputmessage });
+     console.log(selectedChatId)
   };
 
   useEffect(() => {
@@ -235,7 +235,7 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
                           timeZone: 'UTC',
                         })}
                       </p>
-                      <p className={cx('chat-read')}>{message.isRead ? '읽음' : '안읽음'}</p>
+                      <p className={cx('chat-read')}>{message.isRead ? '읽음' : ''}</p>
                     </li>
                   </>
                 );
