@@ -104,7 +104,7 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
     ) {
       confirmMate.mutate({ chatId: selectedChatId }, {
         onSuccess: (res) => {
-          console.log(res)
+          
           if (res.data?.careUserPhoneNumber) {
             return alert('해당 게시글의 돌봄메이트가 확정되었습니다!\n돌봄메이트의 연락처는 채팅창에서 확인해주세요!');
             
