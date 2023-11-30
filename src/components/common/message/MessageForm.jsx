@@ -6,13 +6,15 @@ import { ProfileImage } from 'assets/images';
 import { FaUser, FaMapMarkerAlt, FaPhone } from "react-icons/fa";
 import { IoMdClose } from 'react-icons/io';
 import { useGetMateUserInfo, usePostApplicate } from 'hooks';
+import { messageBoxState, chatId } from 'recoil/storage';
+import { useSetRecoilState } from 'recoil';
 const cx = cs.bind(styles); 
 
 
 /* 게시글 상세 페이지 (돌봄메이트 -> 일반유저)
 신청하기 버튼 클릭시 뜨는 신청form 모달 창 컴포넌트 */
 
-export default function MessageForm () {
+export default function MessageForm (props) {
   const { id } = useParams();
 
   const [displayData, setDisplayData] = useState({});
@@ -38,11 +40,28 @@ export default function MessageForm () {
     }
   }, [getMateUser]);
 
-    // 신청하기(send)
-    const useApplicateRequest = () => {
-      mutate({postId: id, content: displayData.introduction})
-    }
-    // const { data: applicateResponse } = useApplicate(getMateUser);
+  // 메세지함 팝업 열기, 닫기 를 위한 전역상태
+  const setPopupState = useSetRecoilState(messageBoxState);
+  // 채팅창 열기, 닫기 를 위한 전역상태
+  const setSelectedChatId = useSetRecoilState(chatId);  // 전역 chatId 설정 리코일 함수
+
+  // 신청하기(send)
+  const useApplicateRequest = () => {
+    mutate({ postId: id, content: displayData.introduction }, {
+      onSuccess: (res) => {
+        console.log('useApplicateRequest: ', res)
+        if (res.data.chat._id) {
+          props.setRequestForm(false); // 모달창 닫기 state함수
+
+          setPopupState(true);  // 전역 상태 > 메세지함 열기.
+          setTimeout(() => {  // 메세지함 애니메이션 이후
+            setSelectedChatId(res.data.chat._id)  // 전역 상태 > 채팅방 아이디 설정 (채팅창 열림)
+          }, 400);
+        }
+      }
+    })
+  }
+  
   
   return (
     <div className={cx('wrapper')}>
@@ -53,7 +72,7 @@ export default function MessageForm () {
         {/* 돌봄메이트 정보 영역 */}
         <div className={cx('request-mate-infos')}>
 
-          <button className={cx('btn-close')}>
+          <button className={cx('btn-close')} onClick={()=> props.setRequestForm(false)}>
             <IoMdClose size="15" />
           </button>
           {/* 돌봄메이트 프로필 사진 영역 */}
@@ -98,7 +117,7 @@ export default function MessageForm () {
         </div>
 
         <div className={cx('request-buttons')}>
-          <button className={cx('btn-cancel')}>취소</button>
+          <button className={cx('btn-cancel')} onClick={()=> props.setRequestForm(false)}>취소</button>
           <button className={cx('btn-request')} onClick={useApplicateRequest}>신청하기</button>
         </div>
         </div>
