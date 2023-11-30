@@ -3,16 +3,16 @@ import { useMutation } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { errorHandler } from 'lib';
 
-const leaveRoom = async (selectedChatId) => {
+const deleteLeaveRoom = async (selectedChatId) => {
   const response = await axios.delete(`api/chat/leave-room/${selectedChatId}`, {
     withCredentials: true,
   });
   return response.data;
 };
 
-export function useLeaveRoom() {
+export function useDeleteLeaveRoom() {
   const navigate = useNavigate();
-  return useMutation((selectedChatId) => leaveRoom(selectedChatId), {
+  return useMutation((selectedChatId) => deleteLeaveRoom(selectedChatId), {
     onSuccess: (response) => {
       alert(response.message);
       navigate('/');

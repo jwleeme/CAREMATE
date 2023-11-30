@@ -5,7 +5,8 @@ import { FaUser, FaMapMarkerAlt } from 'react-icons/fa';
 import { IoReturnUpBackOutline } from 'react-icons/io5';
 import cs from 'classnames/bind';
 import { FiSend } from 'react-icons/fi';
-import { useLeaveRoom } from 'hooks/leaveRoom';
+import { useDeleteLeaveRoom } from 'hooks';
+
 const cx = cs.bind(styles);
 
 // 채팅(메시지)방 컴포넌트
@@ -13,7 +14,7 @@ export default function ChattingRoom(props) {
   const [showFlag, setShowFlag] = useState(false);
   const [postUrl, setPostUrl] = useState(''); // 채팅방 내 게시글 주소
   const [chatRoomInfo, setChatRoomInfo] = useState({});
-  const { mutateAsync } = useLeaveRoom();
+  const { mutate } = useDeleteLeaveRoom();
 
   // 채팅방 정보 조회 메서드
   const getChatRoom = () => {
@@ -63,14 +64,12 @@ export default function ChattingRoom(props) {
   };
 
   // 대화 종료하기 메서드
-  const chatRoomOut = async () => {
+  const chatRoomOut = () => {
     // 검증 로직은 추후에..
     if (window.confirm(`대화를 종료하면 채팅방 및 모든 채팅내용이 사라집니다.\n 그래도 대화를 종료하시겠습니까?`)) {
-      const result = mutateAsync(props.selectedChatId);
+      const result = mutate(props.selectedChatId);
       console.log('###', result);
-      return;
     }
-    return;
   };
 
   return (
