@@ -32,6 +32,7 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
   const { data, isLoading } = useGetRoom(selectedChatId);
   const { mutateAsync } = useLeaveRoom();
 
+  // mutate 변수 담기
   const postSendMutate = usePostSendMessage();
   const confirmMate = usePutConfirmMate();
 
