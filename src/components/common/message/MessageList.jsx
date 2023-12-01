@@ -8,6 +8,7 @@ import { roleState } from 'recoil/roleState';
 import * as date from 'lib';
 import { ChatLoadingModal } from 'components';
 const cx = cs.bind(styles);
+
 // 메시지함 리스트 컴포넌트 (채팅형식 UI - 레이어 팝업 형태)
 export default function MessageList({ chatInfoSelect }) {
   const role = useRecoilValue(roleState);
