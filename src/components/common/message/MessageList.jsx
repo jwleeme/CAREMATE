@@ -15,7 +15,7 @@ export default function MessageList({ chatInfoSelect }) {
   const { data: roomData, isLoading } = useGetChatRooms();
 
   useEffect(() => {
-    if (!isLoading & roomData) {
+    if (!isLoading && roomData) {
       const mapRoomsList = roomData.chats
         .filter((room) => room.deletedAt === null)
         .map((room) => ({
@@ -37,6 +37,7 @@ export default function MessageList({ chatInfoSelect }) {
           userId: room.userId,
         }));
       setChatList(mapRoomsList);
+      console.log(chatList);
     }
   }, [roomData]);
 
@@ -47,93 +48,93 @@ export default function MessageList({ chatInfoSelect }) {
         <ChatLoadingModal message="접속 중입니다..." />
       ) : (
         <div className={cx('message-box')}>
-        {/* 메시지 리스트 상단 영역 */}
-        <div className={cx('message-header')}>
-          <h1>MESSAGE</h1>
-          <img className={cx('hat')} src={ChildHat} alt="타이틀 모자 이미지" />
-          <img className={cx('yarn')} src={SeniorYarn} alt="타이틀 털실 이미지" />
-          <img className={cx('bathchair')} src={DesabledBathchair} alt="타이틀 휠체어 이미지" />
-        </div>
+          {/* 메시지 리스트 상단 영역 */}
+          <div className={cx('message-header')}>
+            <h1>MESSAGE</h1>
+            <img className={cx('hat')} src={ChildHat} alt="타이틀 모자 이미지" />
+            <img className={cx('yarn')} src={SeniorYarn} alt="타이틀 털실 이미지" />
+            <img className={cx('bathchair')} src={DesabledBathchair} alt="타이틀 휠체어 이미지" />
+          </div>
 
-        {/* 메시지함 리스트 영역 */}
-        <div className={cx('message-list')}>
-          {/* 메시지 리스트 */}
-          <ul className={cx('message-items')}>
-            {/* 채팅 리스트 동적 생성 */}
-            {chatList.map((chatItem, index) => {
-              const messageItem = cx('message-item', {
-                confirmed: chatItem.currentStatus === '매칭완료',
-              });
-              return (
-                <li
-                  className={messageItem}
-                  onClick={() => {
-                    chatInfoSelect(chatItem.chatId);
-                  }}
-                  key={chatItem._id}
-                >
-                  {/* 프로필사진, n이미지 영역 */}
-                  <div className={cx('user-profilebox')}>
-                    <img
-                      className={cx('img-profile')}
-                      src={
-                        role === 'user'
-                          ? chatItem?.careUserProfileImage || ProfileImage
-                          : chatItem?.userProfileImage || ProfileImage
-                      }
-                      alt="상대유저 프로필이미지"
-                    />
-                    <div className={cx('newSign-box')}>
-                      {chatItem.sender === chatItem.userId ? null : chatItem.isRead ? null : (
-                        <img className={cx('img-newmessage')} src={NewMessageImage} alt="새메시지이미지" />
-                      )}
+          {/* 메시지함 리스트 영역 */}
+          <div className={cx('message-list')}>
+            {/* 메시지 리스트 */}
+            <ul className={cx('message-items')}>
+              {/* 채팅 리스트 동적 생성 */}
+              {chatList.map((chatItem, index) => {
+                const messageItem = cx('message-item', {
+                  confirmed: chatItem.currentStatus === '매칭완료',
+                });
+                return (
+                  <li
+                    className={messageItem}
+                    onClick={() => {
+                      chatInfoSelect(chatItem.chatId);
+                    }}
+                    key={chatItem._id}
+                  >
+                    {/* 프로필사진, n이미지 영역 */}
+                    <div className={cx('user-profilebox')}>
+                      <img
+                        className={cx('img-profile')}
+                        src={
+                          role === 'user'
+                            ? chatItem?.careUserProfileImage || ProfileImage
+                            : chatItem?.userProfileImage || ProfileImage
+                        }
+                        alt="상대유저 프로필이미지"
+                      />
+                      <div className={cx('newSign-box')}>
+                        {chatItem.sender === chatItem.userId ? null : chatItem.isRead ? null : (
+                          <img className={cx('img-newmessage')} src={NewMessageImage} alt="새메시지이미지" />
+                        )}
+                      </div>
                     </div>
-                  </div>
 
-                  {/* 이름, 키워드, 메시지 내용 영역 */}
-                  <div className={cx('user-itembox')}>
-                    <p className={cx('post-title')}>
-                      <span className={cx('post-num')}>#{chatItem.postNumber} </span>
-                      {chatItem.postTitle}
-                    </p>
-                    <div className={cx('name-icon-wrapper')}>
-                      <span className={cx('username')}>
-                        {role === 'user' ? chatItem.careUsername : chatItem.username}
-                      </span>
-                      <span
-                        className={cx('care-target-icon', {
-                          child: chatItem.careTarget === '아동',
-                          senior: chatItem.careTarget === '노인',
-                          disabled: chatItem.careTarget === '장애인',
+                    {/* 이름, 키워드, 메시지 내용 영역 */}
+                    <div className={cx('user-itembox')}>
+                      <p className={cx('post-title')}>
+                        <span className={cx('post-num')}>#{chatItem.postNumber} </span>
+                        {chatItem.postTitle}
+                      </p>
+                      <div className={cx('name-icon-wrapper')}>
+                        <span className={cx('username')}>
+                          {role === 'user' ? chatItem.careUsername : chatItem.username}
+                        </span>
+                        <span
+                          className={cx('care-target-icon', {
+                            child: chatItem.careTarget === '아동',
+                            senior: chatItem.careTarget === '노인',
+                            disabled: chatItem.careTarget === '장애인',
+                          })}
+                        >
+                          {chatItem.careTarget}
+                        </span>
+                      </div>
+
+                      {chatItem.currentStatus === '매칭완료' ? <span className={cx('matching')}>매칭완료</span> : null}
+                      <div className={cx('message-container')}>
+                        <p className={cx('message-text')}>{chatItem.messagetext}</p>
+                      </div>
+                    </div>
+                    {/* 날짜, 시분표시 영역 */}
+                    <div className={cx('date-box')}>
+                      <p className={cx('last-date')}>{date.changeDateToYearAndMonthAndDate(chatItem.updateDate)}</p>
+                      <p className={cx('last-time')}>
+                        {new Date(chatItem.updateDate).toLocaleTimeString('en-US', {
+                          hour: '2-digit',
+                          minute: '2-digit',
+                          hour12: true,
+                          timeZone: 'UTC',
                         })}
-                      >
-                        {chatItem.careTarget}
-                      </span>
+                      </p>
                     </div>
-
-                    {chatItem.currentStatus === '매칭완료' ? <span className={cx('matching')}>매칭완료</span> : null}
-                    <div className={cx('message-container')}>
-                      <p className={cx('message-text')}>{chatItem.messagetext}</p>
-                    </div>
-                  </div>
-                  {/* 날짜, 시분표시 영역 */}
-                  <div className={cx('date-box')}>
-                    <p className={cx('last-date')}>{date.changeDateToYearAndMonthAndDate(chatItem.updateDate)}</p>
-                    <p className={cx('last-time')}>
-                      {new Date(chatItem.updateDate).toLocaleTimeString('en-US', {
-                        hour: '2-digit',
-                        minute: '2-digit',
-                        hour12: true,
-                        timeZone: 'UTC',
-                      })}
-                    </p>
-                  </div>
-                </li>
-              );
-            })}
-          </ul>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
         </div>
-      </div>
       )}
     </div>
   );
