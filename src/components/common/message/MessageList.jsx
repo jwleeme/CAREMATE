@@ -42,17 +42,14 @@ export default function MessageList({ chatInfoSelect }) {
   return (
     <div className={cx('wrapper')}>
       {/* 메시지함 전체 영역 */}
-      {isLoading ? (
-        <div>로딩중...</div>
-      ) : (
-        <div className={cx('message-box')}>
-          {/* 메시지 리스트 상단 영역 */}
-          <div className={cx('message-header')}>
-            <h1>MESSAGE</h1>
-            <img className={cx('hat')} src={ChildHat} alt="타이틀 모자 이미지" />
-            <img className={cx('yarn')} src={SeniorYarn} alt="타이틀 털실 이미지" />
-            <img className={cx('bathchair')} src={DesabledBathchair} alt="타이틀 휠체어 이미지" />
-          </div>
+      <div className={cx('message-box')}>
+        {/* 메시지 리스트 상단 영역 */}
+        <div className={cx('message-header')}>
+          <h1>MESSAGE</h1>
+          <img className={cx('hat')} src={ChildHat} alt="타이틀 모자 이미지" />
+          <img className={cx('yarn')} src={SeniorYarn} alt="타이틀 털실 이미지" />
+          <img className={cx('bathchair')} src={DesabledBathchair} alt="타이틀 휠체어 이미지" />
+        </div>
 
           {/* 메시지함 리스트 영역 */}
           <div className={cx('message-list')}>

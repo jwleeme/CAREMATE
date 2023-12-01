@@ -37,9 +37,12 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
   const role = useRecoilValue(roleState);
   const { data, isLoading } = useGetRoom(selectedChatId);
   const { mutateAsync } = useLeaveRoom();
+
   // mutate 변수 담기
   const postSendMutate = usePostSendMessage();
   const confirmMate = usePutConfirmMate();
+
+
 
   // 채팅 입력(textarea) 메서드
   const handleInputChange = (e) => {
