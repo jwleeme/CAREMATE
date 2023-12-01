@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from './ChattingRoom.module.scss';
 import { ChatBackHat, ChatBackBath, ChatBackYarn, ProfileImage } from 'assets/images';
 import { FaUser, FaMapMarkerAlt } from 'react-icons/fa';
@@ -10,7 +11,6 @@ import { roleState } from 'recoil/roleState';
 import { useGetRoom, usePostSendMessage, usePutConfirmMate } from 'hooks';
 import { useQueryClient } from 'react-query';
 import { useDeleteLeaveRoom } from 'hooks';
-
 const cx = cs.bind(styles);
 
 const keywordClass = {
@@ -30,11 +30,11 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
   const unreadMessageRef = useRef(null);
   const scrollRef = useRef(null);
   const queryClient = useQueryClient();
-
+  const navigate = useNavigate();
   const role = useRecoilValue(roleState);
 
   const { data, isLoading } = useGetRoom(selectedChatId);
-  const { mutateAsync } = useLeaveRoom();
+  const { mutate } = useDeleteLeaveRoom();
 
   // mutate 변수 담기
   const postSendMutate = usePostSendMessage();
@@ -127,8 +127,8 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
   const chatRoomOut = () => {
     // 검증 로직은 추후에..
     if (window.confirm(`대화를 종료하면 채팅방 및 모든 채팅내용이 사라집니다.\n 그래도 대화를 종료하시겠습니까?`)) {
-      const result = mutateAsync(selectedChatId);
-      return;
+      const result = mutate(selectedChatId);
+      navigate('/');
     }
   };
 
