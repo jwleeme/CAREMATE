@@ -71,8 +71,6 @@ export default function MessageList({ chatInfoSelect }) {
                     onClick={() => {
                       chatInfoSelect(chatItem.chatId);
                     }}
-                    key={index}
-                    style={{}}
                   >
                     {/* 프로필사진, n이미지 영역 */}
                     <div className={cx('user-profilebox')}>
@@ -119,7 +117,14 @@ export default function MessageList({ chatInfoSelect }) {
                     {/* 날짜, 시분표시 영역 */}
                     <div className={cx('date-box')}>
                       <p className={cx('last-date')}>{date.changeDateToYearAndMonthAndDate(chatItem.updateDate)}</p>
-                      <p className={cx('last-time')}>{date.changeDateToAmPmAndHHMM(chatItem.updateDate)}</p>
+                      <p className={cx('last-time')}>
+                        {new Date(chatItem.updateDate).toLocaleTimeString('en-US', {
+                          hour: '2-digit',
+                          minute: '2-digit',
+                          hour12: true,
+                          timeZone: 'UTC',
+                        })}
+                      </p>
                     </div>
                   </li>
                 );
