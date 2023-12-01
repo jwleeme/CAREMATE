@@ -225,13 +225,13 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
                 const prevMessageDate =
                   index > 0 ? new Date(array[index - 1].createdAt).toISOString().split('T')[0] : null;
                 return (
-                  <>
+                  <div key={message._id}>
                     {/* 채팅 일자 => 이전 메시지 날짜와 해당 메시지 날짜 비교 */}
                     {index === 0 || (prevMessageDate && prevMessageDate !== messageDate) ? (
                       <li className={cx('chat-date')}>{messageDate}</li>
                     ) : null}
                     <li
-                      key={index}
+                      key={message._id}
                       className={cx('text-item', { me: isMe })}
                       ref={message.isRead ? null : unreadMessageRef}
                     >
@@ -256,7 +256,7 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
                       </p>
                       <p className={cx('chat-read')}>{message.isRead ? '읽음' : ''}</p>
                     </li>
-                  </>
+                  </div>
                 );
               })}
                 <div ref={scrollRef}></div>
