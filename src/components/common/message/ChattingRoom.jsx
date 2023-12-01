@@ -43,8 +43,6 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
   const postSendMutate = usePostSendMessage();
   const confirmMate = usePutConfirmMate();
 
-
-
   // 채팅 입력(textarea) 메서드
   const handleInputChange = (e) => {
     setInputMessage(e.target.value);
@@ -74,8 +72,8 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
       setPostUrl('/posts/' + data.chat.post._id);
       setCareTarget(data.chat.post.careInformation.careTarget);
       setMessage(data.chat.message);
-       
-      if (data.chat.status === '매칭완료') setDisable(true)
+
+      if (data.chat.status === '매칭완료') setDisable(true);
     }
   }, [data, message]);
 
@@ -102,7 +100,6 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
     }
   }, [selectedChatId]);
 
-
   // 돌봄메이트 확정 메서드
   const careMateConfirm = () => {
     // 확정 로직
@@ -116,10 +113,7 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
         {
           onSuccess: (res) => {
             if (res.data) {
-              return (
-                setDisable(true)
-              )
-              
+              return setDisable(true);
             }
           },
         }
@@ -139,8 +133,8 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
 
   // 채팅 줄바꿈 치환
   const exchangeHtml = (content) => {
-    return content.replace(/(?:\r\n|\r|\n)/g, '<br>')
-  }
+    return content.replace(/(?:\r\n|\r|\n)/g, '<br>');
+  };
   return (
     <div className={cx('wrapper', { on: showFlag })}>
       {/* 채팅창 영역 */}
@@ -197,7 +191,11 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
                   </span>
                 </div>
                 {role === 'user' && (
-                    <button disabled={disable} onClick={careMateConfirm} className={cx('mate-confirmed', {btndisable: disable})}>
+                  <button
+                    disabled={disable}
+                    onClick={careMateConfirm}
+                    className={cx('mate-confirmed', { btndisable: disable })}
+                  >
                     돌봄메이트 확정
                   </button>
                 )}
@@ -256,7 +254,10 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
                       </div>
                       <div>
                         <p className={cx(isMe ? 'username2' : 'username1')}>{isMe ? '나' : name}</p>
-                        <p className={cx('chat-text')} dangerouslySetInnerHTML={{ __html: exchangeHtml(message.content) }}></p>
+                        <p
+                          className={cx('chat-text')}
+                          dangerouslySetInnerHTML={{ __html: exchangeHtml(message.content) }}
+                        ></p>
                       </div>
                       <p className={cx('chat-time')}>
                         {new Date(message.createdAt).toLocaleTimeString('en-US', {
@@ -271,13 +272,14 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
                   </div>
                 );
               })}
-                <div ref={scrollRef}></div>
+              <div ref={scrollRef}></div>
 
               {/* 돌봄메이트 확정된 방 알림메시지 컴포넌트 */}
-              { disable && (
-                <li><ChatMateConfirmAlert /></li>
+              {disable && (
+                <li>
+                  <ChatMateConfirmAlert />
+                </li>
               )}
-                
             </ul>
             <img className={cx('backimg-hat')} src={ChatBackHat} alt="채팅창 배경 모자이미지" />
             <img className={cx('backimg-yarn')} src={ChatBackYarn} alt="채팅창 배경 털실이미지" />
