@@ -9,15 +9,12 @@ import { useRecoilValue } from 'recoil';
 import { roleState } from 'recoil/roleState';
 import { useGetRoom, usePostSendMessage, usePutConfirmMate } from 'hooks';
 import { useLeaveRoom } from 'hooks/leaveRoom';
-
 const cx = cs.bind(styles);
-
 const keywordClass = {
   아동: 'child',
   노인: 'senior',
   장애인: 'disabled',
 };
-
 // 채팅(메시지)방 컴포넌트
 export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
   const [showFlag, setShowFlag] = useState(false);
@@ -26,23 +23,18 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
   // 채팅창 입력 시 저장될 state
   const [inputmessage, setInputMessage] = useState('');
   const unreadMessageRef = useRef(null);
-
   const role = useRecoilValue(roleState);
-
   const { data, isLoading } = useGetRoom(selectedChatId);
   const { mutateAsync } = useLeaveRoom();
-
   // mutate 변수 담기
   const postSendMutate = usePostSendMessage();
   const confirmMate = usePutConfirmMate();
-
 
 
   // 채팅 입력(textarea) 메서드
   const handleInputChange = (e) => {
     setInputMessage(e.target.value);
   };
-
   // 채팅 keyup 이벤트 (엔터만 구분)
   const handleInputSend = e => {
     if (e.key === 'Enter') {
@@ -50,12 +42,10 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
       setInputMessage('');
     }
   }
-
    // 채팅 메시지 전송(send) 메서드
    const useSendMessageRequest = () => {
      postSendMutate.mutate({ chatId: selectedChatId, content: inputmessage });
   };
-
   useEffect(() => {
     // 채팅방에 진입하면 안읽은 메시지로 스크롤이 내려감
     if (unreadMessageRef.current) {
@@ -63,14 +53,12 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
         behavior: 'smooth',
       });
     }
-
     if (data) {
       console.log(data.chat);
       setPostUrl('/posts/' + data.chat.post._id);
       setCareTarget(data.chat.post.careInformation.careTarget);
     }
   }, [data]);
-
   // 채팅창 보임 메서드 (애니메이션 처리를 위한)
   const showChatRoom = (flag) => {
     if (flag) {
@@ -86,7 +74,6 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
       }, 200);
     }
   };
-
   useEffect(() => {
     if (selectedChatId === '') {
       showChatRoom(false);
@@ -94,7 +81,6 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
       showChatRoom(true);
     }
   }, [selectedChatId]);
-
   // 돌봄메이트 확정 메서드
   const careMateConfirm = () => {
    // 확정 로직
@@ -115,7 +101,6 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
     }
     return;
   };
-
   // 대화 종료하기 메서드
   const chatRoomOut = async () => {
     // 검증 로직은 추후에..
@@ -126,7 +111,6 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
     }
     return;
   };
-
   return (
     <div className={cx('wrapper', { on: showFlag })}>
       {/* 채팅창 영역 */}
@@ -139,7 +123,6 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
             <button onClick={() => showChatRoom(false)} className={cx('backbtn')}>
               <IoReturnUpBackOutline size="30" color="var(--crl-blue-900)" />
             </button>
-
             <div className={cx('mate-photobox')}>
               <img
                 className={cx('profile-photo')}
@@ -147,20 +130,17 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
                 alt="돌봄메이트 프로필사진이미지"
               />
             </div>
-
             {/* 돌봄메이트 - 이름, 키워드, 자격, 성별, 지역 */}
             <div className={cx('mateinfo-leftbox')}>
               <a href={postUrl} target="_blank" className={cx('post-title')} rel="noreferrer">
                 <span className={cx('post-num')}>#{data.chat.post.postNumber} </span>
                 {data.chat.post.title}
               </a>
-
               <span className={cx('matename')}>{data.chat.applicant.name}</span>
               <span className={cx('keyword', keywordClass[careTarget])}>
                 {data.chat.post.careInformation.careTarget}
               </span>
               {/* react-icons */}
-
               <div className={cx('icons-box')}>
                 <div className={cx('box1')}>
                   <span>
@@ -177,7 +157,6 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
                     {data.chat.applicant.region} {data.chat.applicant.subRegion}
                   </span>
                 </div>
-
                 {role === 'user' && (
                   <button onClick={careMateConfirm} className={cx('mate-confirmed')}>
                     돌봄메이트 확정
@@ -189,7 +168,6 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
               </div>
             </div>
           </div>
-
           {/* 메시지 내용들 */}
           <div className={cx('chat-room-contents')}>
             {/* 채팅 내용(texts)들 영역 */}
@@ -197,9 +175,7 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
               {data.chat.message.map((message, index, array) => {
                 // 사용자 id === sender : 2번유저(오른쪽)
                 const isMe = message.sender === data.chat.userId;
-
                 let image, name;
-
                 if (role === 'user') {
                   if (isMe) {
                     image = data.chat.author.profileUrl;
@@ -218,11 +194,9 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
                     name = data.chat.author.name;
                   }
                 }
-
                 const messageDate = new Date(message.createdAt).toISOString().split('T')[0];
                 const prevMessageDate =
                   index > 0 ? new Date(array[index - 1].createdAt).toISOString().split('T')[0] : null;
-
                 return (
                   <>
                     {/* 채팅 일자 => 이전 메시지 날짜와 해당 메시지 날짜 비교 */}
@@ -259,12 +233,10 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
                 );
               })}
             </ul>
-
             <img className={cx('backimg-hat')} src={ChatBackHat} alt="채팅창 배경 모자이미지" />
             <img className={cx('backimg-yarn')} src={ChatBackYarn} alt="채팅창 배경 털실이미지" />
             <img className={cx('backimg-bath')} src={ChatBackBath} alt="채팅창 배경 휠체어이미지" />
           </div>
-
           {/* 푸터 영역 */}
           <div className={cx('chat-room-footer')}>
           <input className={cx('inputbox')}

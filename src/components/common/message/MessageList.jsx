@@ -7,11 +7,9 @@ import { useRecoilValue } from 'recoil';
 import { roleState } from 'recoil/roleState';
 import * as date from 'lib';
 const cx = cs.bind(styles);
-
 // 메시지함 리스트 컴포넌트 (채팅형식 UI - 레이어 팝업 형태)
 export default function MessageList(props) {
   const role = useRecoilValue(roleState);
-
   const [chatList, setChatList] = useState([]);
   const [currentPage, setCurrentPage] = useState([]);
   const { data: roomData } = useGetChatRooms(currentPage + 1);
@@ -81,17 +79,14 @@ export default function MessageList(props) {
                       <span className={cx('post-num')}>#{chatItem.postNumber} </span>
                       {chatItem.postTitle}
                     </p>
-
                     <span className={cx('username')}>
                       {role === 'user' ? chatItem.careUsername : chatItem.username}
                     </span>
                     <span className={cx('careTarget')}>{chatItem.careTarget}</span>
                     <p className={cx('message-text')}>{chatItem.messagetext}</p>
                   </div>
-
                   {/* 1차 기능 구현 목표 - 날짜/시분 모두 표시예정.
                       추가기능 - 오늘날짜가 아니면 날짜로 표시, 오늘 날짜로 받은 채팅이면 시간 표시 예정. */}
-
                   {/* 날짜, 시분표시 영역 */}
                   <div className={cx('date-box')}>
                     <p className={cx('last-date')}>{date.changeDateToYearAndMonthAndDate(chatItem.updateDate)}</p>
