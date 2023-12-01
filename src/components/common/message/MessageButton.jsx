@@ -17,7 +17,7 @@ export default function MessageButton() {
   // 팝업 애니메이션 효과 클래스를 붙이기위한 state
   const [showmessagebox, setShowMessageBox] = useState(false);
   const [popup, setPopup] = useState(false);
-  const [hasUnreadMessage, setHasUnreadMessage] = useState(true);
+  const [hasUnreadMessage, setHasUnreadMessage] = useState(false);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -59,7 +59,7 @@ export default function MessageButton() {
           className={cx('message-box-btn')}
         >
           <img className={cx('img-message')} src={MessageBtn} alt="메시지함 버튼 이미지" />
-          {!hasUnreadMessage && <img className={cx('img-newmessage')} src={NewMessageImage} alt="새메시지이미지" />}
+          {hasUnreadMessage && <img className={cx('img-newmessage')} src={NewMessageImage} alt="새메시지이미지" />}
         </button>
 
         {popup === true ? <MessageBox showmessagebox={showmessagebox} toggleMessageBox={toggleMessageBox} /> : null}
