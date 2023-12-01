@@ -51,7 +51,7 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
   };
   // 채팅 keyup 이벤트 (엔터만 구분)
   const handleInputSend = (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
+    if (e.key === 'Enter' && !e.shiftKey && inputmessage !== '') {
       postSendMutate.mutate({ chatId: selectedChatId, content: inputmessage });
       setInputMessage('');
     }
