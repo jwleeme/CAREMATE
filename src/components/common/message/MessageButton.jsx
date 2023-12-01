@@ -16,31 +16,21 @@ export default function MessageButton() {
 
   // 팝업 애니메이션 효과 클래스를 붙이기위한 state
   const [showmessagebox, setShowMessageBox] = useState(false);
-  const [elementState, setElementState] = useState(false);
+  const [popup, setPopup] = useState(false);
 
-  // 메세지함 팝업 열기, 닫기 를 위한 전역상태
-  const popupState = useRecoilValue(messageBoxState);
-  const setPopupState = useSetRecoilState(messageBoxState);
-
-  const setSelectedChatId = useSetRecoilState(chatId);  // 전역 chatId 설정 리코일 함수
-
-  // 라우터
   const navigate = useNavigate();
 
   const toggleMessageBox = (flag) => {
     if (isLoggedIn === 'LOGGED_IN') {
-      if (flag) {
-        setElementState(flag)
+      if (!flag) {
+        setPopup(!flag);
         setTimeout(() => {
-          setShowMessageBox(flag);
-          setPopupState(flag);
+          setShowMessageBox(!flag);
         }, 200);
       } else {
-        setShowMessageBox(flag);
+        setShowMessageBox(!flag);
         setTimeout(() => {
-          setElementState(flag)
-          setPopupState(flag);
-          setSelectedChatId(''); // 메시지함 버튼으로 채팅방 닫을때 chatId 초기화처리.
+          setPopup(!flag);
         }, 400);
       }
     } else {
@@ -49,23 +39,19 @@ export default function MessageButton() {
     }
   };
 
-  useEffect(() => {
-    if (popupState) toggleMessageBox(popupState);
-  }, [popupState])
-
   return (
     <>
       <div className={cx('wrapper')}>
         <button
           onClick={() => {
-            toggleMessageBox(!popupState);
+            toggleMessageBox(popup);
           }}
           className={cx('message-box-btn')}
         >
           <img src={MessageBtn} alt="메시지함 버튼 이미지" />
         </button>
 
-        {elementState === true ? <MessageBox showmessagebox={showmessagebox} /> : null}
+        {popup === true ? <MessageBox showmessagebox={showmessagebox} toggleMessageBox={toggleMessageBox} /> : null}
       </div>
     </>
   );
