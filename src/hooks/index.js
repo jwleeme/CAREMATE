@@ -21,7 +21,6 @@ export * from './postMessage';
 export * from './getRoom';
 export * from './getRooms';
 export * from './putConfirmMate';
-
 export * from './clickOutsideDetector';
 export * from './putSavePost';
 export * from './putCancelPost';
