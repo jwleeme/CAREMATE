@@ -6,6 +6,7 @@ import { useGetChatRooms } from 'hooks';
 import { useRecoilValue } from 'recoil';
 import { roleState } from 'recoil/roleState';
 import * as date from 'lib';
+import { ChatLoadingModal } from 'components';
 const cx = cs.bind(styles);
 // 메시지함 리스트 컴포넌트 (채팅형식 UI - 레이어 팝업 형태)
 export default function MessageList({ chatInfoSelect }) {
@@ -14,7 +15,7 @@ export default function MessageList({ chatInfoSelect }) {
   const { data: roomData, isLoading } = useGetChatRooms();
 
   useEffect(() => {
-    if (roomData) {
+    if (!isLoading & roomData) {
       const mapRoomsList = roomData.chats
         .filter((room) => room.deletedAt === null)
         .map((room) => ({
@@ -43,9 +44,9 @@ export default function MessageList({ chatInfoSelect }) {
     <div className={cx('wrapper')}>
       {/* 메시지함 전체 영역 */}
       {isLoading ? (
-        <div>로딩중...</div>
+        <ChatLoadingModal message="접속 중입니다..." />
       ) : (
-      <div className={cx('message-box')}>
+        <div className={cx('message-box')}>
         {/* 메시지 리스트 상단 영역 */}
         <div className={cx('message-header')}>
           <h1>MESSAGE</h1>
@@ -95,18 +96,20 @@ export default function MessageList({ chatInfoSelect }) {
                       <span className={cx('post-num')}>#{chatItem.postNumber} </span>
                       {chatItem.postTitle}
                     </p>
-                    <span className={cx('username')}>
-                      {role === 'user' ? chatItem.careUsername : chatItem.username}
-                    </span>
-                    <span
-                      className={cx('care-target-icon', {
-                        child: chatItem.careTarget === '아동',
-                        senior: chatItem.careTarget === '노인',
-                        disabled: chatItem.careTarget === '장애인',
-                      })}
-                    >
-                      {chatItem.careTarget}
-                    </span>
+                    <div className={cx('name-icon-wrapper')}>
+                      <span className={cx('username')}>
+                        {role === 'user' ? chatItem.careUsername : chatItem.username}
+                      </span>
+                      <span
+                        className={cx('care-target-icon', {
+                          child: chatItem.careTarget === '아동',
+                          senior: chatItem.careTarget === '노인',
+                          disabled: chatItem.careTarget === '장애인',
+                        })}
+                      >
+                        {chatItem.careTarget}
+                      </span>
+                    </div>
 
                     {chatItem.currentStatus === '매칭완료' ? <span className={cx('matching')}>매칭완료</span> : null}
                     <div className={cx('message-container')}>
@@ -128,7 +131,7 @@ export default function MessageList({ chatInfoSelect }) {
                 </li>
               );
             })}
-        </ul>
+          </ul>
         </div>
       </div>
       )}
