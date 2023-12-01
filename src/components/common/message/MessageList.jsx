@@ -16,7 +16,7 @@ export default function MessageList({ chatInfoSelect }) {
   const { data: roomData, isLoading } = useGetChatRooms();
 
   useEffect(() => {
-    if (roomData) {
+    if (!isLoading & roomData) {
       const mapRoomsList = roomData.chats
         .filter((room) => room.deletedAt === null)
         .map((room) => ({
@@ -26,7 +26,7 @@ export default function MessageList({ chatInfoSelect }) {
           username: room.author.name,
           careTarget: room.post.careInformation.careTarget,
           postTitle: room.post.title,
-          messagetext: room.message.content,
+          // messagetext: room.message.content,
           updateDate: room.message.createdAt,
           isRead: room.message.isRead,
           sender: room.message.sender,
@@ -111,7 +111,7 @@ export default function MessageList({ chatInfoSelect }) {
 
                       {chatItem.currentStatus === '매칭완료' ? <span className={cx('matching')}>매칭완료</span> : null}
                       <div className={cx('message-container')}>
-                        <p className={cx('message-text')}>{chatItem.messagetext}</p>
+                        {/* <p className={cx('message-text')}>{chatItem.messagetext}</p> */}
                       </div>
                     </div>
                     {/* 날짜, 시분표시 영역 */}
