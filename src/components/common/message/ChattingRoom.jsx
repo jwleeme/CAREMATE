@@ -282,7 +282,7 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
               value={inputmessage}
               onChange={handleInputChange}
               onKeyUp={handleInputSend}
-              maxlength="100"
+              maxLength="100"
             ></input>
             <button onClick={useSendMessageRequest} className={cx('send-message')}>
               <FiSend size="30" color="var(--crl-blue-900) " />
