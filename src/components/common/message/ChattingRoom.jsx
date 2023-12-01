@@ -126,7 +126,7 @@ export default function ChattingRoom({ chatInfoSelect, selectedChatId }) {
   const chatRoomOut = () => {
     // 검증 로직은 추후에..
     if (window.confirm(`대화를 종료하면 채팅방 및 모든 채팅내용이 사라집니다.\n 그래도 대화를 종료하시겠습니까?`)) {
-      const result = mutate(selectedChatId);
+      mutate(selectedChatId);
       moveChatList();
     }
   };
@@ -271,6 +271,7 @@ export default function ChattingRoom({ chatInfoSelect, selectedChatId }) {
                   </div>
                 );
               })}
+              {/* <li>{data.chat.leaveRoom.length ? data.chat.author.name + '님이 나갔습니다.' : ''}</li> */}
               <div ref={scrollRef}></div>
 
               {/* 돌봄메이트 확정된 방 알림메시지 컴포넌트 */}
@@ -287,14 +288,19 @@ export default function ChattingRoom({ chatInfoSelect, selectedChatId }) {
           {/* 푸터 영역 */}
           <div className={cx('chat-room-footer')}>
             <input
+              disabled={data.chat.leaveRoom.length}
               className={cx('inputbox')}
-              placeholder="메시지를 입력해주세요."
+              placeholder={data.chat.leaveRoom.length ? '상대방이 채팅을 종료했습니다.' : '메시지를 입력해주세요.'}
               value={inputmessage}
               onChange={handleInputChange}
               onKeyUp={handleInputSend}
               maxLength="100"
             ></input>
-            <button onClick={useSendMessageRequest} className={cx('send-message')}>
+            <button
+              disabled={data.chat.leaveRoom.length}
+              onClick={useSendMessageRequest}
+              className={cx('send-message')}
+            >
               <FiSend size="30" color="var(--crl-blue-900) " />
             </button>
           </div>
