@@ -37,7 +37,6 @@ export default function MessageList({ chatInfoSelect }) {
           userId: room.userId,
         }));
       setChatList(mapRoomsList);
-      console.log(chatList);
     }
   }, [roomData]);
 
@@ -61,7 +60,7 @@ export default function MessageList({ chatInfoSelect }) {
             {/* 메시지 리스트 */}
             <ul className={cx('message-items')}>
               {/* 채팅 리스트 동적 생성 */}
-              {chatList.map((chatItem, index) => {
+              {chatList.map((chatItem) => {
                 const messageItem = cx('message-item', {
                   confirmed: chatItem.currentStatus === '매칭완료',
                 });
@@ -71,7 +70,7 @@ export default function MessageList({ chatInfoSelect }) {
                     onClick={() => {
                       chatInfoSelect(chatItem.chatId);
                     }}
-                    key={chatItem._id}
+                    key={chatItem.chatId}
                   >
                     {/* 프로필사진, n이미지 영역 */}
                     <div className={cx('user-profilebox')}>
