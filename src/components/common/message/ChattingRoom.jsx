@@ -11,6 +11,7 @@ import { roleState } from 'recoil/roleState';
 import { useGetRoom, usePostSendMessage, usePutConfirmMate } from 'hooks';
 import { useQueryClient } from 'react-query';
 import { useDeleteLeaveRoom } from 'hooks';
+
 const cx = cs.bind(styles);
 
 const keywordClass = {
@@ -20,7 +21,7 @@ const keywordClass = {
 };
 
 // 채팅(메시지)방 컴포넌트
-export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
+export default function ChattingRoom({ chatInfoSelect, selectedChatId }) {
   const [showFlag, setShowFlag] = useState(false);
   const [postUrl, setPostUrl] = useState(''); // 채팅방 내 게시글 주소
   const [careTarget, setCareTarget] = useState('');
@@ -45,6 +46,7 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
     setInputMessage(e.target.value);
   };
 
+  console.log('data', data);
   // 채팅 keyup 이벤트 (엔터만 구분)
   const handleInputSend = (e) => {
     if (e.key === 'Enter') {
@@ -128,8 +130,13 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
     // 검증 로직은 추후에..
     if (window.confirm(`대화를 종료하면 채팅방 및 모든 채팅내용이 사라집니다.\n 그래도 대화를 종료하시겠습니까?`)) {
       const result = mutate(selectedChatId);
-      navigate('/');
+      moveChatList();
     }
+  };
+
+  const moveChatList = () => {
+    queryClient.invalidateQueries('getChatRooms', { refetchActive: true });
+    showChatRoom(false);
   };
 
   return (
@@ -141,13 +148,7 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
         <div className={cx('chat-roombox')}>
           {/* 헤더 영역 */}
           <div className={cx('chat-room-header')}>
-            <button
-              onClick={() => {
-                queryClient.invalidateQueries('getChatRooms', { refetchActive: true });
-                showChatRoom(false);
-              }}
-              className={cx('backbtn')}
-            >
+            <button onClick={moveChatList} className={cx('backbtn')}>
               <IoReturnUpBackOutline size="30" color="var(--crl-blue-900)" />
             </button>
 
@@ -257,18 +258,19 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
                         <p className={cx('chat-text')}>{message.content}</p>
                       </div>
                       <p className={cx('chat-time')}>
-                        {new Date(message.createdAt).toLocaleTimeString('en-US', {
+                        {/* {new Date(message.createdAt).toLocaleTimeString('en-US', {
                           hour: '2-digit',
                           minute: '2-digit',
                           hour12: false,
                           timeZone: 'UTC',
-                        })}
+                        })} */}
                       </p>
                       <p className={cx('chat-read')}>{message.isRead ? '읽음' : ''}</p>
                     </li>
                   </div>
                 );
               })}
+              {data.chat.deletedAt && <li>{data.chat.applicant.name}님이 채팅방을 나갔습니다.</li>}
               <div ref={scrollRef}></div>
             </ul>
 
@@ -280,6 +282,7 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
           {/* 푸터 영역 */}
           <div className={cx('chat-room-footer')}>
             <textarea
+              disabled={!!data.chat.deletedAt}
               className={cx('inputbox')}
               placeholder="메시지를 입력해주세요."
               value={inputmessage}

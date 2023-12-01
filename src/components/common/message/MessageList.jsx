@@ -19,24 +19,26 @@ export default function MessageList({ chatInfoSelect }) {
     if (roomData) {
       const mapRoomsList = roomData.chats
         .filter((room) => room.deletedAt === null)
-        .map((room) => ({
-          chatId: room._id,
-          postNumber: room.post.postNumber,
-          careUsername: room.applicant.name,
-          username: room.author.name,
-          careTarget: room.post.careInformation.careTarget,
-          postTitle: room.post.title,
-          messagetext: room.message.content,
-          updateDate: room.message.createdAt,
-          isRead: room.message.isRead,
-          sender: room.message.sender,
-          receiver: room.message.receiver,
-          careUserProfileImage: room.applicant.profileUrl,
-          userProfileImage: room.author.profileUrl,
-          currentStatus: room.status,
-          deleted: room.deletedAt,
-          userId: room.userId,
-        }));
+        .map((room) => {
+          return {
+            chatId: room._id,
+            postNumber: room.post.postNumber,
+            careUsername: room.applicant.name,
+            username: room.author.name,
+            careTarget: room.post.careInformation.careTarget,
+            postTitle: room.post.title,
+            messagetext: room.message?.content,
+            updateDate: room.message?.createdAt,
+            isRead: room.message?.isRead,
+            sender: room.message?.sender,
+            receiver: room.message?.receiver,
+            careUserProfileImage: room.applicant.profileUrl,
+            userProfileImage: room.author.profileUrl,
+            currentStatus: room.status,
+            deleted: room.deletedAt,
+            userId: room.userId,
+          };
+        });
       setChatList(mapRoomsList);
     }
   }, [roomData]);
