@@ -9,7 +9,7 @@ import * as date from 'lib';
 const cx = cs.bind(styles);
 
 // 메시지함 리스트 컴포넌트 (채팅형식 UI - 레이어 팝업 형태)
-export default function MessageList(props) {
+export default function MessageList({ chatInfoSelect }) {
   const role = useRecoilValue(roleState);
 
   const [chatList, setChatList] = useState([]);
@@ -60,31 +60,38 @@ export default function MessageList(props) {
             <img className={cx('bathchair')} src={DesabledBathchair} alt="타이틀 휠체어 이미지" />
           </div>
 
-        {/* 메시지함 리스트 영역 */}
-        <div className={cx('message-list')}>
-          {/* 메시지 리스트 */}
-          <ul className={cx('message-items')}>
-            {/* 채팅 리스트 동적 생성 */}
-            {chatList.map((chatItem) => {
-              return (
-                <li
-                  className={cx('message-item')}
-                  onClick={() => {
-                    props.chatInfoSelect(chatItem.chatId);
-                  }}
-                  key={chatItem.chatId}
-                >
-                  {/* 프로필사진, n이미지 영역 */}
-                  <div className={cx('user-profilebox')}>
-                    <img
-                      className={cx('img-profile')}
-                      src={
-                        role === 'user'
-                          ? chatItem?.careUserProfileImage || ProfileImage
-                          : chatItem?.userProfileImage || ProfileImage
-                      }
-                      alt="상대유저 프로필이미지"
-                    />
+          {/* 메시지함 리스트 영역 */}
+          <div className={cx('message-list')}>
+            {/* 메시지 리스트 */}
+            <ul className={cx('message-items')}>
+              {/* 채팅 리스트 동적 생성 */}
+              {chatList.map((chatItem, index) => {
+                return (
+                  <li
+                    className={cx('message-item')}
+                    onClick={() => {
+                      chatInfoSelect(chatItem.chatId);
+                      handleNewSignImage(chatItem);
+                    }}
+                    key={index}
+                  >
+                    {/* 프로필사진, n이미지 영역 */}
+                    <div className={cx('user-profilebox')}>
+                      <img
+                        className={cx('img-profile')}
+                        src={
+                          role === 'user'
+                            ? chatItem?.careUserProfileImage || ProfileImage
+                            : chatItem?.userProfileImage || ProfileImage
+                        }
+                        alt="상대유저 프로필이미지"
+                      />
+                      <div>
+                        {chatItem.isRead ? null : (
+                          <img className={cx('img-newmessage')} src={NewMessageImage} alt="새메시지이미지" />
+                        )}
+                      </div>
+                    </div>
 
                     {/* 이름, 키워드, 메시지 내용 영역 */}
                     <div className={cx('user-itembox')}>
