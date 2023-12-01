@@ -43,6 +43,8 @@ export default function MessageForm({ setMessageBoxState, setChatId, setRequestF
 
   // 신청하기(send)
   const useApplicateRequest = () => {
+    if (!displayData.introduction) return alert('신청하기 내용을 입력해 주세요.');
+    
     mutate(
       { postId: id, content: displayData.introduction },
       {
