@@ -74,8 +74,8 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
       setPostUrl('/posts/' + data.chat.post._id);
       setCareTarget(data.chat.post.careInformation.careTarget);
       setMessage(data.chat.message);
-
-      // TODO. 채팅방 상태가 매칭완료 일 때, setDisable(true) 해줘야 함. 완료된 채팅방 입장시 disable 처리.  
+       
+      if (data.chat.status === '매칭완료') setDisable(true)
     }
   }, [data, message]);
 
