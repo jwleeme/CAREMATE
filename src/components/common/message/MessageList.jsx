@@ -41,16 +41,6 @@ export default function MessageList({ chatInfoSelect }) {
     }
   }, [roomData]);
 
-  function handleUpdateRoomStatus(chatItem) {
-    const updatedChatList = chatList.map((item) => {
-      if (item.chatId === chatItem.chatId) {
-        return { ...item, isRead: true };
-      }
-      return item;
-    });
-    setChatList(updatedChatList);
-  }
-
   return (
     <div className={cx('wrapper')}>
       {/* 메시지함 전체 영역 */}
@@ -80,7 +70,6 @@ export default function MessageList({ chatInfoSelect }) {
                     className={messageItem}
                     onClick={() => {
                       chatInfoSelect(chatItem.chatId);
-                      handleUpdateRoomStatus(chatItem);
                     }}
                     key={index}
                     style={{}}
@@ -97,7 +86,7 @@ export default function MessageList({ chatInfoSelect }) {
                         alt="상대유저 프로필이미지"
                       />
                       <div className={cx('newSign-box')}>
-                        {chatItem.isRead && chatItem.sender === chatItem.userId ? null : (
+                        {chatItem.sender === chatItem.userId ? null : chatItem.isRead ? null : (
                           <img className={cx('img-newmessage')} src={NewMessageImage} alt="새메시지이미지" />
                         )}
                       </div>
