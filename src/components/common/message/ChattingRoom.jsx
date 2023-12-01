@@ -10,6 +10,7 @@ import { roleState } from 'recoil/roleState';
 import { useGetRoom, usePostSendMessage, usePutConfirmMate } from 'hooks';
 import { useLeaveRoom } from 'hooks/leaveRoom';
 import { useQueryClient } from 'react-query';
+import ChatMateConfirmAlert from './ChatMateConfirmAlert';
 
 const cx = cs.bind(styles);
 const keywordClass = {
@@ -23,6 +24,10 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
   const [postUrl, setPostUrl] = useState(''); // 채팅방 내 게시글 주소
   const [careTarget, setCareTarget] = useState('');
   const [message, setMessage] = useState([]);
+
+  // 확정 버튼 disabeld
+  const [disable, setDisable] = useState(false);
+
   // 채팅창 입력 시 저장될 state
   const [inputmessage, setInputMessage] = useState('');
   const unreadMessageRef = useRef(null);
@@ -42,7 +47,7 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
   };
   // 채팅 keyup 이벤트 (엔터만 구분)
   const handleInputSend = (e) => {
-    if (e.key === 'Enter') {
+    if (e.key === 'Enter' && !e.shiftKey) {
       postSendMutate.mutate({ chatId: selectedChatId, content: inputmessage });
       setInputMessage('');
     }
@@ -65,6 +70,8 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
       setPostUrl('/posts/' + data.chat.post._id);
       setCareTarget(data.chat.post.careInformation.careTarget);
       setMessage(data.chat.message);
+
+      // TODO. 채팅방 상태가 매칭완료 일 때, setDisable(true) 해줘야 함. 완료된 채팅방 입장시 disable 처리.  
     }
   }, [data, message]);
 
@@ -90,6 +97,8 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
       showChatRoom(true);
     }
   }, [selectedChatId]);
+
+
   // 돌봄메이트 확정 메서드
   const careMateConfirm = () => {
     // 확정 로직
@@ -102,10 +111,11 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
         { chatId: selectedChatId },
         {
           onSuccess: (res) => {
-            if (res.data.careUserPhoneNumber) {
-              return alert(
-                '해당 게시글의 돌봄메이트가 확정되었습니다!\n돌봄메이트의 연락처는 채팅창에서 확인해주세요!'
-              );
+            if (res.data) {
+              return (
+                setDisable(true)
+              )
+              
             }
           },
         }
@@ -175,7 +185,7 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
                   </span>
                 </div>
                 {role === 'user' && (
-                  <button onClick={careMateConfirm} className={cx('mate-confirmed')}>
+                    <button disabled={disable} onClick={careMateConfirm} className={cx('mate-confirmed', {btndisable: disable})}>
                     돌봄메이트 확정
                   </button>
                 )}
@@ -249,7 +259,13 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
                   </>
                 );
               })}
-              <div ref={scrollRef}></div>
+                <div ref={scrollRef}></div>
+
+              {/* 돌봄메이트 확정된 방 알림메시지 컴포넌트 */}
+              { disable && (
+                <li><ChatMateConfirmAlert /></li>
+              )}
+                
             </ul>
             <img className={cx('backimg-hat')} src={ChatBackHat} alt="채팅창 배경 모자이미지" />
             <img className={cx('backimg-yarn')} src={ChatBackYarn} alt="채팅창 배경 털실이미지" />
@@ -257,14 +273,14 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
           </div>
           {/* 푸터 영역 */}
           <div className={cx('chat-room-footer')}>
-            <textarea
+            <input
               className={cx('inputbox')}
               placeholder="메시지를 입력해주세요."
               value={inputmessage}
               onChange={handleInputChange}
               onKeyUp={handleInputSend}
               maxlength="100"
-            ></textarea>
+            ></input>
             <button onClick={useSendMessageRequest} className={cx('send-message')}>
               <FiSend size="30" color="var(--crl-blue-900) " />
             </button>
