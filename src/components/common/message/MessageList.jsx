@@ -110,9 +110,11 @@ export default function MessageList({ chatInfoSelect }) {
                         >
                           {chatItem.careTarget}
                         </span>
+                        {chatItem.currentStatus === '매칭완료' ? (
+                          <span className={cx('matching')}>매칭완료</span>
+                        ) : null}
                       </div>
 
-                      {chatItem.currentStatus === '매칭완료' ? <span className={cx('matching')}>매칭완료</span> : null}
                       <div className={cx('message-container')}>
                         <p className={cx('message-text')}>{chatItem.messagetext}</p>
                       </div>
