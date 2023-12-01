@@ -9,6 +9,8 @@ import { useRecoilValue } from 'recoil';
 import { roleState } from 'recoil/roleState';
 import { useGetRoom, usePostSendMessage, usePutConfirmMate } from 'hooks';
 import { useLeaveRoom } from 'hooks/leaveRoom';
+import { useQueryClient } from 'react-query';
+
 const cx = cs.bind(styles);
 const keywordClass = {
   아동: 'child',
@@ -20,9 +22,13 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
   const [showFlag, setShowFlag] = useState(false);
   const [postUrl, setPostUrl] = useState(''); // 채팅방 내 게시글 주소
   const [careTarget, setCareTarget] = useState('');
+  const [message, setMessage] = useState([]);
   // 채팅창 입력 시 저장될 state
   const [inputmessage, setInputMessage] = useState('');
   const unreadMessageRef = useRef(null);
+  const scrollRef = useRef(null);
+  const queryClient = useQueryClient();
+
   const role = useRecoilValue(roleState);
   const { data, isLoading } = useGetRoom(selectedChatId);
   const { mutateAsync } = useLeaveRoom();
@@ -30,21 +36,21 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
   const postSendMutate = usePostSendMessage();
   const confirmMate = usePutConfirmMate();
 
-
   // 채팅 입력(textarea) 메서드
   const handleInputChange = (e) => {
     setInputMessage(e.target.value);
   };
   // 채팅 keyup 이벤트 (엔터만 구분)
-  const handleInputSend = e => {
+  const handleInputSend = (e) => {
     if (e.key === 'Enter') {
       postSendMutate.mutate({ chatId: selectedChatId, content: inputmessage });
       setInputMessage('');
     }
-  }
-   // 채팅 메시지 전송(send) 메서드
-   const useSendMessageRequest = () => {
-     postSendMutate.mutate({ chatId: selectedChatId, content: inputmessage });
+  };
+
+  // 채팅 메시지 전송(send) 메서드
+  const useSendMessageRequest = () => {
+    postSendMutate.mutate({ chatId: selectedChatId, content: inputmessage });
   };
   useEffect(() => {
     // 채팅방에 진입하면 안읽은 메시지로 스크롤이 내려감
@@ -52,13 +58,16 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
       unreadMessageRef.current.scrollIntoView({
         behavior: 'smooth',
       });
+    } else if (scrollRef.current) {
+      scrollRef.current.scrollIntoView({ behavior: 'smooth' });
     }
     if (data) {
-      console.log(data.chat);
       setPostUrl('/posts/' + data.chat.post._id);
       setCareTarget(data.chat.post.careInformation.careTarget);
+      setMessage(data.chat.message);
     }
-  }, [data]);
+  }, [data, message]);
+
   // 채팅창 보임 메서드 (애니메이션 처리를 위한)
   const showChatRoom = (flag) => {
     if (flag) {
@@ -83,21 +92,24 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
   }, [selectedChatId]);
   // 돌봄메이트 확정 메서드
   const careMateConfirm = () => {
-   // 확정 로직
+    // 확정 로직
     if (
       window.confirm(
         `돌봄메이트를 확정하면 되돌릴 수 없으며\n매칭된 게시글은 내려갑니다.\n\n돌봄메이트를 최종 확정하시겠습니까?`
       )
     ) {
-      confirmMate.mutate({ chatId: selectedChatId }, {
-        onSuccess: (res) => {
-          
-          if (res.data?.careUserPhoneNumber) {
-            return alert('해당 게시글의 돌봄메이트가 확정되었습니다!\n돌봄메이트의 연락처는 채팅창에서 확인해주세요!');
-            
-          }
+      confirmMate.mutate(
+        { chatId: selectedChatId },
+        {
+          onSuccess: (res) => {
+            if (res.data.careUserPhoneNumber) {
+              return alert(
+                '해당 게시글의 돌봄메이트가 확정되었습니다!\n돌봄메이트의 연락처는 채팅창에서 확인해주세요!'
+              );
+            }
+          },
         }
-      })
+      );
     }
     return;
   };
@@ -106,7 +118,6 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
     // 검증 로직은 추후에..
     if (window.confirm(`대화를 종료하면 채팅방 및 모든 채팅내용이 사라집니다.\n 그래도 대화를 종료하시겠습니까?`)) {
       const result = mutateAsync(selectedChatId);
-      console.log('###', result);
       return;
     }
     return;
@@ -120,7 +131,13 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
         <div className={cx('chat-roombox')}>
           {/* 헤더 영역 */}
           <div className={cx('chat-room-header')}>
-            <button onClick={() => showChatRoom(false)} className={cx('backbtn')}>
+            <button
+              onClick={() => {
+                queryClient.invalidateQueries('getChatRooms', { refetchActive: true });
+                showChatRoom(false);
+              }}
+              className={cx('backbtn')}
+            >
               <IoReturnUpBackOutline size="30" color="var(--crl-blue-900)" />
             </button>
             <div className={cx('mate-photobox')}>
@@ -179,7 +196,7 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
                 if (role === 'user') {
                   if (isMe) {
                     image = data.chat.author.profileUrl;
-                    name = data.chat.author.profileUrl;
+                    name = data.chat.author.name;
                   } else {
                     image = data.chat.applicant.profileUrl;
                     name = data.chat.applicant.name;
@@ -232,6 +249,7 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
                   </>
                 );
               })}
+              <div ref={scrollRef}></div>
             </ul>
             <img className={cx('backimg-hat')} src={ChatBackHat} alt="채팅창 배경 모자이미지" />
             <img className={cx('backimg-yarn')} src={ChatBackYarn} alt="채팅창 배경 털실이미지" />
@@ -239,17 +257,17 @@ export default function ChattingRoom({ selectedChatId, chatInfoSelect }) {
           </div>
           {/* 푸터 영역 */}
           <div className={cx('chat-room-footer')}>
-          <input className={cx('inputbox')}
-            placeholder="메시지를 입력해주세요."
-            value={inputmessage}
-            onChange={handleInputChange}
-            onKeyUp={handleInputSend}
-            maxlength="100"></input>
-          <button onClick={useSendMessageRequest} className={cx('send-message')}>
-              <FiSend size="30" color="var(--crl-blue-900) "/>
-          </button>
-          
-          
+            <textarea
+              className={cx('inputbox')}
+              placeholder="메시지를 입력해주세요."
+              value={inputmessage}
+              onChange={handleInputChange}
+              onKeyUp={handleInputSend}
+              maxlength="100"
+            ></textarea>
+            <button onClick={useSendMessageRequest} className={cx('send-message')}>
+              <FiSend size="30" color="var(--crl-blue-900) " />
+            </button>
           </div>
         </div>
       )}
