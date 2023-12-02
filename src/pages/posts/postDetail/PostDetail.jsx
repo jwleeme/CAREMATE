@@ -28,7 +28,7 @@ export default function PostDetail({ setMessageBoxState, setChatId }) {
   const [requestForm, setRequestForm] = useState(false);
 
   React.useEffect(() => {
-    if (requestData) {
+    if (requestData && userData) {
       setDisplayData({
         title: requestData.post.title,
         content: requestData.post.content,
@@ -56,7 +56,7 @@ export default function PostDetail({ setMessageBoxState, setChatId }) {
         authorImageUrl: requestData.authorProfile.profileUrl,
       });
     }
-  }, [requestData]);
+  }, [requestData, userData]);
 
   const currentCareTarget = cx('target-image-wrapper', {
     child: displayData.careTarget === '아동',
