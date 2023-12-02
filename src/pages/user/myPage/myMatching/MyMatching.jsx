@@ -12,9 +12,7 @@ const cx = cs.bind(styles);
 export default function MyMatching() {
   const role = useRecoilValue(roleState);
   const [currPage, setCurrPage] = useState(0);
-
   const { data, isLoading } = useGetCompletedPostList(role, currPage + 1);
-
   const [postList, setPostList] = useState([]);
 
   useEffect(() => {
