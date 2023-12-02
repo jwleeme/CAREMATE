@@ -40,7 +40,7 @@ export default function MessageList({ chatInfoSelect }) {
         }));
       setChatList(mapRoomsList);
     }
-  }, [roomData]);
+  }, [roomData, isLoading]);
 
   // 매칭 완료된 postNumber를 찾습니다.
   const matchedPostNumbers = chatList

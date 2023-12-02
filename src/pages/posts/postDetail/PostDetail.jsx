@@ -58,12 +58,6 @@ export default function PostDetail({ setMessageBoxState, setChatId }) {
     }
   }, [requestData, userData]);
 
-  const currentCareTarget = cx('target-image-wrapper', {
-    child: displayData.careTarget === '아동',
-    senior: displayData.careTarget === '노인',
-    disabled: displayData.careTarget === '장애인',
-  });
-
   function handleDeletePost() {
     if (window.confirm('게시물을 삭제하시겠습니까?')) {
       mutate();
