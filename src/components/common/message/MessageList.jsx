@@ -18,7 +18,7 @@ export default function MessageList({ chatInfoSelect }) {
   useEffect(() => {
     if (!isLoading && roomData) {
       const mapRoomsList = roomData.chats
-        .filter((room) => !room.leaveRoom.includes(room.userId))
+        .filter((room) => !room.leaveRoom.includes(room.userId) && room.post !== null)
         .map((room) => ({
           chatId: room._id,
           postNumber: room.post.postNumber,
@@ -37,12 +37,12 @@ export default function MessageList({ chatInfoSelect }) {
           leaveRoom: room?.leaveRoom,
           deleted: room.deletedAt,
           userId: room.userId,
+          postId: room._id,
         }));
       setChatList(mapRoomsList);
     }
   }, [roomData, isLoading]);
 
-  // 매칭 완료된 postNumber를 찾습니다.
   const matchedPostNumbers = chatList
     .filter((chatItem) => chatItem.currentStatus === '매칭완료')
     .map((matchedChatItem) => matchedChatItem.postNumber);
