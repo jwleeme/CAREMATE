@@ -10,10 +10,13 @@ import InfantItem from '../../assets/images/infant-item.png';
 import SeniorItem from '../../assets/images/senior-item.png';
 import DisabledItem from '../../assets/images/disabled-item.png';
 import HomeCard from 'components/home/HomeCard';
+import { useRecoilValue } from 'recoil';
+import { roleState } from 'recoil/roleStateAtom';
 
 const cx = cs.bind(styles);
 
 export default function Home() {
+  const role = useRecoilValue(roleState);
   const naviagate = useNavigate();
   return (
     <div className={cx('wrapper')}>
@@ -23,7 +26,11 @@ export default function Home() {
       <div className={cx('cardContainer')}>
         <HomeCard
           onClick={() => {
-            naviagate('/posts/new?careTarget=아동');
+            if (role === 'user') {
+              naviagate('/posts/new?careTarget=아동');
+            } else {
+              naviagate('/posts?careTarget=아동');
+            }
           }}
           className={'infant'}
           name={'아동'}
@@ -31,7 +38,11 @@ export default function Home() {
         />
         <HomeCard
           onClick={() => {
-            naviagate('/posts/new?careTarget=노인');
+            if (role === 'user') {
+              naviagate('/posts/new?careTarget=노인');
+            } else {
+              naviagate('/posts?careTarget=노인');
+            }
           }}
           className={'seniorOne'}
           name={'노인'}
@@ -39,7 +50,11 @@ export default function Home() {
         />
         <HomeCard
           onClick={() => {
-            naviagate('/posts/new?careTarget=장애인');
+            if (role === 'user') {
+              naviagate('/posts/new?careTarget=장애인');
+            } else {
+              naviagate('/posts?careTarget=장애인');
+            }
           }}
           className={'disabled'}
           name={'장애인'}
@@ -48,9 +63,15 @@ export default function Home() {
       </div>
 
       <div className={cx('commentBox')}>
-        <img className={cx('infantItem')} src={InfantItem} alt="아동이미지" />
-        <img className={cx('seniorItem')} src={SeniorItem} alt="노인이미지" />
-        <img className={cx('disabledItem')} src={DisabledItem} alt="장애인이미지" />
+        <span className={cx('infantItem')}>
+          <img src={InfantItem} alt="아동이미지" />
+        </span>
+        <span className={cx('seniorItem')}>
+          <img src={SeniorItem} alt="노인이미지" />
+        </span>
+        <span className={cx('disabledItem')}>
+          <img src={DisabledItem} alt="장애인이미지" />
+        </span>
         <div className={cx('comment')}>
           우리는 일함으로 생계를 유지하지만,
           <br />
@@ -58,7 +79,6 @@ export default function Home() {
           <br />- 윈스턴 처칠
         </div>
       </div>
-      {/* <div className={cx('message')}></div> */}
     </div>
   );
 }

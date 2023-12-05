@@ -2,6 +2,13 @@
   padding-inline: 50px;
   // 유저 role에 따른 class
   position: relative;
+
+  .inside-wrapper {
+    box-shadow:
+      rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+      rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+  }
+
   .user-role-background {
     background-color: var(--crl-blue-100);
   }
@@ -30,7 +37,7 @@
   }
   .role-bookmark {
     position: absolute;
-    top: 5%;
+    top: 2.3%;
     left: 2.6%;
     display: flex;
     justify-content: center;
@@ -54,15 +61,17 @@
 
   .title-wrapper {
     min-height: 200px;
+    padding-block: 50px;
+    padding-right: 30px;
   }
   .body-wrapper {
-    padding: 50px 100px;
-    min-height: 350px;
+    padding: 50px 120px;
+    min-height: 400px;
     font-size: 20px;
+    line-height: 40px;
   }
   .description-wrapper {
     min-height: 200px;
-    border-radius: 50px;
   }
 
   .title-wrapper {
@@ -76,9 +85,11 @@
     flex-direction: column;
     justify-content: center;
     gap: 36px;
+    word-wrap: normal;
     .post-title {
       font-size: 25px;
       font-weight: var(--fw-bold);
+      line-height: 1.3;
     }
   }
 
@@ -117,6 +128,15 @@
     border-radius: 100vmax;
     color: var(--crl-neutral-100);
   }
+  .post-button.post-badge {
+    width: 116px;
+    padding-block: 5px;
+    border-radius: 10px;
+    font-size: 20px;
+    &:hover {
+      color: var(--crl-neutral-900);
+    }
+  }
   .post-badge-wrapper {
     display: flex;
     align-items: center;
@@ -127,7 +147,7 @@
     flex-direction: column;
     height: 100%;
     justify-content: center;
-    gap: 4px;
+    gap: 8px;
     margin-top: -5px;
     .text-information {
       font-size: 15px;
@@ -148,7 +168,6 @@
   }
 
   .button-wrapper {
-    padding-block: 30px;
     height: 100%;
     flex-direction: column;
     display: flex;
@@ -178,6 +197,8 @@
 
   .description-wrapper {
     padding: 60px 100px;
+    border-top-right-radius: 64px;
+    border-top-left-radius: 64px;
     display: flex;
     justify-content: space-between;
   }
@@ -185,21 +206,31 @@
     display: flex;
     flex-direction: column;
     gap: 50px;
+    .features {
+      display: flex;
+      align-items: flex-start;
+      gap: 50px;
+    }
+    .features > span {
+      font-size: 20px;
+    }
     p {
-      font-size: 18px;
-      span:first-child {
-        display: inline-block;
-        width: 140px;
-        margin-right: 60px;
-      }
+      width: 500px;
+      font-size: 20px;
+      word-break: break-all;
+    }
+    .features:first-child p {
+      margin-left: 35px;
     }
   }
+
   .gender-span {
     margin-left: -10px;
   }
   .target-image-wrapper {
     img {
       width: 140px;
+      padding-top: 20px;
     }
   }
 } // wrapper close

@@ -1,4 +1,4 @@
-$base-color-child: #e5ee7b; // 아동
+$base-color-child: #fff0b9; // 아동
 $base-color-senior: #fac7c7; // 노인
 $base-color-disabled: #9cb4fa; // 장애인
 
@@ -6,11 +6,10 @@ $base-color-disabled: #9cb4fa; // 장애인
   .card {
     border: 1px solid #e0e0e0;
     width: 270px;
-    height: 360px;
+    height: 348px;
     border-radius: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transition: box-shadow 0.3s ease-in-out;
-
     &:hover {
       box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
     }
@@ -18,13 +17,13 @@ $base-color-disabled: #9cb4fa; // 장애인
 
   .main-info {
     border-radius: 10px 10px 0 0;
-    height: 170px;
-    padding: 20px 10px 0 20px;
+    height: 160px;
+    padding: 15px 15px 0 20px;
 
     @function generate-gradient($base-color) {
       $gradient: ();
 
-      @for $i from 3 through 10 {
+      @for $i from 3 through 9 {
         $color: mix($base-color, white, percentage($i / 10));
         $gradient: append($gradient, $color, comma);
       }
@@ -59,13 +58,16 @@ $base-color-disabled: #9cb4fa; // 장애인
       }
 
       .time-stamp {
-        font-size: 13px;
+        font-size: 11px;
+        padding: 15px 20px 0 0;
         color: #575757;
+        margin-left: -23px;
       }
 
       .card-status {
-        color: white;
-        font-size: 23px;
+        color: var(--crl-neutral-100);
+        font-size: 21px;
+        padding: 5px 0 0 5px;
         font-family: var(--ff-accent) !important;
         font-weight: var(--fw-bold);
       }
@@ -76,60 +78,47 @@ $base-color-disabled: #9cb4fa; // 장애인
     padding: 10px 20px;
     background-color: white;
     border-radius: 50%;
-    margin-right: 20px;
-
-    .target-image {
-      width: 70px;
-      height: 60px;
-      margin-top: 5px;
+    margin-right: 10px;
+    width: 100px;
+    img {
+      object-position: 0 5px;
+      object-fit: cover;
+      scale: 1.7;
+      left: -20px;
     }
   }
 
   .main-upper {
     display: flex;
-    // box-sizing: content-box;
-
     width: 230px; // 타이틀 길이
     margin-bottom: 20px;
+    .target-image-container {
+      overflow: hidden;
+    }
   }
 
   .upper-info {
-    // display: flex;
     width: 200px;
+    display: flex;
+    flex-direction: column;
     flex-wrap: wrap;
 
     img {
-      display: flex;
-      justify-content: space-evenly;
-      width: 50px;
+      width: 40px;
     }
   }
 
   .main-bottom {
     display: flex;
     justify-content: space-between;
-    align-self: center;
-  }
-
-  .time-stamp {
-    font-size: 13px;
-    padding: 15px 20px 0 0;
-    color: #575757;
-  }
-
-  .card-status {
-    color: white;
-    font-size: 25px;
-    font-family: var(--font-soyoMapleBold) !important;
-    padding: 5px 0 0 5px;
-    text-shadow: 1px 1px 2px #575757;
+    align-items: center;
   }
 
   .extra-info {
     ul {
       display: flex;
       flex-direction: column;
-      margin-top: 10px;
+      margin-top: 15px;
     }
 
     .extra-info-icon {
@@ -140,10 +129,17 @@ $base-color-disabled: #9cb4fa; // 장애인
       display: flex;
       align-items: center;
       box-sizing: content-box;
-      padding: 7px 40px;
+      padding: 7px 45px;
+
+      &.date {
+        font-size: 14px;
+        padding-right: 20px;
+        svg {
+          margin-right: 15px;
+        }
+      }
 
       &.location,
-      &.date,
       &.time,
       &.prefer-mate,
       &.wage {
@@ -158,9 +154,8 @@ $base-color-disabled: #9cb4fa; // 장애인
   .title {
     font-size: 19px;
     line-height: normal;
+    margin-top: 10px;
     display: block;
-    height: 55px;
-    padding: 10px 0;
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
@@ -168,7 +163,16 @@ $base-color-disabled: #9cb4fa; // 장애인
     -webkit-box-orient: vertical;
   }
 
-  .centered-title {
-    line-height: 50px;
+  .heartIcons {
+    font-size: 30px;
+    padding: 0 10px 0 0;
+    // color: #ff8484;
+    color: white;
+  }
+  .black {
+    color: #636363 !important;
+  }
+  .extra-info > ul > li {
+    display: flex;
   }
 } // wrapper close

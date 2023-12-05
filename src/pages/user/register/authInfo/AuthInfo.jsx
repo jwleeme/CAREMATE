@@ -4,8 +4,8 @@ import cs from 'classnames/bind';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { AuthInput } from 'components';
 import { InputStatus, validateInput } from 'lib';
-import { usePostSendMail } from '../../../../hooks/postSendMail';
-import { usePostVerifyCode } from '../../../../hooks/postVerifyCode';
+import { usePostSendMail } from '../../../../hooks/usePostSendMail';
+import { usePostVerifyCode } from '../../../../hooks/usePostVerifyCode';
 const cx = cs.bind(styles);
 
 export default function AuthInfo() {
@@ -24,11 +24,15 @@ export default function AuthInfo() {
   const [isEmailButtonDisabled, setEmailButtonDisabled] = useState(false);
   const [isVerifyButtonDisabled, setVerifyButtonDisabled] = useState(false);
 
-  const { mutate: sendMailMutate } = usePostSendMail(email, setEmailButtonDisabled);
-  const { mutate: verifyCodeMutate } = usePostVerifyCode(email, emailCode, setVerifyButtonDisabled);
+  const { mutate: sendMailMutate } = usePostSendMail(email);
+  const { mutate: verifyCodeMutate } = usePostVerifyCode(
+    email,
+    emailCode,
+    setVerifyButtonDisabled,
+    setEmailButtonDisabled
+  );
 
   const handleSendMail = () => {
-    setEmailButtonDisabled(true);
     sendMailMutate();
   };
 

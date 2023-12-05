@@ -1,79 +1,63 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './AllPosts.module.scss';
 import cs from 'classnames/bind';
-import { Pagination, FilterCareTarget, SearchBar, PostList } from 'components';
-import axios from 'axios';
-import { useGetRequest } from 'hooks';
-
+import { Pagination, FilterCareTarget, SearchBar, Card, LoadingModal } from 'components';
+import { formatterUrl, useGetPostList } from 'hooks';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { NotFoundCharacter } from 'assets/images';
 const cx = cs.bind(styles);
-
-const generateSampleData = (count, titlePrefix, careTarget) => {
-  return Array.from({ length: count }, (_, index) => ({
-    post_id: index + 1,
-    region: '경기',
-    subRegion: '파주',
-    careTarget: `${careTarget}`,
-    isLongTerm: false, //단기
-    preferredMateAge: ['20대', '30대'],
-    preferredMateGender: '여성',
-    author: 'John Doe',
-    timestamp: '11/10',
-    title: `${titlePrefix} ${index + 1}`,
-    care_days: '월 수 금',
-    start_time: '09:00 AM',
-    end_time: '05:00 PM',
-    hourlyRate: 12000,
-    negotiableRate: true,
-    status: '모집 중',
-    startDate: '11/14',
-    endDate: '2023-01-20',
-  }));
-};
-
-const generateSampleData2 = (count, titlePrefix, careTarget) => {
-  return Array.from({ length: count }, (_, index) => ({
-    post_id: index + 1,
-    region: '부산',
-    subRegion: '서면',
-    careTarget: `${careTarget}`,
-    isLongTerm: true, //정기
-    preferredMateAge: ['20대', '30대', '40대', '50대'],
-    preferredMateGender: '성별무관',
-    author: 'John Doe',
-    timestamp: '11/10',
-    title: `${titlePrefix} ${index + 1}`,
-    care_days: '월 화 수 목 금',
-    start_time: '09:00 AM',
-    end_time: '05:00 PM',
-    hourlyRate: 16000,
-    negotiableRate: false,
-    status: '모집 중',
-    startDate: '12/02',
-    endDate: '2023-01-20',
-  }));
-};
-
-const sampleData1 = generateSampleData(3, '5세 남아 등하원 시터 구해요', '아동', '정기');
-const sampleData2 = generateSampleData2(4, '휠체어 장애인 돌봄 서비스 요청합니다.', '장애인', '단기');
-const sampleData3 = generateSampleData(2, '80세 노인 오전 케어 구합니다.', '노인', '단기');
-
-const sampleData = [...sampleData1, ...sampleData2, ...sampleData3];
 
 export default function AllPosts() {
   const [searchInput, setSearchInput] = useState('');
-  const [currentPage, setCurrentPage] = useState(0);
-  // const [posts, setPosts] = useState([]);
+  const [currPage, setCurrPage] = useState(0);
+  const nowPage = currPage + 1;
+  const [searchParams] = useSearchParams();
+  const careTarget = searchParams.get('careTarget');
+  const isLongTerm = searchParams.get('isLongTerm');
+  const [controlTarget, setControlTarget] = useState(careTarget);
+  const [controlTerm, setControlTerm] = useState(isLongTerm);
+  const { data, isLoading } = useGetPostList({ controlTarget, controlTerm });
+  const [postList, setPostList] = useState([]);
+  const PAGE_LIMIT = 6;
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (careTarget) {
+      setControlTarget(careTarget);
+      return;
+    } else if (!careTarget) {
+      setControlTarget('전체');
+    }
+  }, [careTarget]);
+  useEffect(() => {
+    if (isLongTerm) {
+      setControlTerm(isLongTerm);
+      return;
+    } else if (!isLongTerm) {
+      setControlTerm('all');
+    }
+  }, [isLongTerm]);
 
-  // const { mutate } = useGetRequest('655819a3e1f7d427ef5c1474');
-  // useEffect(() => {
-  //   axios.get('https://api/posts')
-  //     .then(response => {
-  //       setPosts(response.data);
-  //     })
-  //     .catch(error => {
-  //       console.error('Error fetching posts:', error);
-  //     });
-  // }, []);
+  useEffect(() => {
+    setCurrPage(0);
+    setPostList([]);
+    if (data) {
+      setPostList([...data?.posts]);
+      navigate(`/posts${formatterUrl(controlTarget, controlTerm)}`);
+    }
+  }, [data]);
+
+  useEffect(() => {
+    if (data && searchInput.length === 0) {
+      setPostList([...data?.posts]);
+      return;
+    } else if (data && searchInput.length > 0) {
+      const filteredList = data.posts.filter((post) =>
+        post.title.toLowerCase().replace(' ', '').includes(searchInput.toLowerCase().replace(' ', ''))
+      );
+      setPostList(filteredList);
+      return;
+    }
+  }, [searchInput]);
 
   const handleSearchChange = (text) => {
     setSearchInput(text);
@@ -81,19 +65,35 @@ export default function AllPosts() {
 
   return (
     <div className={cx('wrapper')}>
-      <SearchBar className={cx('all-posts-style')} searchInput={searchInput} onSearchChange={handleSearchChange} />
-      <div className={cx('recruit-container')}>
-        <FilterCareTarget />
-        <PostList
-          posts={sampleData}
-          searchInput={searchInput}
-          currentPage={currentPage}
-          onPageChange={setCurrentPage}
-        />
-        <div className={cx('pagination-container')}>
-          <Pagination currPage={currentPage} onClickPage={setCurrentPage} pageCount={10} />
-        </div>
+      <SearchBar className={cx('all-posts-style')} searchInput={searchInput} onSearchChange={handleSearchChange} />{' '}
+      <FilterCareTarget
+        onChangeTarget={setControlTarget}
+        onChangeTerm={setControlTerm}
+        controlTarget={controlTarget}
+        controlTerm={controlTerm}
+      />
+      <div className={cx('card-list-container')}>
+        {isLoading && <LoadingModal message="게시글 목록을 불러오는 중입니다" isLoading={isLoading} />}
+        {!isLoading && postList.length === 0 ? (
+          <div className={cx('none')}>
+            <span>
+              <img src={NotFoundCharacter} alt="" />
+            </span>
+            검색결과가 없습니다.
+          </div>
+        ) : (
+          postList.slice(PAGE_LIMIT * (nowPage - 1), PAGE_LIMIT * nowPage).map((data, index) => (
+            <Link to={`/posts/${data._id}`} key={index}>
+              <Card data={data} />
+            </Link>
+          ))
+        )}
       </div>
+      <Pagination
+        currPage={currPage}
+        onClickPage={setCurrPage}
+        pageCount={postList && Math.ceil(postList.length / 6)}
+      />
     </div>
   );
 }

@@ -1,22 +1,24 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import { isLoggedInState } from 'recoil/isLoggedInState';
-import { isLoadingState } from 'recoil/isLoadingState';
+import { isLoggedInState } from 'recoil/isLoggedInStateAtom';
+import { roleState } from 'recoil/roleStateAtom';
 
-export const PrivateRoute = ({ children }) => {
-  const isLoggedIn = useRecoilValue(isLoggedInState);
-  const isLoading = useRecoilValue(isLoadingState);
+export const PrivateRoute = ({ role, children }) => {
+  const loginStatus = useRecoilValue(isLoggedInState);
+  const userRole = useRecoilValue(roleState);
 
   useEffect(() => {
-    if (!isLoading && !isLoggedIn) {
+    if (loginStatus === 'LOGGED_OUT') {
       alert('로그인된 유저만 이용 가능한 서비스입니다.');
     }
-  }, [isLoggedIn, isLoading]);
+  }, [loginStatus]);
 
-  if (isLoading) {
+  if (loginStatus === 'LOADING') {
     return;
+  } else if (loginStatus === 'LOGGED_IN' && (!role || userRole === role)) {
+    return children;
+  } else {
+    return <Navigate to="/login" />;
   }
-
-  return isLoggedIn ? children : <Navigate to="/login" />;
 };

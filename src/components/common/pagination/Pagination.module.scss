@@ -9,11 +9,11 @@
 
   .page-button {
     color: #5e5f61;
-    width: 22px;
-    height: 22px;
+    width: 30px;
+    height: 30px;
     background: transparent;
     border-radius: 50%;
-
+    cursor: pointer;
     + button:not(.next-button) {
       margin-left: 4px;
     }

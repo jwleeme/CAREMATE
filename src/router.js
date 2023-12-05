@@ -18,6 +18,7 @@ import {
   Withdraw,
   WritePost,
 } from './pages';
+import { PublicRoute } from './routes/PublicRoute';
 import { PrivateRoute } from './routes/PrivateRoute';
 
 export const router = createBrowserRouter([
@@ -28,10 +29,38 @@ export const router = createBrowserRouter([
     children: [
       { index: true, path: '/', element: <Home /> },
       { path: '' },
-      { path: '/register', element: <Register /> },
-      { path: '/register/authInfo', element: <AuthInfo /> },
-      { path: '/register/userInfo', element: <UserInfo /> },
-      { path: '/login', element: <Login /> },
+      {
+        path: '/register',
+        element: (
+          <PublicRoute>
+            <Register />
+          </PublicRoute>
+        ),
+      },
+      {
+        path: '/register/authInfo',
+        element: (
+          <PublicRoute>
+            <AuthInfo />
+          </PublicRoute>
+        ),
+      },
+      {
+        path: '/register/userInfo',
+        element: (
+          <PublicRoute>
+            <UserInfo />
+          </PublicRoute>
+        ),
+      },
+      {
+        path: '/login',
+        element: (
+          <PublicRoute>
+            <Login />
+          </PublicRoute>
+        ),
+      },
 
       { path: '/about-us', element: <AboutUs /> },
 
@@ -79,7 +108,7 @@ export const router = createBrowserRouter([
       {
         path: '/posts',
         element: (
-          <PrivateRoute>
+          <PrivateRoute role="careUser">
             <AllPosts />
           </PrivateRoute>
         ),
@@ -87,25 +116,25 @@ export const router = createBrowserRouter([
       {
         path: '/posts/new',
         element: (
-          // <PrivateRoute>
-          <WritePost />
-          // </PrivateRoute>
+          <PrivateRoute role="user">
+            <WritePost />
+          </PrivateRoute>
         ),
       },
       {
         path: '/posts/:id',
         element: (
-          // <PrivateRoute>
-          <PostDetail />
-          // </PrivateRoute>
+          <PrivateRoute>
+            <PostDetail />
+          </PrivateRoute>
         ),
       },
       {
         path: '/posts/:id/edit',
         element: (
-          // <PrivateRoute>
-          <EditPost />
-          // </PrivateRoute>
+          <PrivateRoute role="user">
+            <EditPost />
+          </PrivateRoute>
         ),
       },
     ],

@@ -2,14 +2,14 @@ import React, { useState, useRef, useEffect } from 'react';
 import styles from './MyPage.module.scss';
 import cs from 'classnames/bind';
 import { ProfileImage } from 'assets/images';
-import { MyTitle, MySideBar, Region } from 'components';
+import { MyTitle, MySideBar, Region, LoadingModal } from 'components';
 import { InputStatus, validateInput } from 'lib';
-import { useGetUser } from '../../../hooks/getUser';
-import { usePutUser } from '../../../hooks/putUser';
+import { useGetUser } from '../../../hooks/useGetUser';
+import { usePutUser } from '../../../hooks/usePutUser';
 const cx = cs.bind(styles);
 
 export default function MyPage() {
-  const { data, isLoading } = useGetUser();
+  const { data, isLoading, error } = useGetUser();
   const { mutate } = usePutUser();
 
   const [userInfo, setUserInfo] = useState({});
@@ -65,6 +65,8 @@ export default function MyPage() {
   const [editPwd, setEditPwd] = useState(false);
   const imgRef = useRef(null);
   const MaxImageSize = 5 * 1024 * 1024; // 최대 용량 5MB
+
+  if (error) return;
 
   // img 수정
   const handleUploadImage = (e) => {
@@ -147,7 +149,7 @@ export default function MyPage() {
         </div>
         <main>
           {isLoading ? (
-            <div className={cx('loading')}>로딩중...</div>
+            <LoadingModal message="로딩중..." />
           ) : (
             <form onSubmit={handleSubmit}>
               <MyTitle text="MY PAGE" />
