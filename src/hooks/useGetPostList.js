@@ -5,19 +5,9 @@ import { useRecoilValue } from 'recoil';
 import { isLoggedInState } from 'recoil/isLoggedInStateAtom';
 
 const getPostList = async ({ controlTarget, controlTerm }) => {
-  const params = {
+  const response = await axios.get(`/api/post${formatterUrl(controlTarget, controlTerm)}`, {
     withCredentials: true,
-  };
-
-  if (controlTarget !== '전체') {
-    params.careTarget = controlTarget;
-  }
-
-  if (controlTerm !== 'all') {
-    params.isLongTerm = controlTerm;
-  }
-
-  const response = await axios.get('/api/post', { params });
+  });
   return response.data.data;
 };
 
@@ -30,4 +20,14 @@ export function useGetPostList({ controlTarget, controlTerm }) {
     retry: 0,
     enabled: loginStatus !== 'LOADING',
   });
+}
+export function formatterUrl(controlTarget, controlTerm) {
+  const queryParamsTarget = controlTarget !== '전체' ? `?careTarget=${controlTarget}` : '';
+  let queryParamsTerm = '';
+  if (controlTarget !== '전체') {
+    queryParamsTerm = controlTerm === 'all' ? '' : `&isLongTerm=${controlTerm}`;
+  } else if (controlTarget === '전체') {
+    queryParamsTerm = controlTerm === 'all' ? '' : `?isLongTerm=${controlTerm}`;
+  }
+  return `${queryParamsTarget}${queryParamsTerm}`;
 }
