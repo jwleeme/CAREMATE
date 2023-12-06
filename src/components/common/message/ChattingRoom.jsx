@@ -43,7 +43,7 @@ export default function ChattingRoom({ chatInfoSelect, selectedChatId }) {
   const postSendMutate = usePostSendMessage();
   const confirmMate = usePutConfirmMate();
 
-  // 채팅 입력(textarea) 메서드
+  // 채팅 입력 메서드
   const handleInputChange = (e) => {
     setInputMessage(e.target.value);
   };
@@ -56,7 +56,7 @@ export default function ChattingRoom({ chatInfoSelect, selectedChatId }) {
   };
 
   // 채팅 메시지 전송(send) 메서드
-  const useSendMessageRequest = () => {
+  const SendMessageRequest = () => {
     postSendMutate.mutate({ chatId: selectedChatId, content: inputmessage });
   };
   useEffect(() => {
@@ -123,7 +123,7 @@ export default function ChattingRoom({ chatInfoSelect, selectedChatId }) {
   };
   // 대화 종료하기 메서드
   const chatRoomOut = () => {
-    // 검증 로직은 추후에..
+
     if (window.confirm(`대화를 종료하면 채팅방 및 모든 채팅내용이 사라집니다.\n 그래도 대화를 종료하시겠습니까?`)) {
       mutate(selectedChatId);
       moveChatList();
@@ -263,7 +263,7 @@ export default function ChattingRoom({ chatInfoSelect, selectedChatId }) {
             inputmessage={inputmessage}
             handleInputChange={handleInputChange}
             handleInputSend={handleInputSend}
-            useSendMessageRequest={useSendMessageRequest}
+            SendMessageRequest={SendMessageRequest}
           />
         </div>
       )}
