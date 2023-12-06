@@ -56,7 +56,7 @@ export default function MessageForm({ setRequestForm }) {
     );
   };
 
-  // 채팅 입력(textarea) 메서드
+  // 채팅 입력 메서드
   const handleInputChange = (e) => {
     setTextContent(e.target.value);
   };
@@ -102,8 +102,6 @@ export default function MessageForm({ setRequestForm }) {
             {/* icons box End */}
           </div>
 
-          {/* 돌봄메이트가 신청하기 전에 본인 핸드폰번호 정보를 확인할수도 있을것같아 피그마대로 우선 휴대폰번호 영역을 넣었습니다.
-           */}
           <div className={cx('phonebox')}>
             <span>
               <FaPhone />
