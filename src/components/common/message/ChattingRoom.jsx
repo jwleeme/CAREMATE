@@ -243,7 +243,7 @@ export default function ChattingRoom({ chatInfoSelect, selectedChatId }) {
                   </div>
                 );
               })}
-              <li>{data.chat.leaveRoom.length ? data.chat.author.name + '님이 나갔습니다.' : ''}</li>
+              <li className={cx('leaveuser')}>{data.chat.leaveRoom.length ? data.chat.author.name + '님이 나갔습니다.' : ''}</li>
               <div ref={scrollRef}></div>
 
               {/* 돌봄메이트 확정된 방 알림메시지 컴포넌트 */}
