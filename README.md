@@ -10,7 +10,7 @@
 | ------ | ---------------- | ----------------------------------------- |
 | 박제성 | 팀장, 프론트엔드 | [깃허브](https://github.com/richdad6208)  |
 | 이선우 | 프론트엔드       | [깃허브](https://github.com/Susan-Lee-01) |
-| 이름   | 프론트엔드       | [깃허브](https://github.com/)             |
+| 이지원 | 프론트엔드       |[깃허브](https://github.com/jwleeme)       |
 | 이름   | 프론트엔드       |                                           |
 | 이름   | 백엔드           | [깃허브](https://github.com/)             |
 
@@ -46,8 +46,8 @@
 | <img src="https://github.com/elice-team03/gazago/assets/87300419/e5633b95-8764-4e8d-b08f-f63f496c7cef" width="300px">          | <img src="https://github.com/elice-team03/gazago/assets/87300419/e5556b31-17b9-4fdb-bd56-b9a361d152e1" width="300px">          |
 | **마이페이지-쇼핑정보**                                                                                                        | **마이페이지-내정보**                                                                                                          |
 | <img src="https://github.com/SunghyunOH/vite-react-deploy/assets/90834728/9eb97b5c-d9d2-4b4e-87c6-a498ba602e3c" width="300px"> | <img src="https://github.com/SunghyunOH/vite-react-deploy/assets/90834728/8385b41e-0b27-430f-8cd8-8f14abd249ea" width="300px"> |
-| **이달의 핫아이템**                                                                                                            |
-| <img src="https://github.com/elice-team03/gazago/assets/126126067/ea9f871b-1ac6-468c-b284-b85c923f7a49" width="300px"/>        |
+|**신청하기 Form & 채팅창 -돌봄유저**|**채팅창 -일반유저**|
+|<img src="https://github.com/elice-final-project-team02/frontend/assets/122779262/33009572-c3b7-43cb-a363-9caa7613728c" width="300px">|<img src="https://github.com/elice-final-project-team02/frontend/assets/122779262/da2bf6bc-47e6-495a-8e82-d06e9da51e05" width="300px">|
 
 **결제시스템**
 
@@ -108,19 +108,21 @@
   - 로그인
   - 유저 역할(role)
 
-#### 이름
-
-- 회원가입
-  - 회원 가입 기능 구현
-  - 이메일 및 비밀번호 유효성 검사 기능 구현
-- 로그인 및 비밀번호 찾기
-  - 로그인 및 비밀번호 찾기 기능 구현
-- 마이페이지 쇼핑정보
-  - 마이페이지 pagenation 및 전체 선택 삭제 기능 구현
-  - 로그인 회원의 주문내역 및 관심상품 리스트 구현
-  - 화면 전환 시 localStorage를 사용
-- 마이페이지 내 정보
-  - 사용자 전화번호, 우편 번호, 주소 및 상세 주소와 비밀번호 수정 기능 구현
+#### 이지원
+* MESSAGE(채팅) 파트 기획 및 전체 UI&UX 구현.
+* 메시지함 버튼
+  * 메시지함 버튼 컴포넌트 레이어 팝업 애니메이션 처리.
+* 채팅 리스트
+  * 채팅 리스트 UI&UX 구현.
+  * (반응형) 브라우저 사이즈 별 채팅창 상하 사이즈 자동 조절 구현.
+* 채팅방
+  * API 연동 및 Data Mapping 작업.
+  * 돌봄메이트 확정 기능.
+  * 채팅창 내 확정 알림 메시지 띄우기 구현.
+  * 메시지 전송(Send) 기능.(+ input창 초기화, Enter 이벤트, 정규표현식을 활용한 줄바꿈 시 빈내용 치환 등)
+* 게시글 상세 페이지 내 신청하기 Form Modal 창.
+  * API 연동 및 Data Mapping 작업.
+  * 신청하기(Send) 기능. (+ 빈내용 보내기 방지, 100자 이내 입력 처리, 버튼 비활성화 등)
 
 #### 이름
 
